@@ -15,16 +15,16 @@ import com.dev.BionLifeScienceWar.model.Notice;
 import com.dev.BionLifeScienceWar.model.ReferenceFile;
 import com.dev.BionLifeScienceWar.model.product.Product;
 import com.dev.BionLifeScienceWar.repository.BannerRepository;
-import com.dev.BionLifeScienceWar.repository.BigSortRepository;
 import com.dev.BionLifeScienceWar.repository.EventRepository;
 import com.dev.BionLifeScienceWar.repository.HistoryContentRepository;
 import com.dev.BionLifeScienceWar.repository.HistorySubjectRepository;
-import com.dev.BionLifeScienceWar.repository.MiddleSortRepository;
 import com.dev.BionLifeScienceWar.repository.NoticeRepository;
 import com.dev.BionLifeScienceWar.repository.NoticeSubjectRepository;
-import com.dev.BionLifeScienceWar.repository.ProductRepository;
 import com.dev.BionLifeScienceWar.repository.ReferenceFileRepository;
-import com.dev.BionLifeScienceWar.repository.SmallSortRepository;
+import com.dev.BionLifeScienceWar.repository.product.BigSortRepository;
+import com.dev.BionLifeScienceWar.repository.product.MiddleSortRepository;
+import com.dev.BionLifeScienceWar.repository.product.ProductRepository;
+import com.dev.BionLifeScienceWar.repository.product.SmallSortRepository;
 
 @Controller
 public class HomeController {

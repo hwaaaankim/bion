@@ -765,19 +765,23 @@ window.scwEvents = window.scwEvents || {};
 
 		menuItemsSpacing: function( spacing ) {
 
-			let item	= primaryMenuMainItems;
-
+			let item = primaryMenuMainItems;
+			let searchWrap = $('#search-wrap');
 			if( !$body.hasClass('side-header') && !$body.hasClass('overlay-menu') ) {
 				if( primaryMenu.hasClass('menu-spacing-margin') ) {
 					if( spacing == '' ) {
+						searchWrap.css({ 'margin-top': '', 'margin-bottom': '' });
 						item.css({ 'margin-top': '', 'margin-bottom': '' });
 					} else {
 						item.css({ 'margin-top': Number( spacing ), 'margin-bottom': Number( spacing ) });
+						searchWrap.css({ 'margin-top': Number( spacing ), 'margin-bottom': Number( spacing ) });
 					}
 				} else {
 					if( spacing == '' ) {
+						searchWrap.css({ 'padding-top': '', 'padding-bottom': '' });
 						item.css({ 'padding-top': '', 'padding-bottom': '' });
 					} else {
+						searchWrap.css({ 'padding-top': Number( spacing ), 'padding-bottom': Number( spacing ) });
 						item.css({ 'padding-top': Number( spacing ), 'padding-bottom': Number( spacing ) });
 					}
 				}
@@ -2215,6 +2219,7 @@ window.scwEvents = window.scwEvents || {};
 		stickyMenuClasses = $header.attr('data-sticky-class'),
 		responsiveMenuClasses = $header.attr('data-responsive-class'),
 		logo = $('#logo'),
+		
 		defaultLogo = logo.find('.standard-logo'),
 		defaultLogoWidth = defaultLogo.find('img').outerWidth(),
 		retinaLogo = logo.find('.retina-logo'),

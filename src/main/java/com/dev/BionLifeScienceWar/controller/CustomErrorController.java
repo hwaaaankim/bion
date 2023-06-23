@@ -10,10 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.dev.BionLifeScienceWar.repository.BigSortRepository;
-import com.dev.BionLifeScienceWar.repository.MiddleSortRepository;
-import com.dev.BionLifeScienceWar.repository.ProductRepository;
-import com.dev.BionLifeScienceWar.repository.SmallSortRepository;
+import com.dev.BionLifeScienceWar.repository.product.BigSortRepository;
+import com.dev.BionLifeScienceWar.repository.product.MiddleSortRepository;
+import com.dev.BionLifeScienceWar.repository.product.ProductRepository;
+import com.dev.BionLifeScienceWar.repository.product.SmallSortRepository;
 
 @Controller
 public class CustomErrorController implements ErrorController{

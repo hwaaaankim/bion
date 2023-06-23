@@ -72,6 +72,15 @@
 								<li><a href="/admin/productManager">제품 상세 등록</a></li>
 							</ul>
 						</li>
+						<li class="sub-menu"><a th:classappend="${code} == 'brand' ? 'active' : ''"  href="javascript:;"> <i class="fa fa-dashboard"></i>
+							<span>브랜드관리</span>
+						</a>
+							<ul class="sub">
+								<li><a href="/admin/brandManager">브랜드 관리</a></li>
+								<li><a href="/admin/brandSortManager">브랜드분류 관리</a></li>
+								<li><a href="/admin/brandProductManager">브랜드 제품 상세 등록</a></li>
+							</ul>
+						</li>
 						<li class="sub-menu"><a th:classappend="${code} == 'site' ? 'active' : ''"  href="javascript:;"> <i
 								class="fa fa-camera"></i> <span>사이트관리</span>
 						</a>

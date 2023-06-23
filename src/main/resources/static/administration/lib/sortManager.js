@@ -14,7 +14,7 @@ $(function() {
 					text: arr,
 					bigId: $('#middlePanelBigSort').val()
 				}, error: function(error) {
-					console.log(error)
+					alert('해당 분류가 적용된 소분류를 삭제 후 시도해 주세요');
 				}
 
 			}).done(function(fragment) {
@@ -23,7 +23,6 @@ $(function() {
 					alert('삭제 되었습니다.');
 					location.reload();
 				} else {
-					alert('해당 분류가 적용된 소분류를 삭제 후 시도해 주세요');
 					location.reload();
 				}
 			});
@@ -62,16 +61,17 @@ $(function() {
 				data: {
 					text: arr,
 				}, error: function(error) {
-					console.log(error)
+					// console.log(error);
+					alert('해당 분류가 적용된 중분류를 삭제 후 시도해 주세요');
 				}
 
 			}).done(function(fragment) {
+				// console.log('frag' + fragment);
 				if (fragment != 'fail') {
 					$('#bigPanelBigSort').replaceWith(fragment);
 					alert('삭제 되었습니다.');
 					location.reload();
 				} else {
-					alert('해당 분류가 적용된 중분류를 삭제 후 시도해 주세요');
 					location.reload();
 				}
 			});
@@ -94,7 +94,6 @@ $(function() {
 					$('#smallPanelMiddleSort').append(option);
 				}
 			}
-
 		});
 		$('#smallPanelMiddleSort').on('change', function() {
 			$('#smallSortInsertForm').attr('disabled', false);
@@ -116,7 +115,6 @@ $(function() {
 					$('#smallPanelMiddleSortSelect').append(option);
 				}
 			}
-
 		});
 
 		$('#smallPanelMiddleSortSelect').on('change', function() {
@@ -148,7 +146,8 @@ $(function() {
 						data: {
 							text: arr,
 						}, error: function(error) {
-							console.log(error)
+							// console.log(error);
+							alert('해당 분류가 적용된 제품을 삭제 후 시도해 주세요');
 						}
 	
 					}).done(function(fragment) {
@@ -156,7 +155,6 @@ $(function() {
 							alert('삭제 되었습니다.');
 							location.reload();
 						} else {
-							alert('해당 분류가 적용된 제품을 삭제 후 시도해 주세요');
 							location.reload();
 						}
 					});

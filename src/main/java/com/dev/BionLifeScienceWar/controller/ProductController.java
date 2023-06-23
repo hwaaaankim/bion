@@ -23,17 +23,17 @@ import com.dev.BionLifeScienceWar.model.product.Product;
 import com.dev.BionLifeScienceWar.model.product.ProductInfo;
 import com.dev.BionLifeScienceWar.model.product.ProductSpec;
 import com.dev.BionLifeScienceWar.model.product.SmallSort;
-import com.dev.BionLifeScienceWar.repository.BigSortRepository;
-import com.dev.BionLifeScienceWar.repository.MiddleSortRepository;
-import com.dev.BionLifeScienceWar.repository.ProductFileRepository;
-import com.dev.BionLifeScienceWar.repository.ProductImageRepository;
-import com.dev.BionLifeScienceWar.repository.ProductInfoRepository;
-import com.dev.BionLifeScienceWar.repository.ProductRepository;
-import com.dev.BionLifeScienceWar.repository.ProductSpecRepository;
-import com.dev.BionLifeScienceWar.repository.SmallSortRepository;
-import com.dev.BionLifeScienceWar.service.ProductFileService;
-import com.dev.BionLifeScienceWar.service.ProductImageService;
-import com.dev.BionLifeScienceWar.service.ProductService;
+import com.dev.BionLifeScienceWar.repository.product.BigSortRepository;
+import com.dev.BionLifeScienceWar.repository.product.MiddleSortRepository;
+import com.dev.BionLifeScienceWar.repository.product.ProductFileRepository;
+import com.dev.BionLifeScienceWar.repository.product.ProductImageRepository;
+import com.dev.BionLifeScienceWar.repository.product.ProductInfoRepository;
+import com.dev.BionLifeScienceWar.repository.product.ProductRepository;
+import com.dev.BionLifeScienceWar.repository.product.ProductSpecRepository;
+import com.dev.BionLifeScienceWar.repository.product.SmallSortRepository;
+import com.dev.BionLifeScienceWar.service.product.ProductFileService;
+import com.dev.BionLifeScienceWar.service.product.ProductImageService;
+import com.dev.BionLifeScienceWar.service.product.ProductService;
 
 @RequestMapping("/admin")
 @Controller
@@ -75,7 +75,7 @@ public class ProductController {
 	@RequestMapping("/sortManager")
 	public String sortManager(Model model) {
 		List<BigSort> b = bigSortRepository.findAll();
-		System.out.println(b.size());
+//		System.out.println(b.size());
 		if(b.size()<1) {
 			BigSort bs = new BigSort();
 			bs.setName("분류를 등록 해 주세요");
@@ -103,7 +103,7 @@ public class ProductController {
 				bigSortRepository.deleteById(id);
 			}
 		}catch(DeleteViolationException e) {
-			System.out.println(e);
+//			System.out.println(e);
 			throw new DeleteViolationException();
 		}	
 			
@@ -129,9 +129,15 @@ public class ProductController {
 
 	@RequestMapping("/middleSortDelete")
 	public String middleSortDelete(@RequestParam(value = "text[]") Long[] text, Model model, Long bigId) {
-		for (Long id : text) {
-			middleSortRepository.deleteById(id);
-		}
+		
+		try {
+			for (Long id : text) {
+				middleSortRepository.deleteById(id);
+			}
+		}catch(DeleteViolationException e) {
+//			System.out.println(e);
+			throw new DeleteViolationException();
+		}	
 		return "redirect:/admin/sortManager";
 	}
 
@@ -150,10 +156,15 @@ public class ProductController {
 
 	@RequestMapping("/smallSortDelete")
 	public String smallSortDelete(@RequestParam(value = "text[]") Long[] text, Model model) {
-		for (Long id : text) {
-			smallSortRepository.deleteById(id);
-		}
-
+		
+		try {
+			for (Long id : text) {
+				smallSortRepository.deleteById(id);
+			}
+		}catch(DeleteViolationException e) {
+//			System.out.println(e);
+			throw new DeleteViolationException();
+		}	
 		return "redirect:/admin/sortManager";
 	}
 
@@ -307,5 +318,23 @@ public class ProductController {
 		model.addAttribute("bigsorts", bigSortRepository.findAll());
 
 		return "admin/product/productManager";
+	}
+	
+	@RequestMapping("/productDelete/{id}")
+	@ResponseBody
+	public String productDelete(
+			@PathVariable Long id
+			) {
+		
+		productRepository.deleteById(id);
+		StringBuffer sb = new StringBuffer();
+		String msg = "제품이 삭제 되었습니다.";
+
+		sb.append("alert('" + msg + "');");
+		sb.append("location.href='/admin/productManager'");
+		sb.append("</script>");
+		sb.insert(0, "<script>");
+
+		return sb.toString();
 	}
 }

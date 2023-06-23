@@ -256,6 +256,12 @@ function handleImgFileSelect(e) {
 	}
 }
 
+function productDelete(id){
+	var result = confirm('해당 제품을 삭제 하시겠습니까?');
+	if(result){
+		location.href='/admin/productDelete/' + id;
+	}
+}
 
 
 

@@ -5023,9 +5023,10 @@ body:not(.top-search-open) .top-search-parent #primary-menu-trigger {
 .header-misc-icon > a {
   display: block;
   position: relative;
-  width: 20px;
+  width: 80px;
   height: 20px;
   font-size: 1.125rem;
+  font-weight:600;
   line-height: 20px;
   text-align: center;
   color: #333;
@@ -5383,7 +5384,14 @@ body:not(.top-search-open)
   #top-cart {
     position: relative;
   }
-
+  #top-cart span a{
+	font-size:1.125rem;
+	color:black;
+	transition:all 0.3s ease-in-out;
+  }
+  #top-cart span a.active{
+	color:#fe5000;
+  }
   .top-cart-content {
     opacity: 0;
     position: absolute;
