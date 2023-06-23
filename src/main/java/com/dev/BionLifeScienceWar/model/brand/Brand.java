@@ -32,6 +32,6 @@ public class Brand {
 	private String imageRoad;
 	
 	@Column(name="BRAND_IMAGE_NAME")
-	private String iamgeName;
+	private String imageName;
 
 }
