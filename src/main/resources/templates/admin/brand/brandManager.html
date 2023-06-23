@@ -10,7 +10,6 @@
 	<section id="container">
 
 		<th:block th:replace="fragments/admin/common :: headMenu"></th:block>
-
 		<th:block th:replace="fragments/admin/common :: sideMenu('brand')"></th:block>
 
 		<section id="main-content">
@@ -28,6 +27,7 @@
 							role="form" 
 							class="form-horizontal style-form" 
 							method="POST" 
+							enctype="multipart/form-data"
 							action="/admin/brandInsert">
 								<div class="form-group has-success">
 									<label class="col-lg-2 control-label">브랜드명</label>
@@ -69,11 +69,10 @@
 								<div class="form-group ">
 									<label for="lastname" class="control-label col-lg-2">브랜드 삭제</label>
 									<div class="col-lg-10">
-										<select class="form-control" multiple="multiple" id="bigPanelBigSort">
-											<option th:each="b:${bigsorts}" th:text="${b.name}" th:value="${b.id}"></option>
+										<select class="form-control" id="brandPanel">
+											<option th:each="b:${brand}" th:text="${b.name}" th:value="${b.id}"></option>
 										</select>
-										<button type="button" class="btn btn-danger" id="bigSortDeleteBtn" style="margin-top: 10px;">삭제</button>
-										<p class="help-block">* 드래그 하여 동시에 여러개를 삭제할 수 있습니다.</p>
+										<button type="button" class="btn btn-danger" id="brandDeleteBtn" style="margin-top: 10px;">삭제</button>
 									</div>
 								</div>
 							</form>
@@ -84,7 +83,7 @@
 		</section>
 	</section>
 	<th:block th:replace="fragments/admin/common :: scriptSrc"></th:block>
-	<script src="/administration/lib/sortManager.js"></script>
+	<script src="/administration/lib/brandManager.js"></script>
 </body>
 
 </html>
