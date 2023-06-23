@@ -1,0 +1,88 @@
+package com.dev.BionLifeScienceWar.service;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.dev.BionLifeScienceWar.model.Certification;
+import com.dev.BionLifeScienceWar.repository.CertificationRepository;
+
+@Service
+public class CertificationService {
+
+	@Autowired
+	CertificationRepository certificationRepository;
+
+	public String certificationInsert(MultipartFile file, Certification certification)
+			throws IllegalStateException, IOException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String current_date = simpleDateFormat.format(new Date());
+		String absolutePath = new File("").getAbsolutePath() + "\\";
+		String path = "src/main/resources/static/administration/certification/" + current_date;
+//        String path = "/home/hosting_users/winwinpat/tomcat/webapps/files/";
+		String road = "/administration/certification/" + current_date;
+		File fileFolder = new File(path);
+	    if(!fileFolder.exists()) {
+        	fileFolder.mkdirs();
+        }
+		
+		int leftLimit = 48; // numeral '0'
+		int rightLimit = 122; // letter 'z'
+		int targetStringLength = 10;
+		Random random = new Random();
+
+		String generatedString = random.ints(leftLimit, rightLimit + 1)
+				.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
+				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+
+		if (!file.isEmpty()) {
+
+			String contentType = file.getContentType();
+			String originalFileExtension = "";
+			// 확장자 명이 없으면 이 파일은 잘 못 된 것이다
+			if (ObjectUtils.isEmpty(contentType)) {
+				return "NONE";
+			} else {
+				if (contentType.contains("image/jpeg")) {
+					originalFileExtension = ".jpg";
+				} else if (contentType.contains("image/png")) {
+					originalFileExtension = ".png";
+				} else if (contentType.contains("image/gif")) {
+					originalFileExtension = ".gif";
+				} else if (contentType.contains("application/pdf")) {
+					originalFileExtension = ".pdf";
+				} else if (contentType.contains("application/x-zip-compressed")) {
+					originalFileExtension = ".zip";
+				} else if (contentType.contains("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
+					originalFileExtension = ".xlsx";
+				} else if (contentType
+						.contains("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
+					originalFileExtension = ".docx";
+				} else if (contentType.contains("text/plain")) {
+					originalFileExtension = ".txt";
+				} else if (contentType.contains("image/x-icon")) {
+					originalFileExtension = ".ico";
+				} else if (contentType.contains("application/haansofthwp")) {
+					originalFileExtension = ".hwp";
+				}
+			}
+			String new_file_name = generatedString + "_" + file.getOriginalFilename();
+			fileFolder = new File(absolutePath + path + "/" + new_file_name);
+			file.transferTo(fileFolder);
+			certification.setRoad(road + "/" + new_file_name);
+			certification.setPath(absolutePath + path + "/" + new_file_name);
+//                fileFolder = new File(path + "/" + new_file_name);
+			certificationRepository.save(certification);
+		}
+
+		
+		return "success";
+	}
+}

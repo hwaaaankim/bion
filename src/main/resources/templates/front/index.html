@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/fragments/front/common :: headSrc('바이온라이프사이언스 홈')">
+
+</head>
+
+<body class="stretched">
+	<div id="wrapper" class="clearfix">
+		<th:block th:replace="/fragments/front/common :: headerSrc(false,${b},${m},${s},${p})"></th:block>
+
+		<section id="slider"
+			class="slider-element slider-parallax swiper_wrapper vh-75">
+			<div class="slider-inner">
+
+				<div class="swiper-container swiper-parent">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide" th:each="b:${ba}">
+							<div class="container">
+								<div class="slider-caption">
+									<h2 data-animate="fadeInUp" th:text="${b.subject}">WELCOME to Bion Life Science</h2>
+									<p class="d-none d-sm-block" data-animate="fadeInUp"
+										data-delay="200" th:text="${b.content}">You'll be surprised to see the Final
+										Results of your Creation &amp; would crave for more.</p>
+								</div>
+							</div>
+							<div class="swiper-slide-bg"
+								th:style="'background-image: url(' + @{${b.webroad}} + '); background-position: center top;'">
+							</div>
+						</div>
+					</div>
+					<div class="slider-arrow-left">
+						<i class="icon-angle-left"></i>
+					</div>
+					<div class="slider-arrow-right">
+						<i class="icon-angle-right"></i>
+					</div>
+					<div class="slide-number">
+						<div class="slide-number-current"></div>
+						<span>/</span>
+						<div class="slide-number-total"></div>
+					</div>
+					<div class="swiper-pagination"></div>
+				</div>
+
+			</div>
+		</section>
+
+		<section id="content">
+			<div class="content-wrap p-b-0">
+
+				<div
+					class="promo promo-light promo-full bottommargin-lg header-stick border-top-0 p-5">
+					<div class="container clearfix">
+						<div class="row align-items-center">
+							<div class="col-12 col-lg">
+								<h3 th:text="${ev.subject}">EVENT LINE BANNER SECTION</h3>
+								<span th:text="${ev.content}">이벤트 혹은 뉴스 등 이벤트 배너로 활용할 수 있는 공간입니다.</span>
+							</div>
+							<div class="col-12 col-lg-auto mt-4 mt-lg-0">
+								<a  th:href="@{${ev.link}}"
+									class="button button-rounded button-reveal button-large button-dirtygreen"><i
+									class="icon-arrow-right"></i><span>살펴보기</span></a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="section clearfix bg-white">
+
+					<div class="border-top-0 m-0">
+						<div class="container text-center">
+
+							<div class="heading-block center">
+								<h2>PRODUCTS</h2>
+								<span>바이온라이프사이언스의 대표 제품들 입니다...</span>
+							</div>
+						</div>
+					</div>
+					<div class="container">
+						<div id="oc-portfolio"
+							class="owl-carousel portfolio-carousel carousel-widget"
+							data-pagi="false" data-items-xs="1" data-items-sm="2"
+							data-items-md="3" data-items-lg="4">
+
+							<div class="portfolio-item" th:each="p:${p}">
+								<div class="portfolio-image">
+									<a href="#"> <img th:src="${p.getFirstImage}"
+										alt="PRODUCT">
+									</a>
+									<div class="bg-overlay">
+										<div class="bg-overlay-content dark"
+											data-hover-animate="fadeIn" data-hover-speed="350">
+											<a th:href="@{${p.getFirstImage}}"
+												class="overlay-trigger-icon bg-light text-dark"
+												data-hover-animate="fadeInDownSmall"
+												data-hover-animate-out="fadeInUpSmall"
+												data-hover-speed="350" data-lightbox="image"><i
+												class="icon-line-plus"></i></a> <a th:href="@{|/productDetail/${p.id}|}"
+												class="overlay-trigger-icon bg-light text-dark"
+												data-hover-animate="fadeInDownSmall"
+												data-hover-animate-out="fadeInUpSmall"
+												data-hover-speed="350"><i class="icon-line-ellipsis"></i></a>
+										</div>
+										<div class="bg-overlay-bg dark" data-hover-animate="fadeIn"
+											data-hover-speed="350"></div>
+									</div>
+								</div>
+								<div class="portfolio-desc">
+									<h3>
+										<a href="javascript:void(0);" th:text="${p.smallSort.name}">Sorts of Product</a>
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="line"></div>
+				</div>
+				<div class="container clearfix">
+					<div class="border-top-0 m-0">
+						<div class="container text-center">
+
+							<div class="heading-block center">
+								<h2>NOTICE</h2>
+								<span>바이온라이프사이언스의 공지사항과 제품 카탈로그 입니다...</span>
+							</div>
+						</div>
+					</div>
+					<div class="row main-notice">
+						<div class="postcontent col-lg-6">
+							<div class="row">
+								<div class="entry event col-12" th:each="i:${im}">
+									<div class="grid-inner row align-items-center g-0 p-4">
+										<div class="col-md-12 ps-md-6">
+											<div class="entry-title title-xs">
+												<h2>
+													<a href="#" th:text="${i.subject}" style="color:red;">이곳은 공지사항의 제목이 들어가는 곳 입니다...</a>
+												</h2>
+											</div>
+											<div class="entry-meta">
+												<ul>
+													<li><a href="/notice"><i class="icon-time"></i> 공지일 :  [[${i.date}]]</a></li>
+													<li><a href="/notice"> # 공지사항주제 : [[${i.subjectText}]]</a></li>
+												</ul>
+											</div>
+										
+										</div>
+									</div>
+								</div>
+								<div class="entry event col-12" th:each="i:${ni}">
+									<div class="grid-inner row align-items-center g-0 p-4">
+										<div class="col-md-12 ps-md-6">
+											<div class="entry-title title-xs">
+												<h2>
+													<a href="/notice" th:text="${i.subject}">이곳은 공지사항의 제목이 들어가는 곳 입니다...</a>
+												</h2>
+											</div>
+											<div class="entry-meta">
+												<ul>
+													<li><a href="/notice"><i class="icon-time"></i> 공지일 :  [[${i.date}]]</a></li>
+													<li><a href="/notice"> # 공지사항주제 : [[${i.subjectText}]]</a></li>
+												</ul>
+											</div>
+										
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="d-flex justify-content-end m-t-5">
+								<a href="/notice" class="button button-rounded button-reveal button-small button-border text-end"><span>더 보기 &rarr;</span></a>
+							</div>
+
+						</div>
+						<div class="postcontent col-lg-6">
+
+							<div class="row">
+
+								<div class="entry event col-12" th:each="f:${fi}">
+									<div class="grid-inner row align-items-center g-0 p-4">
+										<div class="col-md-12 ps-md-6">
+											<div class="entry-title title-xs">
+												<h2>
+													<a th:href="@{${f.fileroad}}" download th:text="${f.filesubject}">이곳은 카탈로그의 제목이 들어가는 곳 입니다.</a>
+												</h2>
+											</div>
+											<div class="entry-meta">
+												<ul>
+													<li><a href="#"><i class="icon-time"></i> 업로드 시간 : [[${f.filedate}]]</a></li>
+													<li><a href="#"># 파일 확장자 : [[${f.fileextension}]]</a></li>
+												</ul>
+											</div>
+										
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="d-flex justify-content-end m-t-5">
+								<a href="/reference" class="button button-rounded button-reveal button-small button-border text-end"><span>더 보기 &rarr;</span></a>
+							</div>
+						</div>
+					</div>
+					<div class="line"></div>
+				</div>
+
+				<div class="section clearfix m-b-0">
+					<div class="border-top-0 m-0">
+						<div class="container text-center">
+
+							<div class="heading-block center">
+								<h2>PARTNERS</h2>
+								<span>바이온라이프사이언스의 파트너 기업들 입니다...</span>
+							</div>
+						</div>
+					</div>
+					<div id="oc-clients" class="owl-carousel owl-carousel-full image-carousel carousel-widget" data-margin="30" data-loop="true" data-nav="true" data-autoplay="5000" data-pagi="false" data-items-xs="3" data-items-sm="4" data-items-md="5" data-items-lg="6" data-items-xl="8" style="padding: 20px 0;">
+						<div class="oc-item">
+							<a href="#"><img src="/front/images/clients/1.png"
+								alt="Clients"></a>
+						</div>
+						<div class="oc-item">
+							<a href="#"><img src="/front/images/clients/2.png"
+								alt="Clients"></a>
+						</div>
+						<div class="oc-item">
+							<a href="#"><img src="/front/images/clients/3.png"
+								alt="Clients"></a>
+						</div>
+						<div class="oc-item">
+							<a href="#"><img src="/front/images/clients/4.png"
+								alt="Clients"></a>
+						</div>
+						<div class="oc-item">
+							<a href="#"><img src="/front/images/clients/5.png"
+								alt="Clients"></a>
+						</div>
+						<div class="oc-item">
+							<a href="#"><img src="/front/images/clients/6.png"
+								alt="Clients"></a>
+						</div>
+						<div class="oc-item">
+							<a href="#"><img src="/front/images/clients/7.png"
+								alt="Clients"></a>
+						</div>
+						<div class="oc-item">
+							<a href="#"><img src="/front/images/clients/8.png"
+								alt="Clients"></a>
+						</div>
+						<div class="oc-item">
+							<a href="#"><img src="/front/images/clients/9.png"
+								alt="Clients"></a>
+						</div>
+						<div class="oc-item">
+							<a href="#"><img src="/front/images/clients/10.png"
+								alt="Clients"></a>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+		</section>
+
+		<th:block th:replace="/fragments/front/common :: footerSrc"></th:block>
+	</div>
+
+	<th:block th:replace="/fragments/front/common :: scriptSrc"></th:block>
+
+</body>
+
+</html>

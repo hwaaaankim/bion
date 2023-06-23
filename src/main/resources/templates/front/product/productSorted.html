@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head
+	th:replace="/fragments/front/common :: headSrc('바이온라이프사이언스 제품 중 분류 페이지')">
+
+</head>
+
+<body class="stretched">
+
+	<div id="wrapper" class="clearfix">
+
+		<th:block th:replace="/fragments/front/common :: headerSrc(false,${b},${m},${s},${p})"></th:block>
+		<section id="page-title">
+
+			<div class="container clearfix">
+				<h1>제품 개요</h1>
+				<span>BionLifeScience Products Sorted</span>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="#">메인</a></li>
+					<li class="breadcrumb-item active" aria-current="page">제품 중분류</li>
+				</ol>
+			</div>
+
+		</section>
+		<section id="content">
+			<div class="content-wrap">
+				<div class="container clearfix">
+					<div class="border-top-0 m-0">
+						<div class="container text-center">
+
+							<div class="heading-block center">
+								<h2>Tubes</h2>
+								<span>Tube 제품 페이지 입니다...</span>
+							</div>
+						</div>
+					</div>
+					<div class="row gutter-40 col-mb-80">
+						<div class="postcontent col-lg-12 order-lg-last">
+							<div id="posts" class="row grid-container gutter-30">
+
+								<div class="entry col-4">
+									<div class="grid-inner">
+										<div class="entry-image mb-2">
+											<a href="/front/images/blog/full/17.jpg" data-lightbox="image"><img
+												src="/front/images/blog/standard/17.jpg"
+												alt="#"></a>
+										</div>
+										<div class="entry-title">
+											<h2>
+												<a href="#">Screw Caps and Tubes</a>
+											</h2>
+										</div>
+										<div class="entry-meta">
+											<ul>
+												<li><i class="icon-calendar3"></i> 제품이 등록된 날짜입니다.</li>
+												<li><i class="icon-folder-open"></i> # 제품특징, # 제품특징</li>
+											</ul>
+										</div>
+										<div class="entry-content mt-1">
+											<p>간단한 제품에 대한 설명이 들어가는 영역입니다.</p>
+											<a href="/productDetail" class="more-link">자세히 보기 <i class="icon-line-arrow-right"></i></a>
+										</div>
+									</div>
+								</div>
+
+								<div class="entry col-4">
+									<div class="grid-inner">
+										<div class="entry-image mb-2">
+											<a href="/front/images/blog/full/17.jpg" data-lightbox="image"><img
+												src="/front/images/blog/standard/17.jpg"
+												alt="#"></a>
+										</div>
+										<div class="entry-title">
+											<h2>
+												<a href="#">Extraction tubes and caps</a>
+											</h2>
+										</div>
+										<div class="entry-meta">
+											<ul>
+												<li><i class="icon-calendar3"></i> 제품이 등록된 날짜입니다.</li>
+												<li><i class="icon-folder-open"></i> # 제품특징, # 제품특징</li>
+											</ul>
+										</div>
+										<div class="entry-content mt-1">
+											<p>간단한 제품에 대한 설명이 들어가는 영역입니다.</p>
+											<a href="#" class="more-link">자세히 보기 <i class="icon-line-arrow-right"></i></a>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<div class="d-flex justify-content-center mt-5">
+								<ul class="pagination pagination-inside-transparent pagination-pill">
+								  <li class="page-item disabled"><a class="page-link disabled" href="#" tabindex="-1" aria-disabled="true">Previous</a></li>
+								  <li class="page-item disabled"><a class="page-link disabled" href="#">1</a></li>
+								  <li class="page-item active"><a class="page-link" href="#">2</a></li>
+								  <li class="page-item"><a class="page-link" href="#">3</a></li>
+								  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<th:block th:replace="/fragments/front/common :: footerSrc"></th:block>
+	</div>
+	<th:block th:replace="/fragments/front/common :: scriptSrc"></th:block>
+
+</body>
+</html>
