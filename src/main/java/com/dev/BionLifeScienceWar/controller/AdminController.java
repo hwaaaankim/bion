@@ -419,17 +419,17 @@ public class AdminController {
 	@RequestMapping("/changeEmailStatus")
 	public String changeEmailStatus(
 			Model model,
-			Boolean companyEmail
+			Boolean companyEmailCheck
 			) {
 		
-		companyInfoService.changeCompanyMail(companyEmail);
+		companyInfoService.changeCompanyMail(companyEmailCheck);
 		if(companyInfoRepository.findById(1L).isPresent()) {
 			model.addAttribute("company",companyInfoRepository.findById(1L).get());
 		}else {
 			model.addAttribute("company",new CompanyInfo());
 		}
 		
-		return "admin/siteManager :: #companyEmail";
+		return "admin/siteManager :: #companyEmailCheck";
 	}
 	
 

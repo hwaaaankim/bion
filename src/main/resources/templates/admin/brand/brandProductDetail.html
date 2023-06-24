@@ -11,7 +11,7 @@
 
 		<th:block th:replace="fragments/admin/common :: headMenu"></th:block>
 
-		<th:block th:replace="fragments/admin/common :: sideMenu('product')"></th:block>
+		<th:block th:replace="fragments/admin/common :: sideMenu('brand')"></th:block>
 
 		<section id="main-content">
 			<section class="wrapper">
@@ -25,23 +25,32 @@
 							모두 삭제됩니다.</span>
 						<div class="form-panel">
 
-							<form role="form" action="/admin/productUpdate" class="form-horizontal style-form" method="POST" enctype="multipart/form-data">
+							<form role="form" action="/admin/brandProductUpdate" class="form-horizontal style-form" method="POST" enctype="multipart/form-data">
 								<div class="form-group has-success">
 									<label class="col-lg-2 control-label"># 제품 분류 선택</label>
 									<div class="col-lg-10">
 										<div class="row">
-											<div class="col-lg-4">
-												<select class="form-control" id="smallPanelBigSortSelect" name="bigId" required="required">
-													<option value="">=== 대분류 선택 ===</option>
+											<div class="col-lg-3">
+												<select class="form-control" id="brandProductBrandId" name="brandbigSortId" required="required">
+													<option value="">=== 브랜드 선택 ===</option>
 													<option
-													th:each="b:${bigsorts}" 
+													th:each="b:${brand}" 
 													th:text="${b.name}" 
 													th:value="${b.id}"
-													th:selected="${product.smallSort.middleSort.bigSort.id == b.id}"></option>
+													th:selected="${product.smallSort.middleSort.bigSort.brand.id == b.id}"></option>
 												</select>
 											</div>
-											<div class="col-lg-4">
-												<select class="form-control" id="smallPanelMiddleSortSelect" name="middleId"  required="required">
+											<div class="col-lg-3">
+												<select class="form-control" id="brandProductBigSortId" name="brandbigSortId" required="required">
+													<option
+													th:each="i:${bigsorts}" 
+													th:text="${i.name}" 
+													th:value="${i.id}"
+													th:selected="${product.smallSort.middleSort.bigSort.id == i.id}"></option>
+												</select>
+											</div>
+											<div class="col-lg-3">
+												<select class="form-control" id="brandProductMiddleSortId" name="brandMiddleSortId"  required="required">
 												<option
 													th:each="m:${middlesorts}" 
 													th:text="${m.name}" 
@@ -49,8 +58,8 @@
 													th:selected="${product.smallSort.middleSort.id == m.id}"></option>
 												</select>
 											</div>
-											<div class="col-lg-4">
-												<select class="form-control" id="smallPanelSmallSortSelect" name="smallId" required="required">
+											<div class="col-lg-3">
+												<select class="form-control" id="brandProductSmallSortId" name="brandSmallSortId" required="required">
 													<option
 													th:each="s:${smallsorts}" 
 													th:text="${s.name}" 
@@ -217,19 +226,6 @@
 										<span class="label label-success">사용</span> <span> 파일 드래그를 통해 여러장을 한번에 업로드 할 수 있습니다</span><br>
 									</div>
 								</div>
-								<div class="form-group has-error">
-									<label class="col-sm-2 control-label col-lg-2"># 메인화면 표시여부</label>
-									<div class="col-lg-10">
-										<input 
-										id="sighCheck"
-										type="checkbox" 
-										class="form-control" 
-										style="margin-bottom:10px; width:20px;" 
-										name="sign"
-										th:checked="${product.sign == true}">
-										<span class="label label-success">사용</span> <span> 체크시 메인화면의 대표제품에 등록됩니다.</span><br>
-									</div>
-								</div>
 								<button type="submit" class="btn btn-danger">등록</button>
 							</form>
 						</div>
@@ -239,7 +235,7 @@
 		</section>
 	</section>
 	<th:block th:replace="fragments/admin/common :: scriptSrc"></th:block>
-	<script src="/administration/lib/productDetail.js"></script>
+	<script src="/administration/lib/brandProductDetail.js"></script>
 	<script src="/administration/lib/jquery-ui-1.9.2.custom.min.js"></script>
 	<script type="text/javascript"
 		src="/administration/lib/bootstrap-fileupload/bootstrap-fileupload.js"></script>

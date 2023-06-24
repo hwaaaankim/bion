@@ -1,5 +1,7 @@
 package com.dev.BionLifeScienceWar.repository.brand;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +14,8 @@ import com.dev.BionLifeScienceWar.model.brand.BrandSmallSort;
 public interface BrandProductRepository extends JpaRepository<BrandProduct, Long>{
 
 	Page<BrandProduct> findAllBySmallSort(Pageable pageable, BrandSmallSort brandSmallSort);
+	
+	Page<BrandProduct> findAll(Pageable pageble);
+
+	List<BrandProduct> findAllBySign(Boolean sign);
 }

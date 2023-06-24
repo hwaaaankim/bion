@@ -69,7 +69,8 @@
 								<div class="form-group ">
 									<label for="lastname" class="control-label col-lg-2">브랜드 삭제</label>
 									<div class="col-lg-10">
-										<select class="form-control" id="brandPanel">
+										<select class="form-control" id="brandPanel">	
+											<option value="">=== 브랜드 선택 ===</option>
 											<option th:each="b:${brand}" th:text="${b.name}" th:value="${b.id}"></option>
 										</select>
 										<button type="button" class="btn btn-danger" id="brandDeleteBtn" style="margin-top: 10px;">삭제</button>

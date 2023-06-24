@@ -217,45 +217,6 @@ $(function() {
 });
 
 
-function imgReset(id) {
-	var target = document.getElementById(id);
-	target.value = "";
-	$('#sampleSection').empty();
-}
-var sel_files = [];
-$(function() {
-	$('#deImage').on("change", handleImgFileSelect);
-});
-
-function handleImgFileSelect(e) {
-	sel_files = [];
-	$('#sampleSection').empty();
-	var files = e.target.files;
-	var filesArr = Array.prototype.slice.call(files);
-	var index = 0;
-	try{
-		filesArr.forEach(function(f) {
-			if (!f.type.match("image*")) {
-				
-				$('#deImage').val('');
-				$('#sampleSection').empty();
-				throw new Error("Stop");
-			}
-			sel_files.push(f);
-			var reader = new FileReader();
-			reader.onload = function(e) {
-				var html = "<a href=\"javascript:void(0);\" id=\"img_id_" + index
-					+ "\"><img width='200' src=\"" + e.target.result + "\" data-file = '" + f.name + "' class='sample-img' title='Click to Remove'></a>";
-				$('#sampleSection').append(html);
-				index++;
-			}
-			reader.readAsDataURL(f);
-		});
-	}catch(e){
-		alert('확장자는 이미지 확장자만 가능합니다');
-	}
-}
-
 function productDelete(id){
 	var result = confirm('해당 제품을 삭제 하시겠습니까?');
 	if(result){

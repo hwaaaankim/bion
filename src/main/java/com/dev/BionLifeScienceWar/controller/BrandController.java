@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,13 +20,24 @@ import com.dev.BionLifeScienceWar.model.brand.Brand;
 import com.dev.BionLifeScienceWar.model.brand.BrandBigSort;
 import com.dev.BionLifeScienceWar.model.brand.BrandMiddleSort;
 import com.dev.BionLifeScienceWar.model.brand.BrandProduct;
+import com.dev.BionLifeScienceWar.model.brand.BrandProductInfo;
+import com.dev.BionLifeScienceWar.model.brand.BrandProductSpec;
 import com.dev.BionLifeScienceWar.model.brand.BrandSmallSort;
 import com.dev.BionLifeScienceWar.model.product.Product;
+import com.dev.BionLifeScienceWar.model.product.ProductInfo;
+import com.dev.BionLifeScienceWar.model.product.ProductSpec;
 import com.dev.BionLifeScienceWar.repository.brand.BrandBigSortRepository;
 import com.dev.BionLifeScienceWar.repository.brand.BrandMiddleSortRepository;
+import com.dev.BionLifeScienceWar.repository.brand.BrandProductFileRepository;
+import com.dev.BionLifeScienceWar.repository.brand.BrandProductImageRepository;
+import com.dev.BionLifeScienceWar.repository.brand.BrandProductInfoRepository;
 import com.dev.BionLifeScienceWar.repository.brand.BrandProductRepository;
+import com.dev.BionLifeScienceWar.repository.brand.BrandProductSpecRepository;
 import com.dev.BionLifeScienceWar.repository.brand.BrandRepository;
 import com.dev.BionLifeScienceWar.repository.brand.BrandSmallSortRepository;
+import com.dev.BionLifeScienceWar.service.brand.BrandProductFileService;
+import com.dev.BionLifeScienceWar.service.brand.BrandProductImageService;
+import com.dev.BionLifeScienceWar.service.brand.BrandProductService;
 import com.dev.BionLifeScienceWar.service.brand.BrandService;
 
 @Controller
@@ -49,6 +61,27 @@ public class BrandController {
 	
 	@Autowired
 	BrandProductRepository brandProductRepository;
+	
+	@Autowired
+	BrandProductService brandProductService;
+	
+	@Autowired
+	BrandProductInfoRepository brandProductInfoRepository;
+	
+	@Autowired
+	BrandProductSpecRepository brandProductSpecRepository;
+	
+	@Autowired
+	BrandProductFileService brandProductFileService;
+	
+	@Autowired
+	BrandProductImageService brandProductImageService;
+	
+	@Autowired
+	BrandProductFileRepository brandProductFileRepository;
+	
+	@Autowired
+	BrandProductImageRepository brandProductImageRepository;
 	
 	@RequestMapping("/brandManager")
 	public String brandManager(
@@ -279,7 +312,6 @@ public class BrandController {
 		if (brandSmallSortId != null) {
 			Page<BrandProduct> products = brandProductRepository.findAllBySmallSort(pageable,
 					brandSmallSortRepository.findById(brandSmallSortId).get());
-			model.addAttribute("products", products);
 			int startPage = Math.max(1, products.getPageable().getPageNumber() - 4);
 			int endPage = Math.min(products.getTotalPages(), products.getPageable().getPageNumber() + 4);
 			model.addAttribute("products", products);
@@ -288,10 +320,9 @@ public class BrandController {
 			model.addAttribute("brandSmallSortId", brandSmallSortId);
 		}else {
 			Page<BrandProduct> products = brandProductRepository.findAll(pageable);
-			model.addAttribute("products", products);
 			int startPage = Math.max(1, products.getPageable().getPageNumber() - 4);
 			int endPage = Math.min(products.getTotalPages(), products.getPageable().getPageNumber() + 4);
-			model.addAttribute("clients", products);
+			model.addAttribute("products", products);
 			model.addAttribute("startPage", startPage);
 			model.addAttribute("endPage", endPage);
 			model.addAttribute("brandSmallSortId", brandSmallSortId);
@@ -299,5 +330,144 @@ public class BrandController {
 		model.addAttribute("brand",brandRepository.findAll());
 
 		return "admin/brand/brandProductManager";
+	}
+	
+	@RequestMapping("/brandProductInsertForm")
+	public String brandProductInsertForm(Model model) {
+
+		model.addAttribute("brand",brandRepository.findAll());
+
+		return "admin/brand/brandProductInsertForm";
+	}
+
+	@RequestMapping("/brandProductInsert")
+	@ResponseBody
+	public String brandProductInsert(
+			BrandProduct product, 
+			Long brandSmallSortId, 
+			String[] spec, 
+			String[] infoQ, 
+			String[] infoA,
+			MultipartFile productOverviewImage, 
+			MultipartFile productSpecImage, 
+			List<MultipartFile> slides,
+			List<MultipartFile> productFile
+
+	) throws IllegalStateException, IOException {
+		product.setSmallSort(brandSmallSortRepository.findById(brandSmallSortId).get());
+		BrandProduct p = brandProductService.productInsert(productOverviewImage, productSpecImage, product);
+
+		for (String s : spec) {
+			BrandProductInfo in = new BrandProductInfo();
+			in.setProductId(p.getId());
+			in.setProductInfoText(s);
+			brandProductInfoRepository.save(in);
+		}
+		for (int a = 0; a < infoQ.length; a++) {
+			BrandProductSpec sp = new BrandProductSpec();
+			sp.setProductSpecSubject(infoQ[a]);
+			sp.setProductSpecContent(infoA[a]);
+			sp.setProductId(p.getId());
+			brandProductSpecRepository.save(sp);
+		}
+
+		brandProductFileService.fileUpload(productFile, p.getId());
+		brandProductImageService.fileUpload(slides, p.getId());
+
+		StringBuffer sb = new StringBuffer();
+		String msg = "제품이 등록 되었습니다.";
+
+		sb.append("alert('" + msg + "');");
+		sb.append("location.href='/admin/brandProductManager'");
+		sb.append("</script>");
+		sb.insert(0, "<script>");
+
+		return sb.toString();
+	}
+
+	@RequestMapping("/brandProductDetail/{id}")
+	public String brandProductDetail(
+			@PathVariable Long id,
+			Model model
+			) {
+		model.addAttribute("brand",brandRepository.findAll());
+		model.addAttribute("bigsorts", brandBigSortRepository.findAllByBrand(brandProductRepository.findById(id).get().getSmallSort().getMiddleSort().getBigSort().getBrand()));
+		model.addAttribute("middlesorts", brandMiddleSortRepository.findAllByBigSort(brandProductRepository.findById(id).get().getSmallSort().getMiddleSort().getBigSort()));
+		model.addAttribute("smallsorts", brandSmallSortRepository.findAllByMiddleSort(brandProductRepository.findById(id).get().getSmallSort().getMiddleSort()));
+		model.addAttribute("product",brandProductRepository.findById(id).get());
+		return "admin/brand/brandProductDetail";
+	}
+
+	@RequestMapping("/brandProductUpdate")
+	public String brandProductUpdate(
+			Model model, 
+			@PageableDefault(size = 10) Pageable pageable,
+			BrandProduct product, 
+			Long brandSmallSortId, 
+			String[] spec, 
+			String[] infoQ, 
+			String[] infoA,
+			MultipartFile productOverviewImage, 
+			MultipartFile productSpecImage, 
+			List<MultipartFile> slides,
+			List<MultipartFile> productFile
+			) throws IllegalStateException, IOException {
+		if(product.getSign() == null) {
+			product.setSign(false);
+		}
+		brandProductService.productUpdate(productOverviewImage, productSpecImage, product);
+		product.setBrandSmallSortId(brandSmallSortId);
+		brandProductInfoRepository.deleteAllByProductId(product.getId());
+		brandProductSpecRepository.deleteAllByProductId(product.getId());
+		for (String s : spec) {
+			BrandProductInfo in = new BrandProductInfo();
+			in.setProductId(product.getId());
+			in.setProductInfoText(s);
+			brandProductInfoRepository.save(in);
+		}
+		for (int a = 0; a < infoQ.length; a++) {
+			BrandProductSpec sp = new BrandProductSpec();
+			sp.setProductSpecSubject(infoQ[a]);
+			sp.setProductSpecContent(infoA[a]);
+			sp.setProductId(product.getId());
+			brandProductSpecRepository.save(sp);
+		}
+		if(slides.size()>0 && !slides.get(0).isEmpty()) {
+			brandProductImageRepository.deleteAllByProductId(product.getId());
+			brandProductImageService.fileUpload(slides, product.getId());
+		}
+		if(productFile.size()>0 && !productFile.get(0).isEmpty()) {
+			brandProductFileRepository.deleteAllByProductId(product.getId());
+			brandProductFileService.fileUpload(productFile, product.getId());
+		}
+		Page<BrandProduct> products = brandProductRepository.findAll(pageable);
+		model.addAttribute("products", products);
+		int startPage = Math.max(1, products.getPageable().getPageNumber() - 4);
+		int endPage = Math.min(products.getTotalPages(), products.getPageable().getPageNumber() + 4);
+		
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("smallId", brandSmallSortId);
+		model.addAttribute("bigsorts", brandBigSortRepository.findAll());
+
+		return "admin/brand/brandProductManager";
+	}
+	
+	@RequestMapping("/brandProductDelete/{id}")
+	@ResponseBody
+	public String brandProductDelete(
+			@PathVariable Long id
+			) {
+		
+		brandProductRepository.deleteById(id);
+		StringBuffer sb = new StringBuffer();
+		String msg = "제품이 삭제 되었습니다.";
+
+		sb.append("alert('" + msg + "');");
+		sb.append("location.href='/admin/brandProductManager'");
+		sb.append("</script>");
+		sb.insert(0, "<script>");
+
+		return sb.toString();
 	}
 }
