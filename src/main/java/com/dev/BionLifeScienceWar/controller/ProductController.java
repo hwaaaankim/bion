@@ -180,7 +180,6 @@ public class ProductController {
 			model.addAttribute("products", products);
 			int startPage = Math.max(1, products.getPageable().getPageNumber() - 4);
 			int endPage = Math.min(products.getTotalPages(), products.getPageable().getPageNumber() + 4);
-			model.addAttribute("clients", products);
 			model.addAttribute("startPage", startPage);
 			model.addAttribute("endPage", endPage);
 			model.addAttribute("smallId", smallId);
@@ -189,7 +188,6 @@ public class ProductController {
 			model.addAttribute("products", products);
 			int startPage = Math.max(1, products.getPageable().getPageNumber() - 4);
 			int endPage = Math.min(products.getTotalPages(), products.getPageable().getPageNumber() + 4);
-			model.addAttribute("clients", products);
 			model.addAttribute("startPage", startPage);
 			model.addAttribute("endPage", endPage);
 			model.addAttribute("smallId", smallId);
@@ -258,8 +256,8 @@ public class ProductController {
 			Model model
 			) {
 		model.addAttribute("bigsorts", bigSortRepository.findAll());
-		model.addAttribute("middlesorts", middleSortRepository.findAllByBigSort(bigSortRepository.findAll().get(0)));
-		model.addAttribute("smallsorts", smallSortRepository.findAll());
+		model.addAttribute("middlesorts", middleSortRepository.findAllByBigSort(productRepository.findById(id).get().getSmallSort().getMiddleSort().getBigSort()));
+		model.addAttribute("smallsorts", smallSortRepository.findAllByMiddleSort(productRepository.findById(id).get().getSmallSort().getMiddleSort()));
 		model.addAttribute("product",productRepository.findById(id).get());
 		return "admin/product/productDetail";
 	}

@@ -73,7 +73,7 @@ $(function(){
 	});
 	
 	$('#emailStatusBtn').attr('disabled', true);
-	$('#companyEmail').on('change', function(){
+	$('#companyEmailCheck').on('change', function(){
 		$('#emailStatusBtn').attr('disabled', false);
 		$('#emailStatusBtn').on('click', function(){
 			var companyEmailCheck = false;
@@ -86,11 +86,11 @@ $(function(){
 				type:'POST',
 				url:'/admin/changeEmailStatus',
 				data:{
-					companyEmailCheck : companyEmail,
+					companyEmailCheck : companyEmailCheck,
 				}
 			}).done(function(fragment){
-				$('#companyEmailCheck').replaceWith(fragment);
 				alert('상태가 변경 되었습니다.');
+				location.reload();
 			})
 		});
 	});
