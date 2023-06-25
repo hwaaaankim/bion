@@ -29,8 +29,8 @@ public class ProductFileService {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String current_date = simpleDateFormat.format(new Date());
         String absolutePath = new File("").getAbsolutePath() + "\\";
-        String path = "src/main/resources/static/administration/productfile/"+current_date;
-//        String path = "/home/hosting_users/winwinpat/tomcat/webapps/files/";
+//        String path = "src/main/resources/static/administration/productfile/"+current_date;
+        String path = "/home/hosting_users/bionls/tomcat/webapps/productfile/"+current_date;
         String road = "/administration/productfile/"+current_date;
         File fileFolder = new File(path);
         int leftLimit = 48; // numeral '0'
@@ -90,10 +90,11 @@ public class ProductFileService {
                 }
                 String new_file_name = generatedString +  "_" + file.getOriginalFilename();
                 
-                fileFolder = new File(absolutePath + path + "/" + new_file_name);
-//                fileFolder = new File(path + "/" + new_file_name);
+//                fileFolder = new File(absolutePath + path + "/" + new_file_name);
+                fileFolder = new File(path + "/" + new_file_name);
                 file.transferTo(fileFolder);
-                f.setProductFilePath(absolutePath + path + "/" + new_file_name);
+//                f.setProductFilePath(absolutePath + path + "/" + new_file_name);
+                f.setProductFilePath(path + "/" + new_file_name);
 //                f.setProductImagePath(path + "/" + new_file_name);
                 f.setProductFileRoad(road + "/" + new_file_name );
                 f.setProductFileName(file.getOriginalFilename());

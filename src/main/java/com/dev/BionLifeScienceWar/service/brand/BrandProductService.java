@@ -30,9 +30,12 @@ public class BrandProductService {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String current_date = simpleDateFormat.format(new Date());
         String absolutePath = new File("").getAbsolutePath() + "\\";
-        String overviewPath = "src/main/resources/static/administration/brandoverview/"+current_date;
-        String specPath = "src/main/resources/static/administration/brandspec/"+current_date;
-//        String path = "/home/hosting_users/winwinpat/tomcat/webapps/files/";
+        
+//        String overviewPath = "src/main/resources/static/administration/brandoverview/"+current_date;
+//        String specPath = "src/main/resources/static/administration/brandspec/"+current_date;
+        String overviewPath = "/home/hosting_users/bionls/tomcat/webapps/brandoverview/"+current_date;
+        String specPath = "/home/hosting_users/bionls/tomcat/webapps/brandspec/"+current_date;
+        
         String overviewRoad = "/administration/brandoverview/"+current_date;
         String specRoad = "/administration/brandspec/"+current_date;
         File overviewFileFolder = new File(overviewPath);
@@ -134,17 +137,20 @@ public class BrandProductService {
         String overviewFileName = generatedString +  "_" + productOverviewImage.getOriginalFilename();
         String specFileName = generatedString +  "_" + productSpecImage.getOriginalFilename();
         
-        overviewFileFolder = new File(absolutePath + overviewPath + "/" + overviewFileName);
-        specFileFolder = new File(absolutePath + specPath + "/" + specFileName);
-//        fileFolder = new File(path + "/" + new_file_name);
+//        overviewFileFolder = new File(absolutePath + overviewPath + "/" + overviewFileName);
+//        specFileFolder = new File(absolutePath + specPath + "/" + specFileName);
+        
+        overviewFileFolder = new File(overviewPath + "/" + overviewFileName);
+        specFileFolder = new File(specPath + "/" + specFileName);
+        
         productOverviewImage.transferTo(overviewFileFolder);
         productSpecImage.transferTo(specFileFolder);
-        product.setTableImagePath(overviewPath);
-        product.setTableImageRoad(overviewRoad);
+        product.setTableImagePath(overviewPath + "/" + overviewFileName);
+        product.setTableImageRoad(overviewRoad + "/" + overviewFileName);
         product.setTableImageName(overviewFileName);
         product.setSpecImageName(specFileName);
-        product.setSpecImagePath(specPath);
-        product.setSpecImageRoad(specRoad);
+        product.setSpecImagePath(specPath + "/" + specFileName);
+        product.setSpecImageRoad(specRoad + "/" + specFileName);
 
         return brandProductRepository.save(product);
 		
@@ -170,7 +176,10 @@ public class BrandProductService {
 					  .limit(targetStringLength)
 					  .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
 					  .toString();
-			String overviewPath = "src/main/resources/static/administration/brandoverview/"+current_date;
+			
+//			String overviewPath = "src/main/resources/static/administration/brandoverview/"+current_date;
+	        String overviewPath = "/home/hosting_users/bionls/tomcat/webapps/brandoverview/"+current_date;
+			
 	        String overviewRoad = "/administration/brandoverview/"+current_date;
 	        File overviewFileFolder = new File(overviewPath);
 	        
@@ -217,15 +226,16 @@ public class BrandProductService {
 	        }
 	        
 	        String overviewFileName = generatedString +  "_" + productOverviewImage.getOriginalFilename();
-	        overviewFileFolder = new File(absolutePath + overviewPath + "/" + overviewFileName);
-	        
-//	      fileFolder = new File(path + "/" + new_file_name);
+//	      
+//	        overviewFileFolder = new File(absolutePath + overviewPath + "/" + overviewFileName);
+	        overviewFileFolder = new File(overviewPath + "/" + overviewFileName);
+	      
 	        productOverviewImage.transferTo(overviewFileFolder);
 	       
 	        brandProductRepository.findById(product.getId()).ifPresent(
           		s->{
-          			s.setTableImagePath(overviewPath);
-         	        s.setTableImageRoad(overviewRoad);
+          			s.setTableImagePath(overviewPath + "/" + overviewFileName);
+         	        s.setTableImageRoad(overviewRoad + "/" + overviewFileName);
          	        s.setTableImageName(overviewFileName);
          	       brandProductRepository.save(s);
           		}
@@ -237,8 +247,10 @@ public class BrandProductService {
 					  .limit(targetStringLength)
 					  .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
 					  .toString();
-			String specPath = "src/main/resources/static/administration/brandspec/"+current_date;
-//	        String path = "/home/hosting_users/winwinpat/tomcat/webapps/files/";
+			
+//			String specPath = "src/main/resources/static/administration/brandspec/"+current_date;
+			String specPath = "/home/hosting_users/bionls/tomcat/webapps/brandspec/"+current_date;
+			
 	        String specRoad = "/administration/brandspec/"+current_date;
 	        File specFileFolder = new File(specPath);
 	        
@@ -284,14 +296,16 @@ public class BrandProductService {
 	         }
 	    	 
 	    	 String specFileName = generatedString +  "_" + productSpecImage.getOriginalFilename();
-	    	 specFileFolder = new File(absolutePath + specPath + "/" + specFileName);
+
+//	    	 specFileFolder = new File(absolutePath + specPath + "/" + specFileName);
+	    	 specFileFolder = new File(specPath + "/" + specFileName);
 	    	 
 	    	  productSpecImage.transferTo(specFileFolder);
 	    	  brandProductRepository.findById(product.getId()).ifPresent(
           		s->{
           			s.setSpecImageName(specFileName);
-      	            s.setSpecImagePath(specPath);
-      	            s.setSpecImageRoad(specRoad);
+      	            s.setSpecImagePath(specPath + "/" + specFileName);
+      	            s.setSpecImageRoad(specRoad + "/" + specFileName);
       	          brandProductRepository.save(s);
           		}
           	  );

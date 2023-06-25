@@ -25,8 +25,8 @@ public class CertificationService {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String current_date = simpleDateFormat.format(new Date());
 		String absolutePath = new File("").getAbsolutePath() + "\\";
-		String path = "src/main/resources/static/administration/certification/" + current_date;
-//        String path = "/home/hosting_users/winwinpat/tomcat/webapps/files/";
+//		String path = "src/main/resources/static/administration/certification/" + current_date;
+        String path = "/home/hosting_users/bionls/tomcat/webapps/certification/" + current_date;
 		String road = "/administration/certification/" + current_date;
 		File fileFolder = new File(path);
 	    if(!fileFolder.exists()) {
@@ -74,11 +74,14 @@ public class CertificationService {
 				}
 			}
 			String new_file_name = generatedString + "_" + file.getOriginalFilename();
-			fileFolder = new File(absolutePath + path + "/" + new_file_name);
+//			fileFolder = new File(absolutePath + path + "/" + new_file_name);
+			fileFolder = new File(path + "/" + new_file_name);
 			file.transferTo(fileFolder);
+//			certification.setRoad(road + "/" + new_file_name);
 			certification.setRoad(road + "/" + new_file_name);
-			certification.setPath(absolutePath + path + "/" + new_file_name);
-//                fileFolder = new File(path + "/" + new_file_name);
+//			certification.setPath(absolutePath + path + "/" + new_file_name);
+			certification.setPath(path + "/" + new_file_name);
+            fileFolder = new File(path + "/" + new_file_name);
 			certificationRepository.save(certification);
 		}
 
@@ -86,3 +89,4 @@ public class CertificationService {
 		return "success";
 	}
 }
+

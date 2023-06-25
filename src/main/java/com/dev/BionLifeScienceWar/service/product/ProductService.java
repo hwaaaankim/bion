@@ -29,9 +29,10 @@ public class ProductService {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String current_date = simpleDateFormat.format(new Date());
         String absolutePath = new File("").getAbsolutePath() + "\\";
-        String overviewPath = "src/main/resources/static/administration/overview/"+current_date;
-        String specPath = "src/main/resources/static/administration/spec/"+current_date;
-//        String path = "/home/hosting_users/winwinpat/tomcat/webapps/files/";
+//        String overviewPath = "src/main/resources/static/administration/overview/"+current_date;
+//        String specPath = "src/main/resources/static/administration/spec/"+current_date;
+        String overviewPath = "/home/hosting_users/bionls/tomcat/webapps/overview/"+current_date;
+        String specPath = "/home/hosting_users/bionls/tomcat/webapps/spec/"+current_date;
         String overviewRoad = "/administration/overview/"+current_date;
         String specRoad = "/administration/spec/"+current_date;
         File overviewFileFolder = new File(overviewPath);
@@ -133,17 +134,18 @@ public class ProductService {
         String overviewFileName = generatedString +  "_" + productOverviewImage.getOriginalFilename();
         String specFileName = generatedString +  "_" + productSpecImage.getOriginalFilename();
         
-        overviewFileFolder = new File(absolutePath + overviewPath + "/" + overviewFileName);
-        specFileFolder = new File(absolutePath + specPath + "/" + specFileName);
-//        fileFolder = new File(path + "/" + new_file_name);
+//        overviewFileFolder = new File(absolutePath + overviewPath + "/" + overviewFileName);
+        overviewFileFolder = new File(overviewPath + "/" + overviewFileName);
+//        specFileFolder = new File(absolutePath + specPath + "/" + specFileName);
+        specFileFolder = new File(specPath + "/" + specFileName);
         productOverviewImage.transferTo(overviewFileFolder);
         productSpecImage.transferTo(specFileFolder);
-        product.setTableImagePath(overviewPath);
-        product.setTableImageRoad(overviewRoad);
+        product.setTableImagePath(overviewPath + "/" + overviewFileName);
+        product.setTableImageRoad(overviewRoad + "/" + overviewFileName);
         product.setTableImageName(overviewFileName);
         product.setSpecImageName(specFileName);
-        product.setSpecImagePath(specPath);
-        product.setSpecImageRoad(specRoad);
+        product.setSpecImagePath(specPath + "/" + specFileName);
+        product.setSpecImageRoad(specRoad + "/" + specFileName);
 
         return productRepository.save(product);
 		
@@ -169,7 +171,8 @@ public class ProductService {
 					  .limit(targetStringLength)
 					  .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
 					  .toString();
-			String overviewPath = "src/main/resources/static/administration/overview/"+current_date;
+//			String overviewPath = "src/main/resources/static/administration/overview/"+current_date;
+			String overviewPath = "/home/hosting_users/bionls/tomcat/webapps/overview/"+current_date;
 	        String overviewRoad = "/administration/overview/"+current_date;
 	        File overviewFileFolder = new File(overviewPath);
 	        
@@ -236,8 +239,8 @@ public class ProductService {
 					  .limit(targetStringLength)
 					  .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
 					  .toString();
-			String specPath = "src/main/resources/static/administration/spec/"+current_date;
-//	        String path = "/home/hosting_users/winwinpat/tomcat/webapps/files/";
+//			String specPath = "src/main/resources/static/administration/spec/"+current_date;
+			String specPath = "/home/hosting_users/bionls/tomcat/webapps/spec/"+current_date;
 	        String specRoad = "/administration/spec/"+current_date;
 	        File specFileFolder = new File(specPath);
 	        

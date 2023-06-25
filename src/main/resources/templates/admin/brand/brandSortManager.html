@@ -96,6 +96,7 @@
 										<div class="row">
 											<div class="col-lg-4">
 												<select class="form-control" name="brandId" id="middleSortBrandId" required="required">
+													<option value="">=== 브랜드 선택 ===</option>
 													<option th:each="b:${brand}" th:text="${b.name}" th:value="${b.id}"></option>
 												</select>
 											</div>

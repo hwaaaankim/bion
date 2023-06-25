@@ -60,8 +60,7 @@ public class Product {
 	@Transient
 	private Long smallId;
 	
-	public String getFirstImage() {
-		
+	public String addFirstImage() {
 		return this.images.get(0).getProductImageRoad();
 	}
 	

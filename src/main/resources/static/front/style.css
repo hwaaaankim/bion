@@ -4148,7 +4148,12 @@ body:not(.top-search-open) .top-search-parent #primary-menu-trigger {
     top: -2px !important;
     left: 100%;
   }
-
+	
+  .sub-menu-container .sub-menu-container.left-container {
+    list-style: none;
+    top: -2px !important;
+    left: -100%;
+  }
   .sub-menu-container.menu-pos-invert,
   .mega-menu-small .mega-menu-content.menu-pos-invert {
     left: auto;

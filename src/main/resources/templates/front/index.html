@@ -7,7 +7,8 @@
 
 <body class="stretched">
 	<div id="wrapper" class="clearfix">
-		<th:block th:replace="/fragments/front/common :: headerSrc(false,${b},${m},${s},${p})"></th:block>
+		<th:block th:replace="/fragments/front/common :: headerSrc(false,${b},${m},${s},${p}, ${brand},
+		${bb}, ${bm}, ${bs}, ${bp})"></th:block>
 
 		<section id="slider"
 			class="slider-element slider-parallax swiper_wrapper vh-75">
@@ -85,13 +86,13 @@
 
 							<div class="portfolio-item" th:each="p:${p}">
 								<div class="portfolio-image">
-									<a href="#"> <img th:src="${p.getFirstImage}"
+									<a href="#"> <img th:src="${p.addFirstImage}"
 										alt="PRODUCT">
 									</a>
 									<div class="bg-overlay">
 										<div class="bg-overlay-content dark"
 											data-hover-animate="fadeIn" data-hover-speed="350">
-											<a th:href="@{${p.getFirstImage}}"
+											<a th:href="@{${p.addFirstImage}}"
 												class="overlay-trigger-icon bg-light text-dark"
 												data-hover-animate="fadeInDownSmall"
 												data-hover-animate-out="fadeInUpSmall"

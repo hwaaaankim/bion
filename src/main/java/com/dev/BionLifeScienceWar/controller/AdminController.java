@@ -174,7 +174,7 @@ public class AdminController {
 			Model model
 			){
 		
-		List<HistorySubject> subject = historySubjectRepository.findAllByOrderByStart();
+		List<HistorySubject> subject = historySubjectRepository.findAllByOrderByStartDesc();
 		for(HistorySubject s : subject) {
 			s.setContents(historyContentRepository.findAllBySubjectIdOrderByDateDesc(s.getId()));
 		}
@@ -189,7 +189,7 @@ public class AdminController {
 			) {
 		
 		historySubjectRepository.save(historySubject);
-		List<HistorySubject> subject = historySubjectRepository.findAllByOrderByStart();
+		List<HistorySubject> subject = historySubjectRepository.findAllByOrderByStartDesc();
 		for(HistorySubject s : subject) {
 			s.setContents(historyContentRepository.findAllBySubjectIdOrderByDateDesc(s.getId()));
 		}
@@ -212,7 +212,7 @@ public class AdminController {
 		historyContent.setSubjectId(historyContent.getSubjectId());
 		historyContentRepository.save(historyContent);
 		
-		List<HistorySubject> subject = historySubjectRepository.findAllByOrderByStart();
+		List<HistorySubject> subject = historySubjectRepository.findAllByOrderByStartDesc();
 		for(HistorySubject s : subject) {
 			s.setContents(historyContentRepository.findAllBySubjectIdOrderByDateDesc(s.getId()));
 		}
@@ -235,7 +235,7 @@ public class AdminController {
 			historyContentRepository.deleteById(id);
 		}
 		
-		List<HistorySubject> subject = historySubjectRepository.findAllByOrderByStart();
+		List<HistorySubject> subject = historySubjectRepository.findAllByOrderByStartDesc();
 		for(HistorySubject s : subject) {
 			s.setContents(historyContentRepository.findAllBySubjectIdOrderByDateDesc(s.getId()));
 		}

@@ -28,8 +28,10 @@ public class BrandService {
         String current_date = simpleDateFormat.format(new Date());
         
 		String absolutePath = new File("").getAbsolutePath() + "\\";
-        String brandPath = "src/main/resources/static/administration/brand/"+current_date;
-//        String path = "/home/hosting_users/winwinpat/tomcat/webapps/files/";
+      
+//		String brandPath = "src/main/resources/static/administration/brand/"+current_date;
+        String brandPath = "/home/hosting_users/bionls/tomcat/webapps/brand/"+current_date;
+      
         String brandRoad = "/administration/brand/"+current_date;
         File brandFileFolder = new File(brandPath);
         
@@ -49,10 +51,13 @@ public class BrandService {
  		}
  		
  		String brandFileName = generatedString + image.getOriginalFilename();
- 		brandFileFolder = new File(absolutePath + brandPath + "/" + brandFileName);
+ 		
+// 		brandFileFolder = new File(absolutePath + brandPath + "/" + brandFileName);
+ 		brandFileFolder = new File(brandPath + "/" + brandFileName);
+ 		
  		image.transferTo(brandFileFolder);
- 		brand.setImagePath(brandPath);
- 		brand.setImageRoad(brandRoad);
+ 		brand.setImagePath(brandPath + "/" + brandFileName);
+ 		brand.setImageRoad(brandRoad + "/" + brandFileName);
  		brand.setImageName(brandFileName);
  		
  		brandRepository.save(brand);

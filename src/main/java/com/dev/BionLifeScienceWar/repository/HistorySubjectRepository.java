@@ -10,5 +10,5 @@ import com.dev.BionLifeScienceWar.model.HistorySubject;
 @Repository
 public interface HistorySubjectRepository extends JpaRepository<HistorySubject, Long>{
 
-	List<HistorySubject> findAllByOrderByStart();
+	List<HistorySubject> findAllByOrderByStartDesc();
 }

@@ -15,12 +15,18 @@ import com.dev.BionLifeScienceWar.model.Notice;
 import com.dev.BionLifeScienceWar.model.ReferenceFile;
 import com.dev.BionLifeScienceWar.model.product.Product;
 import com.dev.BionLifeScienceWar.repository.BannerRepository;
+import com.dev.BionLifeScienceWar.repository.CertificationRepository;
 import com.dev.BionLifeScienceWar.repository.EventRepository;
 import com.dev.BionLifeScienceWar.repository.HistoryContentRepository;
 import com.dev.BionLifeScienceWar.repository.HistorySubjectRepository;
 import com.dev.BionLifeScienceWar.repository.NoticeRepository;
 import com.dev.BionLifeScienceWar.repository.NoticeSubjectRepository;
 import com.dev.BionLifeScienceWar.repository.ReferenceFileRepository;
+import com.dev.BionLifeScienceWar.repository.brand.BrandBigSortRepository;
+import com.dev.BionLifeScienceWar.repository.brand.BrandMiddleSortRepository;
+import com.dev.BionLifeScienceWar.repository.brand.BrandProductRepository;
+import com.dev.BionLifeScienceWar.repository.brand.BrandRepository;
+import com.dev.BionLifeScienceWar.repository.brand.BrandSmallSortRepository;
 import com.dev.BionLifeScienceWar.repository.product.BigSortRepository;
 import com.dev.BionLifeScienceWar.repository.product.MiddleSortRepository;
 import com.dev.BionLifeScienceWar.repository.product.ProductRepository;
@@ -64,6 +70,24 @@ public class HomeController {
 	NoticeSubjectRepository noticeSubjectRepository;
 	
 
+	@Autowired
+	BrandRepository brandRepository;
+	
+	@Autowired
+	BrandBigSortRepository brandBigSortRepository;
+	
+	@Autowired
+	BrandMiddleSortRepository brandMiddleSortRepository;
+	
+	@Autowired
+	BrandSmallSortRepository brandSmallSortRepository;
+	
+	@Autowired
+	BrandProductRepository brandProductRepository;
+	
+	@Autowired
+	CertificationRepository certificationRepository;
+	
 	@RequestMapping({"/", "/index"})
 	public String index(
 			Model model
@@ -107,10 +131,17 @@ public class HomeController {
 		model.addAttribute("p", pr);
 		model.addAttribute("ev", ev.get(0));
 		model.addAttribute("ba", b);
+		
 		model.addAttribute("b", bigSortRepository.findAll());
 		model.addAttribute("m", middleSortRepository.findAll());
 		model.addAttribute("s", smallSortRepository.findAll());
 		model.addAttribute("p", productRepository.findAll());
+		
+		model.addAttribute("brand", brandRepository.findAll());
+		model.addAttribute("bb", brandBigSortRepository.findAll());
+		model.addAttribute("bm", brandMiddleSortRepository.findAll());
+		model.addAttribute("bs", brandSmallSortRepository.findAll());
+		model.addAttribute("bp", brandProductRepository.findAll());
 		return "front/index";
 	}
 	
@@ -122,6 +153,12 @@ public class HomeController {
 		model.addAttribute("m", middleSortRepository.findAll());
 		model.addAttribute("s", smallSortRepository.findAll());
 		model.addAttribute("p", productRepository.findAll());
+		
+		model.addAttribute("brand", brandRepository.findAll());
+		model.addAttribute("bb", brandBigSortRepository.findAll());
+		model.addAttribute("bm", brandMiddleSortRepository.findAll());
+		model.addAttribute("bs", brandSmallSortRepository.findAll());
+		model.addAttribute("bp", brandProductRepository.findAll());
 		return "front/company/about";
 	}
 	
@@ -131,7 +168,7 @@ public class HomeController {
 			Model model
 			) {
 		
-		List<HistorySubject> subject = historySubjectRepository.findAllByOrderByStart();
+		List<HistorySubject> subject = historySubjectRepository.findAllByOrderByStartDesc();
 		for(HistorySubject s : subject) {
 			s.setContents(historyContentRepository.findAllBySubjectIdOrderByDateDesc(s.getId()));
 		}
@@ -140,18 +177,32 @@ public class HomeController {
 		model.addAttribute("m", middleSortRepository.findAll());
 		model.addAttribute("s", smallSortRepository.findAll());
 		model.addAttribute("p", productRepository.findAll());
+		
+		model.addAttribute("brand", brandRepository.findAll());
+		model.addAttribute("bb", brandBigSortRepository.findAll());
+		model.addAttribute("bm", brandMiddleSortRepository.findAll());
+		model.addAttribute("bs", brandSmallSortRepository.findAll());
+		model.addAttribute("bp", brandProductRepository.findAll());
 		return "front/company/history";
 	}
 	
-	@RequestMapping("/certification")
-	public String certification(
+	@RequestMapping("/certifications")
+	public String certifications(
 			Model model
 			) {
 		model.addAttribute("b", bigSortRepository.findAll());
 		model.addAttribute("m", middleSortRepository.findAll());
 		model.addAttribute("s", smallSortRepository.findAll());
 		model.addAttribute("p", productRepository.findAll());
-		return "front/company/certification";
+		
+		model.addAttribute("brand", brandRepository.findAll());
+		model.addAttribute("bb", brandBigSortRepository.findAll());
+		model.addAttribute("bm", brandMiddleSortRepository.findAll());
+		model.addAttribute("bs", brandSmallSortRepository.findAll());
+		model.addAttribute("bp", brandProductRepository.findAll());
+		
+		model.addAttribute("certification", certificationRepository.findAll());
+		return "front/company/certifications";
 	}
 	
 	@RequestMapping("/address")
@@ -162,6 +213,12 @@ public class HomeController {
 		model.addAttribute("m", middleSortRepository.findAll());
 		model.addAttribute("s", smallSortRepository.findAll());
 		model.addAttribute("p", productRepository.findAll());
+		
+		model.addAttribute("brand", brandRepository.findAll());
+		model.addAttribute("bb", brandBigSortRepository.findAll());
+		model.addAttribute("bm", brandMiddleSortRepository.findAll());
+		model.addAttribute("bs", brandSmallSortRepository.findAll());
+		model.addAttribute("bp", brandProductRepository.findAll());
 		return "front/company/address";
 	}
 	
@@ -173,6 +230,12 @@ public class HomeController {
 		model.addAttribute("m", middleSortRepository.findAll());
 		model.addAttribute("s", smallSortRepository.findAll());
 		model.addAttribute("p", productRepository.findAll());
+		
+		model.addAttribute("brand", brandRepository.findAll());
+		model.addAttribute("bb", brandBigSortRepository.findAll());
+		model.addAttribute("bm", brandMiddleSortRepository.findAll());
+		model.addAttribute("bs", brandSmallSortRepository.findAll());
+		model.addAttribute("bp", brandProductRepository.findAll());
 		return "front/customer/contact";
 	}
 	
@@ -184,6 +247,12 @@ public class HomeController {
 		model.addAttribute("m", middleSortRepository.findAll());
 		model.addAttribute("s", smallSortRepository.findAll());
 		model.addAttribute("p", productRepository.findAll());
+		
+		model.addAttribute("brand", brandRepository.findAll());
+		model.addAttribute("bb", brandBigSortRepository.findAll());
+		model.addAttribute("bm", brandMiddleSortRepository.findAll());
+		model.addAttribute("bs", brandSmallSortRepository.findAll());
+		model.addAttribute("bp", brandProductRepository.findAll());
 		return "front/product/productOverall";
 	}
 	
@@ -195,6 +264,12 @@ public class HomeController {
 		model.addAttribute("m", middleSortRepository.findAll());
 		model.addAttribute("s", smallSortRepository.findAll());
 		model.addAttribute("p", productRepository.findAll());
+		
+		model.addAttribute("brand", brandRepository.findAll());
+		model.addAttribute("bb", brandBigSortRepository.findAll());
+		model.addAttribute("bm", brandMiddleSortRepository.findAll());
+		model.addAttribute("bs", brandSmallSortRepository.findAll());
+		model.addAttribute("bp", brandProductRepository.findAll());
 		return "front/product/productSorted";
 	}
 	
@@ -208,7 +283,32 @@ public class HomeController {
 		model.addAttribute("m", middleSortRepository.findAll());
 		model.addAttribute("s", smallSortRepository.findAll());
 		model.addAttribute("p", productRepository.findAll());
+		
+		model.addAttribute("brand", brandRepository.findAll());
+		model.addAttribute("bb", brandBigSortRepository.findAll());
+		model.addAttribute("bm", brandMiddleSortRepository.findAll());
+		model.addAttribute("bs", brandSmallSortRepository.findAll());
+		model.addAttribute("bp", brandProductRepository.findAll());
 		return "front/product/productDetail";
+	}
+	
+	@RequestMapping("/brandProductDetail/{id}")
+	public String brandProductDetail(
+			Model model,
+			@PathVariable Long id
+			) {
+		model.addAttribute("brand", brandRepository.findAll());
+		model.addAttribute("bb", brandBigSortRepository.findAll());
+		model.addAttribute("bm", brandMiddleSortRepository.findAll());
+		model.addAttribute("bs", brandSmallSortRepository.findAll());
+		model.addAttribute("bp", brandProductRepository.findAll());
+		model.addAttribute("pr", brandProductRepository.findById(id).get());
+		
+		model.addAttribute("b", bigSortRepository.findAll());
+		model.addAttribute("m", middleSortRepository.findAll());
+		model.addAttribute("s", smallSortRepository.findAll());
+		model.addAttribute("p", productRepository.findAll());
+		return "front/brand/brandProductDetail";
 	}
 	
 	@RequestMapping("/notice")
@@ -232,10 +332,16 @@ public class HomeController {
 		model.addAttribute("m", middleSortRepository.findAll());
 		model.addAttribute("s", smallSortRepository.findAll());
 		model.addAttribute("p", productRepository.findAll());
+		
+		model.addAttribute("brand", brandRepository.findAll());
+		model.addAttribute("bb", brandBigSortRepository.findAll());
+		model.addAttribute("bm", brandMiddleSortRepository.findAll());
+		model.addAttribute("bs", brandSmallSortRepository.findAll());
+		model.addAttribute("bp", brandProductRepository.findAll());
 		return "front/notice/notice";
 	}
 
-	@RequestMapping("/reference")
+	@RequestMapping("/references")
 	public String reference(
 			
 			Model model
@@ -246,7 +352,13 @@ public class HomeController {
 		model.addAttribute("m", middleSortRepository.findAll());
 		model.addAttribute("s", smallSortRepository.findAll());
 		model.addAttribute("p", productRepository.findAll());
-		return "front/reference";
+		
+		model.addAttribute("brand", brandRepository.findAll());
+		model.addAttribute("bb", brandBigSortRepository.findAll());
+		model.addAttribute("bm", brandMiddleSortRepository.findAll());
+		model.addAttribute("bs", brandSmallSortRepository.findAll());
+		model.addAttribute("bp", brandProductRepository.findAll());
+		return "front/references";
 		
 	}
 }

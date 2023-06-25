@@ -10,6 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.dev.BionLifeScienceWar.repository.brand.BrandBigSortRepository;
+import com.dev.BionLifeScienceWar.repository.brand.BrandMiddleSortRepository;
+import com.dev.BionLifeScienceWar.repository.brand.BrandProductRepository;
+import com.dev.BionLifeScienceWar.repository.brand.BrandRepository;
+import com.dev.BionLifeScienceWar.repository.brand.BrandSmallSortRepository;
 import com.dev.BionLifeScienceWar.repository.product.BigSortRepository;
 import com.dev.BionLifeScienceWar.repository.product.MiddleSortRepository;
 import com.dev.BionLifeScienceWar.repository.product.ProductRepository;
@@ -32,6 +37,21 @@ public class CustomErrorController implements ErrorController{
 	@Autowired
 	SmallSortRepository smallSortRepository;
 	
+	@Autowired
+	BrandRepository brandRepository;
+	
+	@Autowired
+	BrandBigSortRepository brandBigSortRepository;
+	
+	@Autowired
+	BrandMiddleSortRepository brandMiddleSortRepository;
+	
+	@Autowired
+	BrandSmallSortRepository brandSmallSortRepository;
+	
+	@Autowired
+	BrandProductRepository brandProductRepository;
+	
 	@RequestMapping("/error")
 	public String handleError(
 			HttpServletRequest request,
@@ -41,6 +61,12 @@ public class CustomErrorController implements ErrorController{
 		model.addAttribute("m", middleSortRepository.findAll());
 		model.addAttribute("s", smallSortRepository.findAll());
 		model.addAttribute("p", productRepository.findAll());
+		
+		model.addAttribute("brand", brandRepository.findAll());
+		model.addAttribute("bb", brandBigSortRepository.findAll());
+		model.addAttribute("bm", brandMiddleSortRepository.findAll());
+		model.addAttribute("bs", brandSmallSortRepository.findAll());
+		model.addAttribute("bp", brandProductRepository.findAll());
 		if(status != null) {
 			int statusCode = Integer.valueOf(status.toString());
 //			System.out.println(statusCode);

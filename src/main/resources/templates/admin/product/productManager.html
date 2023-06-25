@@ -98,7 +98,7 @@
                                             
                                         </td>
                                         <td><a th:text="${p.subject}" th:href="@{|/admin/productDetail/${p.id}|}">고객이름</a></td>
-										<td><span class="label label-success label-mini" th:text="${p.smallSort.name}">CHECK</span></td>
+										<td><span class="label label-success label-mini">[[${p.smallSort.name}]] / [[${p.smallSort.middleSort.name}]] / [[${p.smallSort.middleSort.bigSort.name}]]</span></td>
 										
 										<td class="hidden-phone">
                                             <button class="btn btn-primary btn-xs" th:onclick="|location.href='@{/admin/productDetail/{id}(id=${p.id})}'|"><i class="fa fa-pencil"></i></button>

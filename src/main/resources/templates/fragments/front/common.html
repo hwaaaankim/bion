@@ -29,7 +29,7 @@
 
 <body class="stretched">
 	<div id="wrapper" class="clearfix">
-		<th:block th:fragment="headerSrc(transparent, b, m, s, p)">
+		<th:block th:fragment="headerSrc(transparent, b, m, s, p, brand, bb, bm, bs, bp)">
 			<header id="header" class="full-header"
 				th:classappend="${transparent} == true ? transparent-header">
 				<div id="header-wrap">
@@ -79,7 +79,7 @@
 													<div>기업 연혁</div>
 											</a></li>
 											<li class="menu-item"><a class="menu-link"
-												href="/certification">
+												href="/certifications">
 													<div>인증서</div>
 											</a></li>
 											<li class="menu-item"><a class="menu-link"
@@ -123,31 +123,38 @@
 										</ul>
 									</li>
 									<li class="menu-item">
-										<a class="menu-link" href="/brandOverall">
+										<a class="menu-link" href="/brandProductOverall">
 											<div>브랜드소개</div>
 										</a>
 										<ul class="sub-menu-container" >
-											<li class="menu-item" th:each="b:${b}">
-												<a class="menu-link" href="/productSorted">
+											<li class="menu-item" th:each="b:${brand}">
+												<a class="menu-link" href="#">
 													<div>
 														<i class="icon-stack"></i> [[${b.name}]]
 													</div>
 												</a>
 												<ul class="sub-menu-container">
-													<li class="menu-item" th:if="${b.id == m.bigSort.id}" th:each="m : ${m}">
-														<a class="menu-link" href="/productSorted">
-															<div th:text="${m.name}">Screw Caps and Tubes</div>
+													<li class="menu-item" th:if="${b.id == bb.brand.id}" th:each="bb : ${bb}">
+														<a class="menu-link" href="#">
+															<div th:text="${bb.name}">Screw Caps and Tubes</div>
 														</a>
 														<ul class="sub-menu-container">
-															<li class="menu-item" th:if="${m.id == s.middleSort.id}" th:each="s:${s}">
-																<a class="menu-link" href="/productSorted">
-																	<div th:text="${s.name}">Product 01</div>
+															<li class="menu-item" th:if="${bb.id == bm.bigSort.id}" th:each="bm:${bm}">
+																<a class="menu-link" href="#">
+																	<div th:text="${bm.name}">Product 01</div>
 																</a>
-																<ul class="sub-menu-container">
-																	<li class="menu-item" th:if="${s.id == p.smallSort.id}" th:each="p:${p}">
-																		<a class="menu-link" th:href="@{|/productDetail/${p.id}|}">
-																			<div th:text="${p.subject}">Product 01</div>
+																<ul class="sub-menu-container left-container">
+																	<li class="menu-item" th:if="${bs.id == bs.middleSort.id}" th:each="bs:${bs}">
+																		<a class="menu-link" href="#">
+																			<div th:text="${bs.name}">Product 01</div>
 																		</a>
+																		<ul class="sub-menu-container">
+																			<li class="menu-item" th:if="${bs.id == bp.smallSort.id}" th:each="bp:${bp}">
+																				<a class="menu-link" th:href="@{|/brandProductDetail/${bp.id}|}">
+																					<div th:text="${bp.subject}">Product 01</div>
+																				</a>
+																			</li>
+																		</ul>
 																	</li>
 																</ul>
 															</li>
@@ -175,7 +182,7 @@
 									</a>
 										<ul class="sub-menu-container">
 											<li class="menu-item"><a class="menu-link"
-												href="/reference">
+												href="/references">
 													<div>카탈로그</div>
 											</a></li>
 										</ul></li>

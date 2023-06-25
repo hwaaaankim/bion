@@ -62,6 +62,6 @@ public class ClientController {
 
         executorService.shutdown();
 		
-		return "front/customer/contact";
+		return "redirect:/contact";
 	}
 }

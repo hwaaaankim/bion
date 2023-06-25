@@ -1,9 +1,6 @@
 package com.dev.BionLifeScienceWar.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.dev.BionLifeScienceWar.model.Banner;
 import com.dev.BionLifeScienceWar.model.Certification;
 import com.dev.BionLifeScienceWar.repository.CertificationRepository;
 import com.dev.BionLifeScienceWar.service.CertificationService;

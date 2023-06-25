@@ -28,9 +28,9 @@ public class ReferenceFileService {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String current_date = simpleDateFormat.format(new Date());
         String absolutePath = new File("").getAbsolutePath() + "\\";
-        String path = "src/main/resources/static/administration/reference/"+current_date;
-//        String path = "/home/hosting_users/winwinpat/tomcat/webapps/files/";
-        String road = "/front/files/"+current_date;
+//        String path = "src/main/resources/static/administration/reference/"+current_date;
+        String path = "/home/hosting_users/bionls/tomcat/webapps/reference/"+current_date;
+        String road = "/administration/reference/"+current_date;
         File fileFolder = new File(path);
         int leftLimit = 48; // numeral '0'
 		int rightLimit = 122; // letter 'z'
@@ -84,8 +84,8 @@ public class ReferenceFileService {
         }
         String new_file_name =generatedString +  "_" + file.getOriginalFilename();
         
-        fileFolder = new File(absolutePath + path + "/" + new_file_name);
-//        fileFolder = new File(path + "/" + new_file_name);
+//        fileFolder = new File(absolutePath + path + "/" + new_file_name);
+        fileFolder = new File(path + "/" + new_file_name);
         file.transferTo(fileFolder);
         if(f.getFilesubject().isEmpty()) {
         	f.setFilesubject(file.getOriginalFilename());
@@ -93,8 +93,8 @@ public class ReferenceFileService {
         f.setFiledate(new Date());
         f.setFileextension(originalFileExtension);
         f.setFilename(file.getOriginalFilename());
-        f.setFilepath(path);
-        f.setFileroad(path + "/" +  new_file_name);
+        f.setFilepath(path + "/" + new_file_name);
+        f.setFileroad(road + "/" +  new_file_name);
 
         referenceFileRepository.save(f);
         return "success";

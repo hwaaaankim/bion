@@ -30,9 +30,9 @@ public class ClientService {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String current_date = simpleDateFormat.format(new Date());
         String absolutePath = new File("").getAbsolutePath() + "\\";
-        String path = "src/main/resources/static/administration/file/"+current_date;
-//        String path = "/home/hosting_users/winwinpat/tomcat/webapps/files/";
-        String road = "/front/files/"+current_date;
+//        String path = "src/main/resources/static/administration/clientfiles/"+current_date;
+        String path = "/home/hosting_users/bionls/tomcat/webapps/clientfiles/" + current_date;
+        String road = "/administration/clientfiles/" + current_date;
         File fileFolder = new File(path);
         
         if(!fileFolder.exists()) {
@@ -78,8 +78,8 @@ public class ClientService {
         }
         String new_file_name =Long.toString(System.nanoTime()) +  "_" + file.getOriginalFilename();
         
-        fileFolder = new File(absolutePath + path + "/" + new_file_name);
-//        fileFolder = new File(path + "/" + new_file_name);
+//        fileFolder = new File(absolutePath + path + "/" + new_file_name);
+        fileFolder = new File(path + "/" + new_file_name);
         file.transferTo(fileFolder);
         client.setFiledate(current_date);
 //        f.setFilepath(absolutePath + path + "/" + new_file_name);
