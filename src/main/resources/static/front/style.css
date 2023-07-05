@@ -18309,3 +18309,6 @@ label.checkbox {
   -webkit-animation-name: fadeOutUpSmall;
   animation-name: fadeOutUpSmall;
 }
+.notice-wrap{
+	white-space:pre-wrap;
+}
