@@ -220,7 +220,7 @@ $(function() {
 							data: {
 								brandSmallSortId: $('#smallPanelSmallSort :selected').val()
 							},success:function(){
-								alert('쇼분류가 삭제 되었습니다.');
+								alert('소분류가 삭제 되었습니다.');
 								location.reload();
 							}, error: function(error) {
 								alert('해당 분류가 적용된 소분류를 삭제 후 시도해 주세요');
