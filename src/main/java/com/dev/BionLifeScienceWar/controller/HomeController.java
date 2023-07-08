@@ -125,10 +125,18 @@ public class HomeController {
 		
 		List<ReferenceFile> fi = referenceFileRepository.findAll();
 		List<Product> pr = productRepository.findAllBySign(true);
+		for(Product p : pr) {
+			if(p.getImages().size() > 0) {
+				
+				p.setFirstImageRoad(p.getImages().get(0).getProductImageRoad());
+			}else {
+				p.setFirstImageRoad("null");
+			}
+		}
 		model.addAttribute("fi", fi);
 		model.addAttribute("im", impor);
 		model.addAttribute("ni", noneImpor);
-		model.addAttribute("p", pr);
+		model.addAttribute("product", pr);
 		model.addAttribute("ev", ev.get(0));
 		model.addAttribute("ba", b);
 		
