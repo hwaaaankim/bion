@@ -34,7 +34,7 @@
 							<div class="heading-block center">
 								<h2 th:text="${pr.subject}">Screw Caps and Tubes</h2>
 								<span th:text="${pr.content}">Screw Caps and Tubes 제품 상세
-									페이지 입니다...</span>
+									페이지 입니다</span>
 							</div>
 						</div>
 					</div>
@@ -151,7 +151,7 @@
 										<h4># Quick Link</h4>
 									</div>
 								</div>
-								<div class="toggle" th:each="bs:${bs}">
+								<div class="toggle" th:if="${bs.middleSort.id == bp.smallSort.middleSort.id}" th:each="bs:${bs}">
 									<div class="toggle-header">
 										<div class="toggle-icon">
 											<i class="toggle-closed icon-ok-circle"></i> <i
@@ -161,8 +161,8 @@
 									</div>
 									<div class="toggle-content sidebar-menu-toggle">
 										<ul>
-											<li th:if="${bs.id == pr.smallSort.id}" th:each="pr:${pr}">
-												<a th:href="@{|/brandProductDetail/${pr.id}|}" th:text="${pr.subject}">Capture Screw Caps and
+											<li th:if="${bs.id == bp.smallSort.id}" th:each="bp:${bp}">
+												<a th:href="@{|/brandProductDetail/${bp.id}|}" th:text="${bp.subject}">Capture Screw Caps and
 														Tubes(5ML)<i class="icon-line-arrow-right"></i>
 												</a>
 											</li>
@@ -182,21 +182,21 @@
 								data-items-xs="1" data-items-md="2" data-items-lg="3"
 								data-items-xl="4">
 
-								<div class="portfolio-item" th:each="pr:${pr}">
+								<div class="portfolio-item" th:each="product:${pr}">
 									<div class="portfolio-image">
-										<a href="#"> <img th:src="${pr.addFirstImage}"
+										<a href="#"> <img th:src="${product.firstImageRoad}"
 											alt="PRODUCT">
 										</a>
 										<div class="bg-overlay">
 											<div class="bg-overlay-content dark"
 												data-hover-animate="fadeIn" data-hover-speed="350">
-												<a th:href="@{${pr.addFirstImage}}"
+												<a th:href="@{${product.firstImageRoad}}"
 													class="overlay-trigger-icon bg-light text-dark"
 													data-hover-animate="fadeInDownSmall"
 													data-hover-animate-out="fadeInUpSmall"
 													data-hover-speed="350" data-lightbox="image"><i
 													class="icon-line-plus"></i></a> <a
-													th:href="@{|/brandProductDetail/${pr.id}|}"
+													th:href="@{|/brandProductDetail/${product.id}|}"
 													class="overlay-trigger-icon bg-light text-dark"
 													data-hover-animate="fadeInDownSmall"
 													data-hover-animate-out="fadeInUpSmall"
@@ -208,7 +208,7 @@
 									</div>
 									<div class="portfolio-desc">
 										<h3>
-											<a href="javascript:void(0);" th:text="${pr.smallSort.name}">Sorts
+											<a href="javascript:void(0);" th:text="${product.smallSort.name}">Sorts
 												of Product</a>
 										</h3>
 									</div>

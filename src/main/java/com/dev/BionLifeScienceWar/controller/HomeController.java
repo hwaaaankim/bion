@@ -13,6 +13,7 @@ import com.dev.BionLifeScienceWar.model.Event;
 import com.dev.BionLifeScienceWar.model.HistorySubject;
 import com.dev.BionLifeScienceWar.model.Notice;
 import com.dev.BionLifeScienceWar.model.ReferenceFile;
+import com.dev.BionLifeScienceWar.model.brand.BrandProduct;
 import com.dev.BionLifeScienceWar.model.product.Product;
 import com.dev.BionLifeScienceWar.repository.BannerRepository;
 import com.dev.BionLifeScienceWar.repository.CertificationRepository;
@@ -286,7 +287,15 @@ public class HomeController {
 			Model model,
 			@PathVariable Long id
 			) {
-		model.addAttribute("pr", productRepository.findById(id).get());
+		
+		Product product = productRepository.findById(id).get();
+		if(product.getImages().size() > 0) {
+			
+			product.setFirstImageRoad(product.getImages().get(0).getProductImageRoad());
+		}else {
+			product.setFirstImageRoad("null");
+		}
+		model.addAttribute("product", product);
 		model.addAttribute("b", bigSortRepository.findAll());
 		model.addAttribute("m", middleSortRepository.findAll());
 		model.addAttribute("s", smallSortRepository.findAll());
@@ -310,7 +319,15 @@ public class HomeController {
 		model.addAttribute("bm", brandMiddleSortRepository.findAll());
 		model.addAttribute("bs", brandSmallSortRepository.findAll());
 		model.addAttribute("bp", brandProductRepository.findAll());
-		model.addAttribute("pr", brandProductRepository.findById(id).get());
+		
+		BrandProduct product = brandProductRepository.findById(id).get();
+		if(product.getImages().size() > 0) {
+			
+			product.setFirstImageRoad(product.getImages().get(0).getProductImageRoad());
+		}else {
+			product.setFirstImageRoad("null");
+		}
+		model.addAttribute("pr", product);
 		
 		model.addAttribute("b", bigSortRepository.findAll());
 		model.addAttribute("m", middleSortRepository.findAll());

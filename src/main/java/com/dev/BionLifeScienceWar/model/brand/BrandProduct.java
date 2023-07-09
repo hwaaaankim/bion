@@ -60,6 +60,9 @@ public class BrandProduct {
 	@Transient
 	private Long brandSmallSortId;
 	
+	@Transient
+	private String firstImageRoad;
+	
 	public String addFirstImage() {
 		
 		return this.images.get(0).getProductImageRoad();
