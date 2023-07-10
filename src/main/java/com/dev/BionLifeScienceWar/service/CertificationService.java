@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,13 +21,20 @@ public class CertificationService {
 	@Autowired
 	CertificationRepository certificationRepository;
 
+	@Value("${spring.upload.env}")
+	private String env;
+	
+	@Value("${spring.upload.path}")
+	private String commonPath;
+	
 	public String certificationInsert(MultipartFile file, Certification certification)
 			throws IllegalStateException, IOException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String current_date = simpleDateFormat.format(new Date());
 		String absolutePath = new File("").getAbsolutePath() + "\\";
 //		String path = "src/main/resources/static/administration/certification/" + current_date;
-        String path = "/home/hosting_users/bionls/tomcat/webapps/certification/" + current_date;
+//      String path = "/home/hosting_users/bionls/tomcat/webapps/certification/" + current_date;
+		String path = commonPath + "/certification/" + current_date;
 		String road = "/administration/certification/" + current_date;
 		File fileFolder = new File(path);
 	    if(!fileFolder.exists()) {
@@ -74,14 +82,17 @@ public class CertificationService {
 				}
 			}
 			String new_file_name = generatedString + "_" + file.getOriginalFilename();
-//			fileFolder = new File(absolutePath + path + "/" + new_file_name);
-			fileFolder = new File(path + "/" + new_file_name);
+			if(env.equals("local")) {
+				fileFolder = new File(absolutePath + path + "/" + new_file_name);
+				certification.setPath(absolutePath + path + "/" + new_file_name);
+				
+			}else if(env.equals("prod")) {
+				fileFolder = new File(path + "/" + new_file_name);
+				certification.setPath(path + "/" + new_file_name);
+			}
+
 			file.transferTo(fileFolder);
-//			certification.setRoad(road + "/" + new_file_name);
 			certification.setRoad(road + "/" + new_file_name);
-//			certification.setPath(absolutePath + path + "/" + new_file_name);
-			certification.setPath(path + "/" + new_file_name);
-            fileFolder = new File(path + "/" + new_file_name);
 			certificationRepository.save(certification);
 		}
 

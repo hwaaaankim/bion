@@ -3,6 +3,7 @@ package com.dev.BionLifeScienceWar.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -89,11 +90,14 @@ public class HomeController {
 	@Autowired
 	CertificationRepository certificationRepository;
 	
+	@Value("${spring.upload.path}")
+	private String uploadPath;
+	
 	@RequestMapping({"/", "/index"})
 	public String index(
 			Model model
 			) {
-		
+		System.out.println(uploadPath);
 		List<Banner> b = bannerRepository.findAll();
 		if(b.size()<1) {
 			Banner ba = new Banner();

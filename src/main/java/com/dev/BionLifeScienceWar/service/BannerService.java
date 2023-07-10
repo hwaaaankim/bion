@@ -2,13 +2,13 @@ package com.dev.BionLifeScienceWar.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +21,13 @@ public class BannerService {
 
 	@Autowired
 	BannerRepository bannerRepository;
-
+	
+	@Value("${spring.upload.env}")
+	private String env;
+	
+	@Value("${spring.upload.path}")
+	private String commonPath;
+	
 	public String bannerInsert(
 			List<MultipartFile> files,
 			Banner banner)
@@ -29,8 +35,9 @@ public class BannerService {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String current_date = simpleDateFormat.format(new Date());
 		String absolutePath = new File("").getAbsolutePath() + "\\";
+		String path = commonPath + "/banner/" + current_date;
 //		String path = "src/main/resources/static/administration/banner/" + current_date;
-        String path = "/home/hosting_users/bionls/tomcat/webapps/banner/" + current_date;
+//      String path = "/home/hosting_users/bionls/tomcat/webapps/banner/" + current_date;
 		String road = "/administration/banner/" + current_date;
 		File fileFolder = new File(path);
 	    if(!fileFolder.exists()) {
@@ -97,13 +104,18 @@ public class BannerService {
 					}
 				}
 				if(index == 0) {
-//					fileFolder = new File(absolutePath +  banner.getWebpath());
-					fileFolder = new File(banner.getWebpath());
+					if(env.equals("local")) {
+						fileFolder = new File(absolutePath +  banner.getWebpath());
+					}else if(env.equals("prod")) {
+						fileFolder = new File(banner.getWebpath());
+					}
 				}else if(index == 1) {
-//					fileFolder = new File(absolutePath +  banner.getMobilepath());
-					fileFolder = new File(banner.getMobilepath());
+					if(env.equals("local")) {
+						fileFolder = new File(absolutePath +  banner.getWebpath());
+					}else if(env.equals("prod")) {
+						fileFolder = new File(banner.getWebpath());
+					}
 				}
-//                fileFolder = new File(path + "/" + new_file_name);
 				f.transferTo(fileFolder);
 			}
 		}

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +20,12 @@ public class BrandService {
 	@Autowired
 	BrandRepository brandRepository;
 	
+	@Value("${spring.upload.env}")
+	private String env;
+	
+	@Value("${spring.upload.path}")
+	private String commonPath;
+	
 	public void brandInsert(
 			MultipartFile image,
 			Brand brand
@@ -30,8 +37,8 @@ public class BrandService {
 		String absolutePath = new File("").getAbsolutePath() + "\\";
       
 //		String brandPath = "src/main/resources/static/administration/brand/"+current_date;
-        String brandPath = "/home/hosting_users/bionls/tomcat/webapps/brand/"+current_date;
-      
+//      String brandPath = "/home/hosting_users/bionls/tomcat/webapps/brand/"+current_date;
+        String brandPath = commonPath + "/brand/" + current_date;
         String brandRoad = "/administration/brand/"+current_date;
         File brandFileFolder = new File(brandPath);
         
@@ -52,9 +59,13 @@ public class BrandService {
  		
  		String brandFileName = generatedString + image.getOriginalFilename();
  		
-// 		brandFileFolder = new File(absolutePath + brandPath + "/" + brandFileName);
- 		brandFileFolder = new File(brandPath + "/" + brandFileName);
+// 		
  		
+ 		if(env.equals("local")) {
+ 			brandFileFolder = new File(absolutePath + brandPath + "/" + brandFileName);
+		}else if(env.equals("prod")) {
+			brandFileFolder = new File(brandPath + "/" + brandFileName);
+		}
  		image.transferTo(brandFileFolder);
  		brand.setImagePath(brandPath + "/" + brandFileName);
  		brand.setImageRoad(brandRoad + "/" + brandFileName);
