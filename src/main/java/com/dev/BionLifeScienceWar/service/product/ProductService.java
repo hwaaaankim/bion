@@ -14,12 +14,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.dev.BionLifeScienceWar.model.product.Product;
 import com.dev.BionLifeScienceWar.repository.product.ProductRepository;
+import com.dev.BionLifeScienceWar.repository.product.SmallSortRepository;
 
 @Service
 public class ProductService {
 
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	SmallSortRepository smallSortRepository;
 
 	@Value("${spring.upload.env}")
 	private String env;
@@ -29,7 +33,7 @@ public class ProductService {
 
 	public Product productInsert(MultipartFile productOverviewImage, MultipartFile productSpecImage, Product product)
 			throws IllegalStateException, IOException {
-
+	
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String current_date = simpleDateFormat.format(new Date());
 		String absolutePath = new File("").getAbsolutePath() + "\\";
@@ -208,7 +212,6 @@ public class ProductService {
 			}
 
 			productOverviewImage.transferTo(overviewFileFolder);
-
 			productRepository.findById(product.getId()).ifPresent(s -> {
 				s.setTableImagePath(overviewPath);
 				s.setTableImageRoad(overviewRoad);
@@ -277,6 +280,7 @@ public class ProductService {
 
 		}
 		productRepository.findById(product.getId()).ifPresent(s -> {
+			s.setSmallSort(smallSortRepository.findById(product.getSmallId()).get());
 			s.setSubject(product.getSubject());
 			s.setContent(product.getContent());
 			s.setProductSubContent(product.getProductSubContent());

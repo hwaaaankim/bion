@@ -309,7 +309,6 @@ public class ProductController {
 		int startPage = Math.max(1, products.getPageable().getPageNumber() - 4);
 		int endPage = Math.min(products.getTotalPages(), products.getPageable().getPageNumber() + 4);
 		
-		model.addAttribute("clients", products);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("smallId", smallId);

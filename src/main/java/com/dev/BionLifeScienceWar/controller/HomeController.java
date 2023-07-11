@@ -313,6 +313,13 @@ public class HomeController {
 		return "front/product/productDetail";
 	}
 	
+	@RequestMapping("/test")
+	public String test() {
+		
+		return "front/test";
+	}
+	
+	
 	@RequestMapping("/brandProductDetail/{id}")
 	public String brandProductDetail(
 			Model model,

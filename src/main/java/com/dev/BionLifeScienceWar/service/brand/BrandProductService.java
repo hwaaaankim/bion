@@ -13,14 +13,17 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dev.BionLifeScienceWar.model.brand.BrandProduct;
-import com.dev.BionLifeScienceWar.model.product.Product;
 import com.dev.BionLifeScienceWar.repository.brand.BrandProductRepository;
+import com.dev.BionLifeScienceWar.repository.brand.BrandSmallSortRepository;
 
 @Service
 public class BrandProductService {
 
 	@Autowired
 	BrandProductRepository brandProductRepository;
+	
+	@Autowired
+	BrandSmallSortRepository brandSmallSortRepository;
 
 	@Value("${spring.upload.env}")
 	private String env;
@@ -209,8 +212,6 @@ public class BrandProductService {
 
 			String overviewFileName = generatedString + "_" + productOverviewImage.getOriginalFilename();
 //	      
-//	        
-
 			if (env.equals("local")) {
 				overviewFileFolder = new File(absolutePath + overviewPath + "/" + overviewFileName);
 			} else if (env.equals("prod")) {
@@ -291,6 +292,7 @@ public class BrandProductService {
 
 		}
 		brandProductRepository.findById(product.getId()).ifPresent(s -> {
+			s.setSmallSort(brandSmallSortRepository.findById(product.getBrandSmallSortId()).get());
 			s.setSubject(product.getSubject());
 			s.setContent(product.getContent());
 			s.setProductSubContent(product.getProductSubContent());
