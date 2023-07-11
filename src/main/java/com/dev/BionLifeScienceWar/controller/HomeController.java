@@ -3,6 +3,7 @@ package com.dev.BionLifeScienceWar.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import com.dev.BionLifeScienceWar.model.Event;
 import com.dev.BionLifeScienceWar.model.HistorySubject;
 import com.dev.BionLifeScienceWar.model.Notice;
 import com.dev.BionLifeScienceWar.model.ReferenceFile;
+import com.dev.BionLifeScienceWar.model.brand.BrandProduct;
 import com.dev.BionLifeScienceWar.model.product.Product;
 import com.dev.BionLifeScienceWar.repository.BannerRepository;
 import com.dev.BionLifeScienceWar.repository.CertificationRepository;
@@ -88,11 +90,14 @@ public class HomeController {
 	@Autowired
 	CertificationRepository certificationRepository;
 	
+	@Value("${spring.upload.path}")
+	private String uploadPath;
+	
 	@RequestMapping({"/", "/index"})
 	public String index(
 			Model model
 			) {
-		
+		System.out.println(uploadPath);
 		List<Banner> b = bannerRepository.findAll();
 		if(b.size()<1) {
 			Banner ba = new Banner();
@@ -125,10 +130,18 @@ public class HomeController {
 		
 		List<ReferenceFile> fi = referenceFileRepository.findAll();
 		List<Product> pr = productRepository.findAllBySign(true);
+		for(Product p : pr) {
+			if(p.getImages().size() > 0) {
+				
+				p.setFirstImageRoad(p.getImages().get(0).getProductImageRoad());
+			}else {
+				p.setFirstImageRoad("null");
+			}
+		}
 		model.addAttribute("fi", fi);
 		model.addAttribute("im", impor);
 		model.addAttribute("ni", noneImpor);
-		model.addAttribute("p", pr);
+		model.addAttribute("product", pr);
 		model.addAttribute("ev", ev.get(0));
 		model.addAttribute("ba", b);
 		
@@ -278,7 +291,15 @@ public class HomeController {
 			Model model,
 			@PathVariable Long id
 			) {
-		model.addAttribute("pr", productRepository.findById(id).get());
+		
+		Product product = productRepository.findById(id).get();
+		if(product.getImages().size() > 0) {
+			
+			product.setFirstImageRoad(product.getImages().get(0).getProductImageRoad());
+		}else {
+			product.setFirstImageRoad("null");
+		}
+		model.addAttribute("product", product);
 		model.addAttribute("b", bigSortRepository.findAll());
 		model.addAttribute("m", middleSortRepository.findAll());
 		model.addAttribute("s", smallSortRepository.findAll());
@@ -292,6 +313,13 @@ public class HomeController {
 		return "front/product/productDetail";
 	}
 	
+	@RequestMapping("/test")
+	public String test() {
+		
+		return "front/test";
+	}
+	
+	
 	@RequestMapping("/brandProductDetail/{id}")
 	public String brandProductDetail(
 			Model model,
@@ -302,7 +330,15 @@ public class HomeController {
 		model.addAttribute("bm", brandMiddleSortRepository.findAll());
 		model.addAttribute("bs", brandSmallSortRepository.findAll());
 		model.addAttribute("bp", brandProductRepository.findAll());
-		model.addAttribute("pr", brandProductRepository.findById(id).get());
+		
+		BrandProduct product = brandProductRepository.findById(id).get();
+		if(product.getImages().size() > 0) {
+			
+			product.setFirstImageRoad(product.getImages().get(0).getProductImageRoad());
+		}else {
+			product.setFirstImageRoad("null");
+		}
+		model.addAttribute("pr", product);
 		
 		model.addAttribute("b", bigSortRepository.findAll());
 		model.addAttribute("m", middleSortRepository.findAll());

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,12 @@ public class ProductImageService {
 	@Autowired
 	ProductImageRepository productImageRepository;
 	
+	@Value("${spring.upload.env}")
+	private String env;
+	
+	@Value("${spring.upload.path}")
+	private String commonPath;
+	
 	public String fileUpload(
 			List<MultipartFile> productImages,
 			Long id
@@ -30,7 +37,8 @@ public class ProductImageService {
         String current_date = simpleDateFormat.format(new Date());
         String absolutePath = new File("").getAbsolutePath() + "\\";
 //        String path = "src/main/resources/static/administration/productimage/"+current_date;
-        String path = "/home/hosting_users/bionls/tomcat/webapps/productimage/" + current_date;
+//        String path = "/home/hosting_users/bionls/tomcat/webapps/productimage/" + current_date;
+        String path = commonPath + "/productimage/" + current_date;
         String road = "/administration/productimage/" + current_date;
         File fileFolder = new File(path);
         int leftLimit = 48; // numeral '0'
@@ -89,12 +97,15 @@ public class ProductImageService {
                     }
                 }
                 String new_file_name =generatedString +  "_" + file.getOriginalFilename();
+                if(env.equals("local")) {
+                	fileFolder = new File(absolutePath + path + "/" + new_file_name);
+                	f.setProductImagePath(absolutePath + path + "/" + new_file_name);
+				}else if(env.equals("prod")) {
+					fileFolder = new File(path + "/" + new_file_name);
+					f.setProductImagePath(path + "/" + new_file_name);
+				}
                 
-//                fileFolder = new File(absolutePath + path + "/" + new_file_name);
-                fileFolder = new File(path + "/" + new_file_name);
                 file.transferTo(fileFolder);
-//                f.setProductImagePath(absolutePath + path + "/" + new_file_name);
-                f.setProductImagePath(path + "/" + new_file_name);
                 f.setProductImageRoad(road + "/" + new_file_name );
                 f.setProductImageName(file.getOriginalFilename());
                 productImageRepository.save(f);

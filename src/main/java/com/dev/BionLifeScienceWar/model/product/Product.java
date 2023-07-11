@@ -60,10 +60,9 @@ public class Product {
 	@Transient
 	private Long smallId;
 	
-	public String addFirstImage() {
-		return this.images.get(0).getProductImageRoad();
-	}
-	
+	@Transient
+	private String firstImageRoad;
+		
 	@OneToMany(
 			fetch = FetchType.LAZY, 
 			cascade = CascadeType.ALL,

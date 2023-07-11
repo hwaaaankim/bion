@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,12 @@ public class ReferenceFileService {
 	@Autowired
 	ReferenceFileRepository referenceFileRepository;
 	
+	@Value("${spring.upload.env}")
+	private String env;
+	
+	@Value("${spring.upload.path}")
+	private String commonPath;
+	
 	public String referenceFileInsert(
 			MultipartFile file,
 			ReferenceFile f
@@ -28,8 +35,9 @@ public class ReferenceFileService {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String current_date = simpleDateFormat.format(new Date());
         String absolutePath = new File("").getAbsolutePath() + "\\";
+        String path = commonPath + "/reference/" + current_date;
 //        String path = "src/main/resources/static/administration/reference/"+current_date;
-        String path = "/home/hosting_users/bionls/tomcat/webapps/reference/"+current_date;
+//        String path = "/home/hosting_users/bionls/tomcat/webapps/reference/"+current_date;
         String road = "/administration/reference/"+current_date;
         File fileFolder = new File(path);
         int leftLimit = 48; // numeral '0'
@@ -82,10 +90,15 @@ public class ReferenceFileService {
             	originalFileExtension = ".hwp";
             }
         }
-        String new_file_name =generatedString +  "_" + file.getOriginalFilename();
+        String new_file_name = generatedString +  "_" + file.getOriginalFilename();
+        if(env.equals("local")) {
+        	fileFolder = new File(absolutePath + path + "/" + new_file_name);
+        	f.setFilepath(absolutePath + path + "/" + new_file_name);
+		}else if(env.equals("prod")) {
+			fileFolder = new File(path + "/" + new_file_name);
+			f.setFilepath(path + "/" + new_file_name);
+		}
         
-//        fileFolder = new File(absolutePath + path + "/" + new_file_name);
-        fileFolder = new File(path + "/" + new_file_name);
         file.transferTo(fileFolder);
         if(f.getFilesubject().isEmpty()) {
         	f.setFilesubject(file.getOriginalFilename());
@@ -93,10 +106,9 @@ public class ReferenceFileService {
         f.setFiledate(new Date());
         f.setFileextension(originalFileExtension);
         f.setFilename(file.getOriginalFilename());
-        f.setFilepath(path + "/" + new_file_name);
         f.setFileroad(road + "/" +  new_file_name);
-
         referenceFileRepository.save(f);
+        
         return "success";
 		
 	}

@@ -42,6 +42,7 @@
 											</div>
 											<div class="col-lg-4">
 												<select class="form-control" id="smallPanelMiddleSortSelect" name="middleId"  required="required">
+												<option value="">=== 중분류 선택 ===</option>
 												<option
 													th:each="m:${middlesorts}" 
 													th:text="${m.name}" 
@@ -51,6 +52,7 @@
 											</div>
 											<div class="col-lg-4">
 												<select class="form-control" id="smallPanelSmallSortSelect" name="smallId" required="required">
+													<option value="">=== 소분류 선택 ===</option>
 													<option
 													th:each="s:${smallsorts}" 
 													th:text="${s.name}" 

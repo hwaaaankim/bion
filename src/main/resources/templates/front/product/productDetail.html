@@ -32,8 +32,8 @@
 						<div class="container text-center">
 
 							<div class="heading-block center">
-								<h2 th:text="${pr.subject}">Screw Caps and Tubes</h2>
-								<span th:text="${pr.content}">Screw Caps and Tubes 제품 상세
+								<h2 th:text="${product.subject}">Screw Caps and Tubes</h2>
+								<span th:text="${product.content}">Screw Caps and Tubes 제품 상세
 									페이지 입니다...</span>
 							</div>
 						</div>
@@ -51,7 +51,7 @@
 													data-thumbs="true">
 													<div class="flexslider">
 														<div class="slider-wrap" data-lightbox="gallery">
-															<div class="slide" th:each="e:${pr.images}"
+															<div class="slide" th:each="e:${product.images}"
 																th:data-thumb="${e.productImageRoad}">
 																<a th:href="@{${e.productImageRoad}}" title="제품 사진"
 																	data-lightbox="gallery-item"><img
@@ -66,17 +66,17 @@
 
 										<div class="col-md-6 product-desc">
 
-											<p th:text="${pr.productSubContent}">
+											<p th:text="${product.productSubContent}">
 												특허받은 설계로 스왑을 담고 있는 꽉 잠긴 Screw Caps and Tubes을 개봉하면 뚜껑부분에 스왑이
-												꼽혀서 나오며 또한 <strong></strong>작은 힘으로도 뚜껑과 스왑을 쉽게 분리</strong>할 수 있습니다.
+												꼽혀서 나오며 또한 <strong>작은 힘으로도 뚜껑과 스왑을 쉽게 분리</strong>할 수 있습니다.
 											</p>
 											<ul class="iconlist">
-												<li th:each="i:${pr.infos}"><i class="icon-caret-right"></i>
+												<li th:each="i:${product.infos}"><i class="icon-caret-right"></i>
 													<span th:text="${i.productInfoText}"></span></li>
 											</ul>
 											<div class="card product-meta">
 												<div class="card-body">
-													<span class="posted_in" th:each="s:${pr.specs}">[[${s.productSpecSubject}]]
+													<span class="posted_in" th:each="s:${product.specs}">[[${s.productSpecSubject}]]
 														: <a href="javascript:void();" rel="tag"
 														th:text="${s.productSpecContent}">제조자</a>
 													</span>
@@ -104,12 +104,12 @@
 													<div class="tab-content clearfix text-center" id="tabs-1"
 														style="text-align: center;">
 														<img width="1200px" style="margin: 0 auto;"
-															th:src="${pr.tableImageRoad}">
+															th:src="${product.tableImageRoad}">
 													</div>
 													<div class="tab-content clearfix text-center" id="tabs-2"
 														style="text-align: center;">
 														<img width="1200px" style="margin: 0 auto;"
-															th:src="${pr.specImageRoad}">
+															th:src="${product.specImageRoad}">
 
 													</div>
 													<div class="tab-content clearfix" id="tabs-3">
@@ -117,7 +117,7 @@
 														<div id="reviews" class="clearfix">
 															<ol class="commentlist clearfix b-b-n">
 																<li class="comment even thread-even depth-1"
-																	th:each="f:${pr.files}" id="li-comment-1">
+																	th:each="f:${product.files}" id="li-comment-1">
 																	<div id="comment-1" class="comment-wrap clearfix">
 																		<div class="comment-content clearfix">
 																			<div class="comment-author">
@@ -144,14 +144,14 @@
 							</div>
 						</div>
 
-						<div class="sidebar" id="product-quick">
+						<div class="sidebar d-none" id="product-quick">
 							<div class="sidebar-widgets-wrap">
 								<div class="border-top-0 m-0">
 									<div class="heading-block mb-3">
 										<h4># Quick Link</h4>
 									</div>
 								</div>
-								<div class="toggle" th:each="s:${s}">
+								<div class="toggle" th:if="${s.middleSort.id == product.smallSort.middleSort.id}" th:each="s:${s}">
 									<div class="toggle-header">
 										<div class="toggle-icon">
 											<i class="toggle-closed icon-ok-circle"></i> <i
@@ -161,8 +161,8 @@
 									</div>
 									<div class="toggle-content sidebar-menu-toggle">
 										<ul>
-											<li th:if="${s.id == p.smallSort.id}" th:each="p:${p}">
-												<a th:href="@{|/productDetail/${p.id}|}" th:text="${p.subject}">Capture Screw Caps and
+											<li th:if="${s.id == product.smallSort.id}" th:each="product:${p}">
+												<a th:href="@{|/productDetail/${product.id}|}" th:text="${product.subject}">Capture Screw Caps and
 														Tubes(5ML)<i class="icon-line-arrow-right"></i>
 												</a>
 											</li>
@@ -172,7 +172,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="w-100 clearfix mt-10">
+					<!-- <div class="w-100 clearfix mt-10">
 						<div class="line"></div>
 						<div class="mt-5 bg-white">
 							<h4 class="m-b-0">연관된 상품</h4>
@@ -182,21 +182,21 @@
 								data-items-xs="1" data-items-md="2" data-items-lg="3"
 								data-items-xl="4">
 
-								<div class="portfolio-item" th:each="p:${p}">
+								<div class="portfolio-item" th:each="product:${product}">
 									<div class="portfolio-image">
-										<a href="#"> <img th:src="${p.addFirstImage}"
+										<a href="#"> <img th:src="${product.firstImageRoad}"
 											alt="PRODUCT">
 										</a>
 										<div class="bg-overlay">
 											<div class="bg-overlay-content dark"
 												data-hover-animate="fadeIn" data-hover-speed="350">
-												<a th:href="@{${p.addFirstImage}}"
+												<a th:href="@{${product.firstImageRoad}}"
 													class="overlay-trigger-icon bg-light text-dark"
 													data-hover-animate="fadeInDownSmall"
 													data-hover-animate-out="fadeInUpSmall"
 													data-hover-speed="350" data-lightbox="image"><i
 													class="icon-line-plus"></i></a> <a
-													th:href="@{|/productDetail/${p.id}|}"
+													th:href="@{|/productDetail/${product.id}|}"
 													class="overlay-trigger-icon bg-light text-dark"
 													data-hover-animate="fadeInDownSmall"
 													data-hover-animate-out="fadeInUpSmall"
@@ -208,14 +208,14 @@
 									</div>
 									<div class="portfolio-desc">
 										<h3>
-											<a href="javascript:void(0);" th:text="${p.smallSort.name}">Sorts
+											<a href="javascript:void(0);" th:text="${product.smallSort.name}">Sorts
 												of Product</a>
 										</h3>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</section>

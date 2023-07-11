@@ -42,6 +42,7 @@
 											</div>
 											<div class="col-lg-3">
 												<select class="form-control" id="brandProductBigSortId" name="brandbigSortId" required="required">
+													<option value="">=== 대분류 선택 ===</option>
 													<option
 													th:each="i:${bigsorts}" 
 													th:text="${i.name}" 
@@ -51,15 +52,17 @@
 											</div>
 											<div class="col-lg-3">
 												<select class="form-control" id="brandProductMiddleSortId" name="brandMiddleSortId"  required="required">
-												<option
-													th:each="m:${middlesorts}" 
-													th:text="${m.name}" 
-													th:value="${m.id}"
-													th:selected="${product.smallSort.middleSort.id == m.id}"></option>
+													<option value="">=== 중분류 선택 ===</option>
+													<option
+														th:each="m:${middlesorts}" 
+														th:text="${m.name}" 
+														th:value="${m.id}"
+														th:selected="${product.smallSort.middleSort.id == m.id}"></option>
 												</select>
 											</div>
 											<div class="col-lg-3">
 												<select class="form-control" id="brandProductSmallSortId" name="brandSmallSortId" required="required">
+													<option value="">=== 소분류 선택 ===</option>
 													<option
 													th:each="s:${smallsorts}" 
 													th:text="${s.name}" 

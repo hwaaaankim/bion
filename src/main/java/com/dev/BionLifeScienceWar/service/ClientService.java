@@ -6,8 +6,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,12 @@ public class ClientService {
 	@Autowired
 	ClientRepository clientRepository;
 	
+	@Value("${spring.upload.env}")
+	private String env;
+	
+	@Value("${spring.upload.path}")
+	private String commonPath;
+	
 	public String clientInsert(
 			Client client, 
 			MultipartFile file) throws IllegalStateException, IOException {
@@ -30,10 +38,22 @@ public class ClientService {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String current_date = simpleDateFormat.format(new Date());
         String absolutePath = new File("").getAbsolutePath() + "\\";
+        String path = commonPath + "/clientfiles/" + current_date;
 //        String path = "src/main/resources/static/administration/clientfiles/"+current_date;
-        String path = "/home/hosting_users/bionls/tomcat/webapps/clientfiles/" + current_date;
+//        String path = "/home/hosting_users/bionls/tomcat/webapps/clientfiles/" + current_date;
         String road = "/administration/clientfiles/" + current_date;
         File fileFolder = new File(path);
+        
+        int leftLimit = 48; // numeral '0'
+		int rightLimit = 122; // letter 'z'
+		int targetStringLength = 10;
+		Random random = new Random();
+
+		String generatedString = random.ints(leftLimit,rightLimit + 1)
+		  .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+		  .limit(targetStringLength)
+		  .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+		  .toString();
         
         if(!fileFolder.exists()) {
         	fileFolder.mkdirs();
@@ -76,15 +96,17 @@ public class ClientService {
             	originalFileExtension = ".hwp";
             }
         }
-        String new_file_name =Long.toString(System.nanoTime()) +  "_" + file.getOriginalFilename();
-        
-//        fileFolder = new File(absolutePath + path + "/" + new_file_name);
-        fileFolder = new File(path + "/" + new_file_name);
+        String new_file_name = generatedString +  "_" + file.getOriginalFilename();
+        if(env.equals("local")) {
+        	fileFolder = new File(absolutePath + path + "/" + new_file_name);
+        	client.setFilepath(absolutePath + path + "/" + new_file_name);
+		}else if(env.equals("prod")) {
+			fileFolder = new File(path + "/" + new_file_name);
+			client.setFilepath(path + "/" + new_file_name);
+		}
         file.transferTo(fileFolder);
         client.setFiledate(current_date);
-//        f.setFilepath(absolutePath + path + "/" + new_file_name);
-        client.setFilepath(path + "/" + new_file_name);
-        client.setFileroad(road + "/" + new_file_name );
+        client.setFileroad(road + "/" + new_file_name);
         client.setFilename(file.getOriginalFilename());
         client.setJoindate(new Date());
         client.setContact(false);

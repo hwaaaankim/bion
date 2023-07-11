@@ -5212,7 +5212,30 @@ body:not(.top-search-open)
 .top-search-open .top-search-parent .header-misc > *:not(#top-search) {
   opacity: 0;
 }
-
+@media(max-width:760px){
+	.top-search-form {
+		width:100%;
+		height:20%;
+	}
+	.top-search-form div{
+		padding:30px 0px 30px 20px;
+		width:100%;
+	}
+	.top-search-form input{
+		padding:30px 20px 30px 20px;
+		width:100%;
+	}
+	.top-search-form span{
+		position:relative;
+		font-size:25px;
+		font-weight:700;
+		height:20%;
+		left:-30px;
+		cursor:pointer;
+		transition:all 0.3s ease-in-out;
+		padding-top:15px;
+	}
+}
 /* ----------------------------------------------------------------
 	Top Cart
 -----------------------------------------------------------------*/
