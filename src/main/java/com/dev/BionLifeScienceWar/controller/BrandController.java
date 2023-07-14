@@ -344,7 +344,6 @@ public class BrandController {
 	@ResponseBody
 	public String brandProductInsert(
 			BrandProduct product, 
-			Long brandSmallSortId, 
 			String[] spec, 
 			String[] infoQ, 
 			String[] infoA,
@@ -354,7 +353,10 @@ public class BrandController {
 			List<MultipartFile> productFile
 
 	) throws IllegalStateException, IOException {
-		product.setSmallSort(brandSmallSortRepository.findById(brandSmallSortId).get());
+		product.setSmallSort(brandSmallSortRepository.findById(product.getBrandSmallSortId()).get());
+		product.setMiddleSort(brandMiddleSortRepository.findById(product.getBrandMiddleSortId()).get());
+		product.setBigSort(brandBigSortRepository.findById(product.getBrandBigSortId()).get());
+		product.setBrand(brandRepository.findById(product.getBrandId()).get());
 		BrandProduct p = brandProductService.productInsert(productOverviewImage, productSpecImage, product);
 
 		for (String s : spec) {
@@ -403,7 +405,6 @@ public class BrandController {
 			Model model, 
 			@PageableDefault(size = 10) Pageable pageable,
 			BrandProduct product, 
-			Long brandSmallSortId, 
 			String[] spec, 
 			String[] infoQ, 
 			String[] infoA,
@@ -415,8 +416,11 @@ public class BrandController {
 		if(product.getSign() == null) {
 			product.setSign(false);
 		}
+		product.setSmallSort(brandSmallSortRepository.findById(product.getBrandSmallSortId()).get());
+		product.setMiddleSort(brandMiddleSortRepository.findById(product.getBrandMiddleSortId()).get());
+		product.setBigSort(brandBigSortRepository.findById(product.getBrandBigSortId()).get());
+		product.setBrand(brandRepository.findById(product.getBrandId()).get());
 		brandProductService.productUpdate(productOverviewImage, productSpecImage, product);
-		product.setBrandSmallSortId(brandSmallSortId);
 		brandProductInfoRepository.deleteAllByProductId(product.getId());
 		brandProductSpecRepository.deleteAllByProductId(product.getId());
 		for (String s : spec) {
@@ -447,7 +451,7 @@ public class BrandController {
 		
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		model.addAttribute("smallId", brandSmallSortId);
+		model.addAttribute("smallId", product.getBrandSmallSortId());
 		model.addAttribute("bigsorts", brandBigSortRepository.findAll());
 
 		return "admin/brand/brandProductManager";

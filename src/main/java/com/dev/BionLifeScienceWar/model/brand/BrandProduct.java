@@ -60,6 +60,18 @@ public class BrandProduct {
 	@Transient
 	private Long brandSmallSortId;
 	
+	@Transient
+	private Long brandMiddleSortId;
+	
+	@Transient
+	private Long brandBigSortId;
+	
+	@Transient
+	private Long brandId;
+	
+	@Transient
+	private String firstImageRoad;
+	
 	public String addFirstImage() {
 		
 		return this.images.get(0).getProductImageRoad();
@@ -102,4 +114,22 @@ public class BrandProduct {
 			name="BRAND_PRODUCT_REFER_ID", referencedColumnName="BRAND_SMALLSORT_ID"
 			)
 	private BrandSmallSort smallSort;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(
+			name="BRAND_PRODUCT_MIDDLE_REFER_ID", referencedColumnName="BRAND_MIDDLESORT_ID"
+			)
+	private BrandMiddleSort middleSort;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(
+			name="BRAND_PRODUCT_BIG_REFER_ID", referencedColumnName="BRAND_BIGSORT_ID"
+			)
+	private BrandBigSort bigSort;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(
+			name="BRAND_PRODUCT_BRAND_REFER_ID", referencedColumnName="BRAND_ID"
+			)
+	private Brand brand;
 }

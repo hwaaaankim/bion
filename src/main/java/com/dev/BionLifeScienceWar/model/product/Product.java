@@ -60,10 +60,15 @@ public class Product {
 	@Transient
 	private Long smallId;
 	
-	public String addFirstImage() {
-		return this.images.get(0).getProductImageRoad();
-	}
+	@Transient
+	private Long middleId;
 	
+	@Transient
+	private Long bigId;
+	
+	@Transient
+	private String firstImageRoad;
+		
 	@OneToMany(
 			fetch = FetchType.LAZY, 
 			cascade = CascadeType.ALL,
@@ -101,6 +106,18 @@ public class Product {
 			name="PRODUCT_REFER_ID", referencedColumnName="SMALL_SORT_ID"
 			)
 	private SmallSort smallSort;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(
+			name="PRODUCT_MIDDLE_REFER_ID", referencedColumnName="MIDDLE_SORT_ID"
+			)
+	private MiddleSort middleSort;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(
+			name="PRODUCT_BIG_REFER_ID", referencedColumnName="BIG_SORT_ID"
+			)
+	private BigSort bigSort;
 	
 }
 

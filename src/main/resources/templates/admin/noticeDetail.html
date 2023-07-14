@@ -37,12 +37,13 @@
                                                     th:value="${notice.subject}"
                                                     required="required"/>
                                                 </div>
+                                                <input type="hidden" th:value="${notice.id}" name="id">
                                             </div>
                                             <div class="form-group ">
                                                 <label for="curl" class="control-label col-lg-2"># 공지사항분류</label>
                                                 
                                                 <div class="col-lg-10">
-                                                    <select class="form-control">
+                                                    <select class="form-control" name="subjectId">
                                                     	<option 
                                                     	th:each="s:${subject}" 
                                                     	th:value="${s.id}" 
@@ -57,7 +58,7 @@
                                                 <label for="curl" class="control-label col-lg-2"># 중요공지여부</label>
                                                 
                                                 <div class="col-lg-10">
-                                                    <select class="form-control">
+                                                    <select class="form-control" name="sign">
                                                     	<option th:value = true th:selected="${notice.sign == true}">중요공지</option>
                                                     	<option th:value = false th:selected="${notice.sign == false}">일반공지</option>
                                                     </select>

@@ -31,7 +31,7 @@
 									<div class="col-lg-10">
 										<div class="row">
 											<div class="col-lg-3">
-												<select class="form-control" id="brandProductBrandId" name="brandbigSortId" required="required">
+												<select class="form-control" id="brandProductBrandId" name="brandId" required="required">
 													<option value="">=== 브랜드 선택 ===</option>
 													<option
 													th:each="b:${brand}" 
@@ -41,7 +41,8 @@
 												</select>
 											</div>
 											<div class="col-lg-3">
-												<select class="form-control" id="brandProductBigSortId" name="brandbigSortId" required="required">
+												<select class="form-control" id="brandProductBigSortId" name="brandBigSortId" required="required">
+													<option value="">=== 대분류 선택 ===</option>
 													<option
 													th:each="i:${bigsorts}" 
 													th:text="${i.name}" 
@@ -51,15 +52,17 @@
 											</div>
 											<div class="col-lg-3">
 												<select class="form-control" id="brandProductMiddleSortId" name="brandMiddleSortId"  required="required">
-												<option
-													th:each="m:${middlesorts}" 
-													th:text="${m.name}" 
-													th:value="${m.id}"
-													th:selected="${product.smallSort.middleSort.id == m.id}"></option>
+													<option value="">=== 중분류 선택 ===</option>
+													<option
+														th:each="m:${middlesorts}" 
+														th:text="${m.name}" 
+														th:value="${m.id}"
+														th:selected="${product.smallSort.middleSort.id == m.id}"></option>
 												</select>
 											</div>
 											<div class="col-lg-3">
 												<select class="form-control" id="brandProductSmallSortId" name="brandSmallSortId" required="required">
+													<option value="">=== 소분류 선택 ===</option>
 													<option
 													th:each="s:${smallsorts}" 
 													th:text="${s.name}" 
@@ -226,7 +229,8 @@
 										<span class="label label-success">사용</span> <span> 파일 드래그를 통해 여러장을 한번에 업로드 할 수 있습니다</span><br>
 									</div>
 								</div>
-								<button type="submit" class="btn btn-danger">등록</button>
+								<button type="submit" class="btn btn-danger">수정</button>
+								<button class="btn btn-theme" onclick="javascript:location.href='/admin/brandProductManager'" type="button">확인</button>
 							</form>
 						</div>
 					</div>

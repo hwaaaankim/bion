@@ -42,6 +42,7 @@
 											</div>
 											<div class="col-lg-4">
 												<select class="form-control" id="smallPanelMiddleSortSelect" name="middleId"  required="required">
+												<option value="">=== 중분류 선택 ===</option>
 												<option
 													th:each="m:${middlesorts}" 
 													th:text="${m.name}" 
@@ -51,6 +52,7 @@
 											</div>
 											<div class="col-lg-4">
 												<select class="form-control" id="smallPanelSmallSortSelect" name="smallId" required="required">
+													<option value="">=== 소분류 선택 ===</option>
 													<option
 													th:each="s:${smallsorts}" 
 													th:text="${s.name}" 
@@ -230,7 +232,8 @@
 										<span class="label label-success">사용</span> <span> 체크시 메인화면의 대표제품에 등록됩니다.</span><br>
 									</div>
 								</div>
-								<button type="submit" class="btn btn-danger">등록</button>
+								<button type="submit" class="btn btn-danger">수정</button>
+								<button class="btn btn-theme" onclick="javascript:location.href='/admin/productManager'" type="button">확인</button>
 							</form>
 						</div>
 					</div>

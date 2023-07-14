@@ -31,18 +31,18 @@
 									<div class="col-lg-10">
 										<div class="row">
 											<div class="col-lg-3">
-												<select class="form-control" id="smallPanelBrandSort" required="required">
+												<select class="form-control" id="smallPanelBrandSort" name="brandId" required="required">
 													<option value="">=== 브랜드 선택 ===</option>
 													<option th:each="b:${brand}" th:text="${b.name}"
 														th:value="${b.id}"></option>
 												</select>
 											</div>
 											<div class="col-lg-3">
-												<select class="form-control" id="smallPanelBigSort"  required="required">
+												<select class="form-control" id="smallPanelBigSort" name="brandBigSortId" required="required">
 												</select>
 											</div>
 											<div class="col-lg-3">
-												<select class="form-control" id="smallPanelMiddleSort"  required="required">
+												<select class="form-control" id="smallPanelMiddleSort" name="brandMiddleSortId" required="required">
 												</select>
 											</div>
 											<div class="col-lg-3">
@@ -154,6 +154,7 @@
 										style="margin-bottom:10px;" 
 										id="deImage" 
 										name="slides" 
+										required="required"
 										multiple="multiple">
 										<span class="label label-danger">주의</span> <span> image용 확장자(jpg/jpeg/png)만을 지원합니다</span><br>
 										<span class="label label-danger">주의</span> <span> 이미지 이름에 공백 혹은 특수문자를 제거 해 주시기 바랍니다</span><br>

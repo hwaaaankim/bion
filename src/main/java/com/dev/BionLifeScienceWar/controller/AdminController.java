@@ -45,6 +45,7 @@ import com.dev.BionLifeScienceWar.repository.NoticeRepository;
 import com.dev.BionLifeScienceWar.repository.NoticeSubjectRepository;
 import com.dev.BionLifeScienceWar.service.ClientService;
 import com.dev.BionLifeScienceWar.service.CompanyInfoService;
+import com.dev.BionLifeScienceWar.service.NoticeService;
 
 @Controller
 @RequestMapping("/admin")
@@ -76,6 +77,9 @@ public class AdminController {
 	
 	@Autowired
 	NoticeRepository noticeRepository;
+	
+	@Autowired
+	NoticeService noticeService;
 	
 	@RequestMapping({"/index" , "", "/clientManager"})
 	public String adminIndex(
@@ -303,6 +307,18 @@ public class AdminController {
 		model.addAttribute("endPage", endPage);
 		
 		return "admin/noticeManager";
+	}
+	
+	@RequestMapping("/noticeUpdate")
+	public String noticeUpdate(
+			Notice notice,
+			Model model
+			) {
+		
+		noticeService.noticeUpdate(notice);
+		model.addAttribute("subject", noticeSubjectRepository.findAll());
+		model.addAttribute("notice", noticeRepository.findById(notice.getId()).get());
+		return "admin/noticeDetail";
 	}
 	
 	@RequestMapping("/noticeDetail/{id}")

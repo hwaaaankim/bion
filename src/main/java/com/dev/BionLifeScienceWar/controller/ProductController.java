@@ -209,7 +209,6 @@ public class ProductController {
 	@ResponseBody
 	public String productInsert(
 			Product product, 
-			Long smallId, 
 			String[] spec, 
 			String[] infoQ, 
 			String[] infoA,
@@ -219,7 +218,9 @@ public class ProductController {
 			List<MultipartFile> productFile
 
 	) throws IllegalStateException, IOException {
-		product.setSmallSort(smallSortRepository.findById(smallId).get());
+		product.setSmallSort(smallSortRepository.findById(product.getSmallId()).get());
+		product.setBigSort(bigSortRepository.findById(product.getBigId()).get());
+		product.setMiddleSort(middleSortRepository.findById(product.getMiddleId()).get());
 		Product p = productService.productInsert(productOverviewImage, productSpecImage, product);
 
 		for (String s : spec) {
@@ -267,7 +268,6 @@ public class ProductController {
 			Model model, 
 			@PageableDefault(size = 10) Pageable pageable,
 			Product product, 
-			Long smallId, 
 			String[] spec, 
 			String[] infoQ, 
 			String[] infoA,
@@ -279,8 +279,10 @@ public class ProductController {
 		if(product.getSign() == null) {
 			product.setSign(false);
 		}
+		product.setSmallSort(smallSortRepository.findById(product.getSmallId()).get());
+		product.setBigSort(bigSortRepository.findById(product.getBigId()).get());
+		product.setMiddleSort(middleSortRepository.findById(product.getMiddleId()).get());
 		productService.productUpdate(productOverviewImage, productSpecImage, product);
-		product.setSmallId(smallId);
 		productInfoRepository.deleteAllByProductId(product.getId());
 		productSpecRepository.deleteAllByProductId(product.getId());
 		for (String s : spec) {
@@ -305,14 +307,13 @@ public class ProductController {
 			productFileService.fileUpload(productFile, product.getId());
 		}
 		Page<Product> products = productRepository.findAll(pageable);
-		model.addAttribute("products", products);
 		int startPage = Math.max(1, products.getPageable().getPageNumber() - 4);
 		int endPage = Math.min(products.getTotalPages(), products.getPageable().getPageNumber() + 4);
 		
-		model.addAttribute("clients", products);
+		model.addAttribute("products", products);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-		model.addAttribute("smallId", smallId);
+		model.addAttribute("smallId", product.getSmallId());
 		model.addAttribute("bigsorts", bigSortRepository.findAll());
 
 		return "admin/product/productManager";
