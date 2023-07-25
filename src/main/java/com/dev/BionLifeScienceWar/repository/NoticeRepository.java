@@ -15,4 +15,10 @@ public interface NoticeRepository extends JpaRepository<Notice, Long>{
 	Page<Notice> findAllByOrderByDateDesc(Pageable pageable);
 	
 	List<Notice> findAllBySignOrderByDateDesc(Boolean sign);
+	
+	List<Notice> findBySubjectContains(String subject);
+	
+	List<Notice> findTop5ByOrderBySignDescDateDesc();
+	
+	List<Notice> findAllBySubjectContainsOrderBySignDescDateDesc(String subject);
 }

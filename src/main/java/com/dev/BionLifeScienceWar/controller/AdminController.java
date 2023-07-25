@@ -347,6 +347,7 @@ public class AdminController {
 			) {
 		
 		notice.setDate(new Date());
+		notice.setNoticeSubject(noticeSubjectRepository.findById(notice.getSubjectId()).get());
 		noticeRepository.save(notice);
 		StringBuffer sb = new StringBuffer();
 		String msg = "공지사항이 등록 되었습니다.";

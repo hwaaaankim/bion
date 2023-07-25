@@ -24,4 +24,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	Page<Product> findAllByBigSort(Pageable pageable, BigSort bigSort);
 	
 	Page<Product> findAllByMiddleSort(Pageable pageable, MiddleSort bigSort);
+	
+	List<Product> findBySubjectContains(String subject);
 }

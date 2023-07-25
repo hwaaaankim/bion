@@ -16,7 +16,7 @@
 
 			<div class="container clearfix">
 				<h1>제품 카테고리별 분류</h1>
-				<span>Bion LifeS cience Products Sorted</span>
+				<span>Bion Life Science Products Sorted</span>
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="/index">메인</a></li>
 					<li class="breadcrumb-item" th:classappend="${sort} == 'main' ? 'active' : ''" aria-current="page">대분류</li>
@@ -45,7 +45,7 @@
 								<div class="entry col-lg-4 col-xs-6" th:each="product : ${products}">
 									<div class="grid-inner">
 										<div class="entry-image mb-2">
-											<a th:href="@{|/productDetail/${product.id}|}" data-lightbox="image">
+											<a th:href="@{|/productDetail/${product.id}|}">
 											<img th:src="${product.firstImageRoad}"
 												alt="#"></a>
 										</div>
