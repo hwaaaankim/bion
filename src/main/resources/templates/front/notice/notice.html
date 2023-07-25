@@ -79,40 +79,38 @@
 			</div> -->
 			<div class="content-wrap p-t-0" style="margin-top:50px;">
 				<div class="container clearfix">
+				<div class="border-top-0 m-0">
+						<div class="container text-center">
+
+							<div class="heading-block center">
+								<h2>Notice</h2>
+								<span>바이온라이프사이언스 공지사항</span>
+							</div>
+						</div>
+					</div>
 					<div class="row gutter-40 col-mb-80">
 						<div class="postcontent col-lg-12">
 
 							<div id="faqs" class="faqs">
 
 								<div id="faqs-list" class="fancy-title title-bottom-border">
-									<h3>바이온라이프사이언스 공지사항</h3>
+									<h3></h3>
 								</div>
 
 								<ul class="iconlist faqlist">
-									<li th:each="im:${im}"><i class="icon-caret-right"></i><strong><a style="color:red;"
+									<li th:each="im:${notice}"><i class="icon-caret-right"></i><strong><a 
+									th:style="${im.sign == true ? 'color : red;' : 'color : black;'}"
 											href="#" th:data-scrollto="@{|#faq-${im.id}|}" th:text="${im.subject}">공지사항 제목 01</a></strong></li>
-									<li th:each="ni:${ni}"><i class="icon-caret-right"></i><strong><a
-											href="#" th:data-scrollto="@{|#faq-${ni.id}|}"  th:text="${ni.subject}">공지사항 제목 02</a></strong></li>
+									
 								</ul>
 
 								<div class="divider">
 									<i class="icon-circle"></i>
 								</div>
 								
-								<div th:each="i:${im}">
-								<h3 th:id="@{|faq-${i.id}|}">
-									<strong>Q.</strong> [[${i.subject}]]
-								</h3>
-								<p class="notice-wrap" th:text="${i.content}">공지사항 내용 01</p>
-								<p th:text="${i.subjectText}">공지사항 내용 01</p>
-								<div class="divider divider-right">
-									<a href="#" data-scrollto="#faqs-list"><i
-										class="icon-chevron-up"></i></a>
-								</div>
-								</div>
-								<div th:each="i:${ni}">
+								<div th:each="i:${notice}">
 									<h3 th:id="@{|faq-${i.id}|}">
-										<strong>Q.</strong> [[${i.subject}]]
+										<strong th:style="${i.sign == true ? 'color : red;' : 'color : black;'}">Q.</strong> [[${i.subject}]]
 									</h3>
 									<p class="notice-wrap" th:text="${i.content}">공지사항 내용 01</p>
 									<p th:text="${i.subjectText}">공지사항 내용 01</p>

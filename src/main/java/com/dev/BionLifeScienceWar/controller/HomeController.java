@@ -83,7 +83,6 @@ public class HomeController {
 	
 	@Autowired
 	NoticeSubjectRepository noticeSubjectRepository;
-	
 
 	@Autowired
 	BrandRepository brandRepository;
@@ -111,11 +110,12 @@ public class HomeController {
     public class UrlNotFoundException extends RuntimeException {
 		private static final long serialVersionUID = 1L; }
 	
+	@SuppressWarnings("null")
 	@RequestMapping({"/", "/index"})
 	public String index(
 			Model model
 			) {
-		System.out.println(uploadPath);
+//		System.out.println(uploadPath);
 		List<Banner> b = bannerRepository.findAll();
 		if(b.size()<1) {
 			Banner ba = new Banner();
@@ -135,17 +135,7 @@ public class HomeController {
 			e.setLink("https://www.naver.com");
 			ev.add(e);
 		}
-		
-		List<Notice> impor = noticeRepository.findAllBySignOrderByDateDesc(true);
-		List<Notice> noneImpor = noticeRepository.findAllBySignOrderByDateDesc(false);
-		for(Notice n : impor) {
-			n.setSubjectText(noticeSubjectRepository.findById(n.getSubjectId()).get().getText());
-		}
-		
-		for(Notice n : noneImpor) {
-			n.setSubjectText(noticeSubjectRepository.findById(n.getSubjectId()).get().getText());
-		}
-		
+		List<Notice> notice = noticeRepository.findTop5ByOrderBySignDescDateDesc();
 		List<ReferenceFile> fi = referenceFileRepository.findAll();
 		List<Product> pr = productRepository.findAllBySign(true);
 		for(Product p : pr) {
@@ -157,8 +147,7 @@ public class HomeController {
 			}
 		}
 		model.addAttribute("fi", fi);
-		model.addAttribute("im", impor);
-		model.addAttribute("ni", noneImpor);
+		model.addAttribute("notice", notice);
 		model.addAttribute("product", pr);
 		model.addAttribute("ev", ev.get(0));
 		model.addAttribute("ba", b);
@@ -356,18 +345,8 @@ public class HomeController {
 			Model model
 			) {
 		
-		List<Notice> impor = noticeRepository.findAllBySignOrderByDateDesc(true);
-		List<Notice> noneImpor = noticeRepository.findAllBySignOrderByDateDesc(false);
-		for(Notice n : impor) {
-			n.setSubjectText(noticeSubjectRepository.findById(n.getSubjectId()).get().getText());
-		}
-		
-		for(Notice n : noneImpor) {
-			n.setSubjectText(noticeSubjectRepository.findById(n.getSubjectId()).get().getText());
-		}
-		
-		model.addAttribute("im", impor);
-		model.addAttribute("ni", noneImpor);
+		List<Notice> notice = noticeRepository.findTop5ByOrderBySignDescDateDesc();
+		model.addAttribute("notice", notice);
 		model.addAttribute("b", bigSortRepository.findAll());
 		model.addAttribute("m", middleSortRepository.findAll());
 		model.addAttribute("s", smallSortRepository.findAll());

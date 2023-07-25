@@ -11,4 +11,6 @@ import com.dev.BionLifeScienceWar.model.ReferenceFile;
 public interface ReferenceFileRepository extends JpaRepository<ReferenceFile, Long>{
 
 	List<ReferenceFile> findAllByOrderByFiledateDesc();
+	
+	List<ReferenceFile> findByFilesubjectContains(String filesubject);
 }

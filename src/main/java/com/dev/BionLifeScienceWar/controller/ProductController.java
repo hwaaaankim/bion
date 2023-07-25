@@ -316,7 +316,7 @@ public class ProductController {
 		model.addAttribute("smallId", product.getSmallId());
 		model.addAttribute("bigsorts", bigSortRepository.findAll());
 
-		return "admin/product/productManager";
+		return "redirect:/admin/productManager";
 	}
 	
 	@RequestMapping("/productDelete/{id}")
