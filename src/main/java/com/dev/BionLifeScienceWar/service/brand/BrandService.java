@@ -74,6 +74,64 @@ public class BrandService {
  		brandRepository.save(brand);
  		
 	}
+	
+	public void brandUpdate(
+			MultipartFile image,
+			Brand brand
+			) throws IllegalStateException, IOException {
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String current_date = simpleDateFormat.format(new Date());
+		String absolutePath = new File("").getAbsolutePath() + "\\";
+      
+//		String brandPath = "src/main/resources/static/administration/brand/"+current_date;
+//      String brandPath = "/home/hosting_users/bionls/tomcat/webapps/brand/"+current_date;
+        String brandPath = commonPath + "/brand/" + current_date;
+        String brandRoad = "/administration/brand/"+current_date;
+        File brandFileFolder = new File(brandPath);
+        
+        int leftLimit = 48; // numeral '0'
+ 		int rightLimit = 122; // letter 'z'
+ 		int targetStringLength = 10;
+ 		Random random = new Random();
+ 		
+ 		if(image!=null && !image.isEmpty()) {
+ 			String generatedString = random.ints(leftLimit,rightLimit + 1)
+				  .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+				  .limit(targetStringLength)
+				  .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+				  .toString();
+	 		
+	 		if(!brandFileFolder.exists()) {
+	 			brandFileFolder.mkdirs();
+	 		}
+	 		
+	 		String brandFileName = generatedString + image.getOriginalFilename();
+	 		
+// 		 		
+	 		
+	 		if(env.equals("local")) {
+	 			brandFileFolder = new File(absolutePath + brandPath + "/" + brandFileName);
+			}else if(env.equals("prod")) {
+				brandFileFolder = new File(brandPath + "/" + brandFileName);
+			}
+	 		image.transferTo(brandFileFolder);
+	 		brandRepository.findById(brand.getId()).ifPresent(b->{
+	 			b.setImagePath(brandPath + "/" + brandFileName);
+		 		b.setImageRoad(brandRoad + "/" + brandFileName);
+		 		b.setImageName(brandFileName);
+		 		brandRepository.save(b);
+	 		});
+	 		
+ 		}
+ 		brandRepository.findById(brand.getId()).ifPresent(b->{
+ 			b.setName(brand.getName());
+	 		b.setContent(brand.getContent());
+	 		brandRepository.save(b);
+ 		});
+ 		
+ 		
+	}
 }
 
 

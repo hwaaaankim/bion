@@ -376,6 +376,9 @@ SETTINGS
 	#product-quick{
 		display:none;
 	}
+	.m-d-none{
+		display:none;
+	}
 }
 #modal-switch.fade{
 	display:none;
@@ -387,5 +390,9 @@ SETTINGS
 	padding-left:5px;
 }
 
-
+@media(min-width:960px){
+	.sorted-entry{
+		height:490px;
+	}
+}
 

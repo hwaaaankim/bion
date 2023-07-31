@@ -387,7 +387,7 @@ public class HomeController {
 			Model model,
 			@PathVariable String sort,
 			@PathVariable Long id,
-			@PageableDefault(size = 10) Pageable pageable
+			@PageableDefault(size = 12) Pageable pageable
 			
 			) {
 			Page<Product> products = null;
@@ -465,7 +465,7 @@ public class HomeController {
 			Model model,
 			@PathVariable String sort,
 			@PathVariable Long id,
-			@PageableDefault(size = 10) Pageable pageable
+			@PageableDefault(size = 12) Pageable pageable
 			
 			) {
 		
