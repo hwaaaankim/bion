@@ -76,11 +76,12 @@
 											</ul>
 											<div class="card product-meta">
 												<div class="card-body">
-													<span class="posted_in" th:each="s:${pr.specs}">[[${s.productSpecSubject}]]
-														: <a href="javascript:void();" rel="tag"
-														th:text="|${s.productSpecContent}.|">제조자</a>
-													</span>
-
+													<th:block th:each="s:${pr.specs}">
+														<span class="posted_in">[[${s.productSpecSubject}]]
+															: <a href="javascript:void();" rel="tag"
+															th:text="${s.productSpecContent}">제조자</a>
+														</span><br>
+													</th:block>
 												</div>
 											</div>
 										</div>

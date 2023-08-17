@@ -221,8 +221,8 @@ public class ProductService {
 
 			productOverviewImage.transferTo(overviewFileFolder);
 			productRepository.findById(product.getId()).ifPresent(s -> {
-				s.setTableImagePath(overviewPath);
-				s.setTableImageRoad(overviewRoad);
+				s.setTableImagePath(overviewPath + "/" + overviewFileName);
+				s.setTableImageRoad(overviewRoad + "/" + overviewFileName);
 				s.setTableImageName(overviewFileName);
 				productRepository.save(s);
 			});
@@ -281,8 +281,8 @@ public class ProductService {
 			productSpecImage.transferTo(specFileFolder);
 			productRepository.findById(product.getId()).ifPresent(s -> {
 				s.setSpecImageName(specFileName);
-				s.setSpecImagePath(specPath);
-				s.setSpecImageRoad(specRoad);
+				s.setSpecImagePath(specPath + "/" + specFileName);
+				s.setSpecImageRoad(specRoad + "/" + specFileName);
 				productRepository.save(s);
 			});
 
