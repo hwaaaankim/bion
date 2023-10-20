@@ -48,7 +48,7 @@
 								<div class="entry sorted-entry col-lg-4 col-6" th:each="product : ${products}">
 									<div class="grid-inner">
 										<div class="entry-image mb-2">
-											<a th:href="@{|/brandProductDetail/${product.id}|}" data-lightbox="image">
+											<a th:href="@{|/brandProductDetail/${product.id}|}">
 											<img th:src="${product.firstImageRoad}"
 												alt="#"></a>
 										</div>
