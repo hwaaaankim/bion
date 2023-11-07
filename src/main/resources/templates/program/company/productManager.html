@@ -1,0 +1,34 @@
+<!doctype html>
+<html 
+lang="en" 
+data-layout="vertical" 
+data-topbar="light"
+data-sidebar="dark" 
+data-sidebar-size="lg" 
+data-sidebar-image="none"
+data-preloader="disable"
+xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="program/fragments/common :: headSrc"></head>
+
+<body>
+
+	<div id="layout-wrapper">
+
+		<header id="page-topbar" th:replace="program/fragments/common :: headerMenu"></header>
+
+		<div class="app-menu navbar-menu" th:replace="program/fragments/common :: navMenu">
+			<div class="sidebar-background"></div>
+		</div>
+		<div class="vertical-overlay"></div>
+
+		<th:block th:replace="program/fragments/common :: footerSrc"></th:block> 
+	</div>
+	<th:block th:replace="program/fragments/common :: settingBlock"></th:block>
+	<th:block th:replace="program/fragments/common :: scriptSrc"></th:block>
+
+
+
+</body>
+
+</html>
