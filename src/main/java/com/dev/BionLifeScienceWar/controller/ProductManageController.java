@@ -12,4 +12,10 @@ public class ProductManageController {
 		
 		return "program/company/productManager";
 	}
+	
+	@RequestMapping("/productOverall")
+	public String productOverall() {
+		
+		return "program/company/productOverall";
+	}
 }

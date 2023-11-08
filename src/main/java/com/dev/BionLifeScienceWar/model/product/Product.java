@@ -57,6 +57,9 @@ public class Product {
 	@Column(name="PRODUCT_SIGN")
 	private Boolean sign;
 	
+	@Column(name="PRODUCT_INDEX")
+	private int productIndex;
+	
 	@Transient
 	private Long smallId;
 	
