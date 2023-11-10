@@ -18,4 +18,22 @@ public class ProductManageController {
 		
 		return "program/company/productOverall";
 	}
+	
+	@RequestMapping("/productDetail")
+	public String productDetail() {
+		
+		return "program/company/productDetail";
+	}
+	
+	@RequestMapping("/productInsertForm")
+	public String productInsertForm() {
+		
+		return "program/company/productInsertForm";
+	}
+	
+	@RequestMapping("/fileManager")
+	public String fileManager() {
+		
+		return "program/company/fileManager";
+	}
 }
