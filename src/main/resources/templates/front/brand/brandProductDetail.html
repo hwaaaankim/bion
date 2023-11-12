@@ -38,8 +38,8 @@
 							</div>
 						</div>
 					</div>
-					<div class="row gutter-40 col-mb-80 justify-content-between">
-						<div class="postcontent col-lg-12 order-lg-last">
+					<div class="row gutter-40 col-mb-80 justify-content-end">
+						<div class="postcontent col-lg-10 order-lg-last">
 
 							<div class="single-product">
 								<div class="product">
@@ -76,11 +76,12 @@
 											</ul>
 											<div class="card product-meta">
 												<div class="card-body">
-													<span class="posted_in" th:each="s:${pr.specs}">[[${s.productSpecSubject}]]
-														: <a href="javascript:void();" rel="tag"
-														th:text="|${s.productSpecContent}.|">제조자</a>
-													</span>
-
+													<th:block th:each="s:${pr.specs}">
+														<span class="posted_in">[[${s.productSpecSubject}]]
+															: <a href="javascript:void();" rel="tag"
+															th:text="${s.productSpecContent}">제조자</a>
+														</span><br>
+													</th:block>
 												</div>
 											</div>
 										</div>
@@ -144,7 +145,7 @@
 							</div>
 						</div>
 
-						<div class="sidebar" id="product-quick">
+						<div class="sidebar m-d-none" id="product-quick">
 							<div class="sidebar-widgets-wrap">
 								<div class="border-top-0 m-0">
 									<div class="heading-block mb-3">

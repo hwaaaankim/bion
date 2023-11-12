@@ -42,7 +42,7 @@
 						<div class="postcontent col-lg-12 order-lg-last">
 							<div id="posts" class="row grid-container gutter-30">
 
-								<div class="entry col-lg-4 col-xs-6" th:each="product : ${products}">
+								<div class="entry sorted-entry col-lg-4 col-xs-6" th:each="product : ${products}">
 									<div class="grid-inner">
 										<div class="entry-image mb-2">
 											<a th:href="@{|/productDetail/${product.id}|}">

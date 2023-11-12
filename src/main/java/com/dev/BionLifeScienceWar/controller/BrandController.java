@@ -85,8 +85,27 @@ public class BrandController {
 	
 	@RequestMapping("/brandManager")
 	public String brandManager(
-			Model model
+			Model model, 
+			@PageableDefault(size = 10) Pageable pageable,
+			@RequestParam(required = false) String searchWord
 			) {
+		if (searchWord != null) {
+			Page<Brand> brands = brandRepository.findAllByName(pageable,searchWord);
+			model.addAttribute("brands", brands);
+			int startPage = Math.max(1, brands.getPageable().getPageNumber() - 4);
+			int endPage = Math.min(brands.getTotalPages(), brands.getPageable().getPageNumber() + 4);
+			model.addAttribute("startPage", startPage);
+			model.addAttribute("endPage", endPage);
+			model.addAttribute("searchWord", searchWord);
+		}else {
+			Page<Brand> brands = brandRepository.findAll(pageable);
+			int startPage = Math.max(1, brands.getPageable().getPageNumber() - 4);
+			int endPage = Math.min(brands.getTotalPages(), brands.getPageable().getPageNumber() + 4);
+			model.addAttribute("brands", brands);
+			model.addAttribute("startPage", startPage);
+			model.addAttribute("endPage", endPage);
+			model.addAttribute("searchWord", searchWord);
+		}
 		model.addAttribute("brand",brandRepository.findAll());
 		return "admin/brand/brandManager";
 	}
@@ -474,4 +493,49 @@ public class BrandController {
 
 		return sb.toString();
 	}
+	
+	@RequestMapping("/brandDetail/{id}")
+	public String brandDetail(
+			@PathVariable Long id,
+			Model model
+			) {
+		
+		model.addAttribute("brand", brandRepository.findById(id).get());
+		return "admin/brand/brandDetail";
+	}
+	
+	@RequestMapping("/brandUpdate")
+	@ResponseBody
+	public String brandUpdate(
+			Brand brand,
+			MultipartFile files
+			) throws IllegalStateException, IOException {
+		
+		brandService.brandUpdate(files, brand);
+		StringBuffer sb = new StringBuffer();
+		String msg = "수정이 완료 되었습니다.";
+
+		sb.append("alert('" + msg + "');");
+		sb.append("location.href='/admin/brandManager'");
+		sb.append("</script>");
+		sb.insert(0, "<script>");
+
+		return sb.toString();
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

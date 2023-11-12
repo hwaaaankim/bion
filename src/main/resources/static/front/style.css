@@ -7053,7 +7053,10 @@ body:not(.has-plugin-html5video) .video-wrap video {
 
 #content p {
   line-height: 1.4;
-	margin-bottom:0px;
+  margin-bottom:0px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
 .content-wrap {
@@ -8061,7 +8064,13 @@ body:not(.device-touch) .portfolio {
 .entry-title h4 a {
   color: #333;
 }
-
+.entry-title h2{
+	line-height:1.2;
+}
+.entry-title h2 a{
+	font-size:18px;
+	line-height:1.2;
+}
 .entry-title h2 a:hover,
 .entry-title h3 a:hover,
 .entry-title h4 a:hover {
@@ -8109,8 +8118,11 @@ body:not(.device-touch) .portfolio {
 
 .entry-meta li {
   font-size: 90%;
-  margin: 0 15px 10px 0;
+  margin: 0 10px 10px 0;
   color: #999;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
 .entry-meta ul.flex-column li {
