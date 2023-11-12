@@ -49,16 +49,21 @@
 
 								<div class="card-body">
 									<p class="text-muted">
-										# <code>검색 조건</code> 을 선택하여 원하는 검색을 진행할 수 있습니다.<br> 
-										# 한 페이지에 보고 싶은 <code>검색 결과의 수</code> 를 조정할 수 있습니다.<br>
-										# <code>제품명 / 분류명</code> 을 통해 검색이 가능합니다.<br> 
-										# <code>체크박스를 체크한 상태</code> 로 검색 시 해당 단어가 포함된 모든 결과가 표시됩니다.
+										#
+										<code>검색 조건</code>
+										을 선택하여 원하는 검색을 진행할 수 있습니다.<br> # 한 페이지에 보고 싶은
+										<code>검색 결과의 수</code>
+										를 조정할 수 있습니다.<br> #
+										<code>제품명 / 분류명</code>
+										을 통해 검색이 가능합니다.<br> #
+										<code>체크박스를 체크한 상태</code>
+										로 검색 시 해당 단어가 포함된 모든 결과가 표시됩니다.
 									</p>
 									<div class="live-preview">
 										<form action="javascript:void(0);">
 											<div class="row gy-2 gx-3 mb-3 align-items-center">
 												<div class="col-sm-auto">
-													<label class="visually-hidden">Preference</label> <select
+													<label class="visually-hidden">페이지사이즈</label> <select
 														class="form-select">
 														<option selected>== 페이지 사이즈 ==</option>
 														<option value="1">10개씩 보기</option>
@@ -68,7 +73,7 @@
 													</select>
 												</div>
 												<div class="col-sm-auto">
-													<label class="visually-hidden">Preference</label> <select
+													<label class="visually-hidden">대분류</label> <select
 														class="form-select">
 														<option selected>== 대분류 선택 ==</option>
 														<option value="1">One</option>
@@ -77,7 +82,7 @@
 													</select>
 												</div>
 												<div class="col-sm-auto">
-													<label class="visually-hidden">Preference</label> <select
+													<label class="visually-hidden">중분류</label> <select
 														class="form-select">
 														<option selected>== 중분류 선택 ==</option>
 														<option value="1">One</option>
@@ -86,7 +91,7 @@
 													</select>
 												</div>
 												<div class="col-sm-auto">
-													<label class="visually-hidden">Preference</label> <select
+													<label class="visually-hidden">소분류</label> <select
 														class="form-select">
 														<option selected>== 소분류 선택 ==</option>
 														<option value="1">One</option>
@@ -94,16 +99,30 @@
 														<option value="3">Three</option>
 													</select>
 												</div>
-
+												<div class="col-sm-auto">
+													<label class="visually-hidden">검색어</label>
+													<div class="input-group">
+														<div class="input-group-text">@</div>
+														<input type="text" class="form-control"
+															placeholder="검색어를 입력 하세요.">
+													</div>
+												</div>
+												<div class="col-sm-auto">
+													<div class="form-check">
+														<input class="form-check-input" type="checkbox"> <label
+															class="form-check-label"> 포함된 결과 검색하기 </label>
+													</div>
+												</div>
 												<div class="col-sm-auto">
 													<button type="submit" class="btn btn-primary">검색
 														하기</button>
 												</div>
 												<div class="col-sm-auto">
-						                            <div>
-						                                <a href="#" class="btn btn-success"><i class="ri-add-line align-bottom me-1"></i> Add New</a>
-						                            </div>
-						                        </div>
+													<div>
+														<a href="/admin/productCenter/productInsertForm" class="btn btn-success"><i
+															class="ri-add-line align-bottom me-1"></i> 제품등록</a>
+													</div>
+												</div>
 											</div>
 										</form>
 									</div>
@@ -112,892 +131,757 @@
 						</div>
 					</div>
 					<div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title mb-0">BionLifeScience 제품 관리</h4>
-                                </div>
+						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title mb-0">BionLifeScience 제품 관리</h4>
+								</div>
+								<div class="card-body">
+									<div class="p-3 mt-n3 mx-n3 bg-warning-subtle rounded-top">
+										<div class="d-flex align-items-center">
+											<div class="flex-grow-1">
+												<input type="text" class="form-control-plaintext"
+													value="제품 이름" readonly>
+											</div>
+											<div class="flex-shrink-0">
+												<div class="d-flex gap-1 align-items-center my-n2">
+													<div class="dropdown">
+														<button
+															class="btn btn-link text-muted p-1 mt-n1 py-0 text-decoration-none fs-15"
+															data-bs-toggle="dropdown" aria-haspopup="true"
+															aria-expanded="true">
+															<i data-feather="more-horizontal" class="icon-sm"></i>
+														</button>
 
-                                <div class="card-body">
-                                    <p class="text-muted"># <code>드래그 앤 드랍</code>을 통해 제품/소분류/중분류/대분류 사이의 표시순서를 변경할 수 있습니다.<br>
-                                    # <code>같은 등급의 요소끼리만</code> 순서를 변경할 수 있습니다.<br>
-                                    # 변경 완료 후 <code>확인 버튼</code>클릭시 변경된 순서로 적용 됩니다.
-                                </div>
-                                 <div class="card-body">
-                                    <div class="p-3 mt-n3 mx-n3 bg-warning-subtle rounded-top">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1">
-                                                <h5 class="mb-0 fs-14"><a href="apps-projects-overview.html" class="text-body">Dashboard UI</a></h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div class="d-flex gap-1 align-items-center my-n2">
-                                                    <button type="button" class="btn avatar-xs p-0 favourite-btn active">
-                                                        <span class="avatar-title bg-transparent fs-15">
-                                                            <i class="ri-star-fill"></i>
-                                                        </span>
-                                                    </button>
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-link text-muted p-1 mt-n1 py-0 text-decoration-none fs-15" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                            <i data-feather="more-horizontal" class="icon-sm"></i>
-                                                        </button>
+														<div class="dropdown-menu dropdown-menu-end">
+															<a class="dropdown-item" href="#"><i
+																class="ri-eye-fill align-bottom me-2 text-muted"></i>
+																View</a> <a class="dropdown-item" href="#"><i
+																class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+																Edit</a>
+															<div class="dropdown-divider"></div>
+															<a class="dropdown-item" href="#" data-bs-toggle="modal"
+																data-bs-target="#removeProjectModal"><i
+																class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
+																Remove</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="py-3">
+										<div class="row gy-3">
+											<div class="col-12">
+												<div>
+													<p class="text-muted mb-1">분류</p>
+													<div class="badge bg-success-subtle text-success fs-12">대분류
+														/</div>
+													<div class="badge bg-success-subtle text-warning fs-12">중분류
+														/</div>
+													<div class="badge bg-success-subtle text-danger fs-12">소분류</div>
+												</div>
+											</div>
+											<div class="col-12">
+												<div class="row">
+													<div class="col-6">
+														<textarea class="form-control-plaintext" readonly>제품 TITLE TEXT</textarea>
+													</div>
+													<div class="col-6">
+														<textarea class="form-control-plaintext" readonly>제품 SUB TITLE TEXT</textarea>
+													</div>
+												</div>
+											</div>
+										</div>
 
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="apps-projects-overview.html"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
-                                                            <a class="dropdown-item" href="apps-projects-create.html"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#removeProjectModal"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Remove</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="py-3">
-                                        <div class="row gy-3">
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Status</p>
-                                                    <div class="badge bg-success-subtle text-success fs-12">Completed</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Deadline</p>
-                                                    <h5 class="fs-14"> 10 Jun, 2021</h5>
-                                                </div>
-                                            </div>
-                                        </div>
+										<div class="col-12">
+											<div class="row">
+												<div class="col-4">
+													<div class="d-flex align-items-center mt-3">
+														<p class="text-muted mb-0 me-2">SLIDE IMAGE :</p>
+														<div class="avatar-group">
+															<div class="gallery-container">
+																<a class="image-popup" target="_blank"
+																	href="/administration/program/assets/images/small/img-1.jpg"
+																	title=""> <img width="100"
+																	class="img-thumbnail gallery-img img-fluid mx-auto"
+																	src="/administration/program/assets/images/small/img-1.jpg"
+																	alt="">
+																</a> <a class="image-popup" target="_blank"
+																	href="/administration/program/assets/images/small/img-1.jpg"
+																	title=""> <img width="100"
+																	class="img-thumbnail gallery-img img-fluid mx-auto"
+																	src="/administration/program/assets/images/small/img-1.jpg"
+																	alt="">
+																</a>
+															</div>
+															<button type="button" class="btn btn-primary"
+																data-bs-toggle="modal"
+																data-bs-target="#exampleModalgrid">변경</button>
+															<div class="modal fade" id="exampleModalgrid"
+																tabindex="-1" aria-labelledby="exampleModalgridLabel">
+																<div class="modal-dialog">
+																	<div class="modal-content">
+																		<div class="modal-header">
+																			<h5 class="modal-title" id="exampleModalgridLabel">Grid
+																				Modals</h5>
+																			<button type="button" class="btn-close"
+																				data-bs-dismiss="modal" aria-label="Close"></button>
+																		</div>
+																		<div class="modal-body">
+																			<form action="javascript:void(0);">
+																				<div class="row g-3">
+																					<div class="col-xxl-6">
+																						<div>
+																							<label for="firstName" class="form-label">First
+																								Name</label> <input type="text" class="form-control"
+																								id="firstName" placeholder="Enter firstname">
+																						</div>
+																					</div>
+																					<div class="col-xxl-6">
+																						<div>
+																							<label for="lastName" class="form-label">Last
+																								Name</label> <input type="text" class="form-control"
+																								id="lastName" placeholder="Enter lastname">
+																						</div>
+																					</div>
+																					<div class="col-lg-12">
+																						<label class="form-label">Gender</label>
+																						<div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio1"
+																									value="option1"> <label
+																									class="form-check-label" for="inlineRadio1">Male</label>
+																							</div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio2"
+																									value="option2"> <label
+																									class="form-check-label" for="inlineRadio2">Female</label>
+																							</div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio3"
+																									value="option3"> <label
+																									class="form-check-label" for="inlineRadio3">Others</label>
+																							</div>
+																						</div>
+																					</div>
+																					<div class="col-xxl-6">
+																						<label for="emailInput" class="form-label">Email</label>
+																						<input type="email" class="form-control"
+																							id="emailInput" placeholder="Enter your email">
+																					</div>
+																					<div class="col-xxl-6">
+																						<label for="passwordInput" class="form-label">Password</label>
+																						<input type="password" class="form-control"
+																							id="passwordInput" value="451326546"
+																							placeholder="Enter password">
+																					</div>
+																					<div class="col-lg-12">
+																						<div class="hstack gap-2 justify-content-end">
+																							<button type="button" class="btn btn-light"
+																								data-bs-dismiss="modal">Close</button>
+																							<button type="submit" class="btn btn-primary">Submit</button>
+																						</div>
+																					</div>
+																				</div>
+																			</form>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-4">
+													<div class="d-flex align-items-center mt-3">
+														<p class="text-muted mb-0 me-2">OVERVIEW IMAGE :</p>
+														<div class="avatar-group">
+															<div class="gallery-container">
+																<a class="image-popup" target="_blank"
+																	href="/administration/program/assets/images/small/img-1.jpg"
+																	title=""> <img width="100"
+																	class="img-thumbnail gallery-img img-fluid mx-auto"
+																	src="/administration/program/assets/images/small/img-1.jpg"
+																	alt="">
+																</a>
+															</div>
+															<button type="button" class="btn btn-primary"
+																data-bs-toggle="modal"
+																data-bs-target="#exampleModalgrid">UPDATE</button>
+															<div class="modal fade" id="exampleModalgrid"
+																tabindex="-1" aria-labelledby="exampleModalgridLabel">
+																<div class="modal-dialog">
+																	<div class="modal-content">
+																		<div class="modal-header">
+																			<h5 class="modal-title" id="exampleModalgridLabel">Grid
+																				Modals</h5>
+																			<button type="button" class="btn-close"
+																				data-bs-dismiss="modal" aria-label="Close"></button>
+																		</div>
+																		<div class="modal-body">
+																			<form action="javascript:void(0);">
+																				<div class="row g-3">
+																					<div class="col-xxl-6">
+																						<div>
+																							<label for="firstName" class="form-label">First
+																								Name</label> <input type="text" class="form-control"
+																								id="firstName" placeholder="Enter firstname">
+																						</div>
+																					</div>
+																					<div class="col-xxl-6">
+																						<div>
+																							<label for="lastName" class="form-label">Last
+																								Name</label> <input type="text" class="form-control"
+																								id="lastName" placeholder="Enter lastname">
+																						</div>
+																					</div>
+																					<div class="col-lg-12">
+																						<label class="form-label">Gender</label>
+																						<div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio1"
+																									value="option1"> <label
+																									class="form-check-label" for="inlineRadio1">Male</label>
+																							</div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio2"
+																									value="option2"> <label
+																									class="form-check-label" for="inlineRadio2">Female</label>
+																							</div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio3"
+																									value="option3"> <label
+																									class="form-check-label" for="inlineRadio3">Others</label>
+																							</div>
+																						</div>
+																					</div>
+																					<div class="col-xxl-6">
+																						<label for="emailInput" class="form-label">Email</label>
+																						<input type="email" class="form-control"
+																							id="emailInput" placeholder="Enter your email">
+																					</div>
+																					<div class="col-xxl-6">
+																						<label for="passwordInput" class="form-label">Password</label>
+																						<input type="password" class="form-control"
+																							id="passwordInput" value="451326546"
+																							placeholder="Enter password">
+																					</div>
+																					<div class="col-lg-12">
+																						<div class="hstack gap-2 justify-content-end">
+																							<button type="button" class="btn btn-light"
+																								data-bs-dismiss="modal">Close</button>
+																							<button type="submit" class="btn btn-primary">Submit</button>
+																						</div>
+																					</div>
+																				</div>
+																			</form>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-4">
+													<div class="d-flex align-items-center mt-3">
+														<p class="text-muted mb-0 me-2">PRODUCT SPEC IMAGE :</p>
+														<div class="avatar-group">
+															<div class="gallery-container">
+																<a class="image-popup" target="_blank"
+																	href="/administration/program/assets/images/small/img-1.jpg"
+																	title=""> <img width="100"
+																	class="img-thumbnail gallery-img img-fluid mx-auto"
+																	src="/administration/program/assets/images/small/img-1.jpg"
+																	alt="">
+																</a>
+															</div>
+															<button type="button" class="btn btn-primary"
+																data-bs-toggle="modal"
+																data-bs-target="#exampleModalgrid">UPDATE</button>
+															<div class="modal fade" id="exampleModalgrid"
+																tabindex="-1" aria-labelledby="exampleModalgridLabel">
+																<div class="modal-dialog">
+																	<div class="modal-content">
+																		<div class="modal-header">
+																			<h5 class="modal-title" id="exampleModalgridLabel">Grid
+																				Modals</h5>
+																			<button type="button" class="btn-close"
+																				data-bs-dismiss="modal" aria-label="Close"></button>
+																		</div>
+																		<div class="modal-body">
+																			<form action="javascript:void(0);">
+																				<div class="row g-3">
+																					<div class="col-xxl-6">
+																						<div>
+																							<label for="firstName" class="form-label">First
+																								Name</label> <input type="text" class="form-control"
+																								id="firstName" placeholder="Enter firstname">
+																						</div>
+																					</div>
+																					<div class="col-xxl-6">
+																						<div>
+																							<label for="lastName" class="form-label">Last
+																								Name</label> <input type="text" class="form-control"
+																								id="lastName" placeholder="Enter lastname">
+																						</div>
+																					</div>
+																					<div class="col-lg-12">
+																						<label class="form-label">Gender</label>
+																						<div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio1"
+																									value="option1"> <label
+																									class="form-check-label" for="inlineRadio1">Male</label>
+																							</div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio2"
+																									value="option2"> <label
+																									class="form-check-label" for="inlineRadio2">Female</label>
+																							</div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio3"
+																									value="option3"> <label
+																									class="form-check-label" for="inlineRadio3">Others</label>
+																							</div>
+																						</div>
+																					</div>
+																					<div class="col-xxl-6">
+																						<label for="emailInput" class="form-label">Email</label>
+																						<input type="email" class="form-control"
+																							id="emailInput" placeholder="Enter your email">
+																					</div>
+																					<div class="col-xxl-6">
+																						<label for="passwordInput" class="form-label">Password</label>
+																						<input type="password" class="form-control"
+																							id="passwordInput" value="451326546"
+																							placeholder="Enter password">
+																					</div>
+																					<div class="col-lg-12">
+																						<div class="hstack gap-2 justify-content-end">
+																							<button type="button" class="btn btn-light"
+																								data-bs-dismiss="modal">Close</button>
+																							<button type="submit" class="btn btn-primary">Submit</button>
+																						</div>
+																					</div>
+																				</div>
+																			</form>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="p-3 mt-n3 mx-n3 bg-warning-subtle rounded-top">
+										<div class="d-flex align-items-center">
+											<div class="flex-grow-1">
+												<input type="text" class="form-control-plaintext"
+													value="제품 이름" readonly>
+											</div>
+											<div class="flex-shrink-0">
+												<div class="d-flex gap-1 align-items-center my-n2">
+													<div class="dropdown">
+														<button
+															class="btn btn-link text-muted p-1 mt-n1 py-0 text-decoration-none fs-15"
+															data-bs-toggle="dropdown" aria-haspopup="true"
+															aria-expanded="true">
+															<i data-feather="more-horizontal" class="icon-sm"></i>
+														</button>
 
-                                        <div class="d-flex align-items-center mt-3">
-                                            <p class="text-muted mb-0 me-2">Team :</p>
-                                            <div class="avatar-group">
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Bonnie Haynes">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-7.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Della Wilson">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-8.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Add Members">
-                                                    <div class="avatar-xxs">
-                                                        <div class="avatar-title fs-16 rounded-circle bg-light border-dashed border text-primary">
-                                                            +
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="d-flex mb-2">
-                                            <div class="flex-grow-1">
-                                                <div>Progress</div>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div>95%</div>
-                                            </div>
-                                        </div>
-                                        <div class="progress progress-sm animated-progress">
-                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;"></div><!-- /.progress-bar -->
-                                        </div>
-                                    </div>
+														<div class="dropdown-menu dropdown-menu-end">
+															<a class="dropdown-item" href="#"><i
+																class="ri-eye-fill align-bottom me-2 text-muted"></i>
+																View</a> <a class="dropdown-item" href="#"><i
+																class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+																Edit</a>
+															<div class="dropdown-divider"></div>
+															<a class="dropdown-item" href="#" data-bs-toggle="modal"
+																data-bs-target="#removeProjectModal"><i
+																class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
+																Remove</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="py-3">
+										<div class="row gy-3">
+											<div class="col-12">
+												<div>
+													<p class="text-muted mb-1">분류</p>
+													<div class="badge bg-success-subtle text-success fs-12">대분류
+														/</div>
+													<div class="badge bg-success-subtle text-warning fs-12">중분류
+														/</div>
+													<div class="badge bg-success-subtle text-danger fs-12">소분류</div>
+												</div>
+											</div>
+											<div class="col-12">
+												<div class="row">
+													<div class="col-6">
+														<textarea class="form-control-plaintext" readonly>제품 TITLE TEXT</textarea>
+													</div>
+													<div class="col-6">
+														<textarea class="form-control-plaintext" readonly>제품 SUB TITLE TEXT</textarea>
+													</div>
+												</div>
+											</div>
+										</div>
 
-                                </div>
-                                <div class="card-body">
-                                    <div class="p-3 mt-n3 mx-n3 bg-warning-subtle rounded-top">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1">
-                                                <h5 class="mb-0 fs-14"><a href="apps-projects-overview.html" class="text-body">Dashboard UI</a></h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div class="d-flex gap-1 align-items-center my-n2">
-                                                    <button type="button" class="btn avatar-xs p-0 favourite-btn active">
-                                                        <span class="avatar-title bg-transparent fs-15">
-                                                            <i class="ri-star-fill"></i>
-                                                        </span>
-                                                    </button>
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-link text-muted p-1 mt-n1 py-0 text-decoration-none fs-15" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                            <i data-feather="more-horizontal" class="icon-sm"></i>
-                                                        </button>
-
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="apps-projects-overview.html"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
-                                                            <a class="dropdown-item" href="apps-projects-create.html"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#removeProjectModal"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Remove</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="py-3">
-                                        <div class="row gy-3">
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Status</p>
-                                                    <div class="badge bg-success-subtle text-success fs-12">Completed</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Deadline</p>
-                                                    <h5 class="fs-14"> 10 Jun, 2021</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-3">
-                                            <p class="text-muted mb-0 me-2">Team :</p>
-                                            <div class="avatar-group">
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Bonnie Haynes">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-7.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Della Wilson">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-8.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Add Members">
-                                                    <div class="avatar-xxs">
-                                                        <div class="avatar-title fs-16 rounded-circle bg-light border-dashed border text-primary">
-                                                            +
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="d-flex mb-2">
-                                            <div class="flex-grow-1">
-                                                <div>Progress</div>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div>95%</div>
-                                            </div>
-                                        </div>
-                                        <div class="progress progress-sm animated-progress">
-                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;"></div><!-- /.progress-bar -->
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="card-body">
-                                    <div class="p-3 mt-n3 mx-n3 bg-warning-subtle rounded-top">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1">
-                                                <h5 class="mb-0 fs-14"><a href="apps-projects-overview.html" class="text-body">Dashboard UI</a></h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div class="d-flex gap-1 align-items-center my-n2">
-                                                    <button type="button" class="btn avatar-xs p-0 favourite-btn active">
-                                                        <span class="avatar-title bg-transparent fs-15">
-                                                            <i class="ri-star-fill"></i>
-                                                        </span>
-                                                    </button>
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-link text-muted p-1 mt-n1 py-0 text-decoration-none fs-15" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                            <i data-feather="more-horizontal" class="icon-sm"></i>
-                                                        </button>
-
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="apps-projects-overview.html"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
-                                                            <a class="dropdown-item" href="apps-projects-create.html"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#removeProjectModal"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Remove</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="py-3">
-                                        <div class="row gy-3">
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Status</p>
-                                                    <div class="badge bg-success-subtle text-success fs-12">Completed</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Deadline</p>
-                                                    <h5 class="fs-14"> 10 Jun, 2021</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-3">
-                                            <p class="text-muted mb-0 me-2">Team :</p>
-                                            <div class="avatar-group">
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Bonnie Haynes">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-7.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Della Wilson">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-8.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Add Members">
-                                                    <div class="avatar-xxs">
-                                                        <div class="avatar-title fs-16 rounded-circle bg-light border-dashed border text-primary">
-                                                            +
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="d-flex mb-2">
-                                            <div class="flex-grow-1">
-                                                <div>Progress</div>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div>95%</div>
-                                            </div>
-                                        </div>
-                                        <div class="progress progress-sm animated-progress">
-                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;"></div><!-- /.progress-bar -->
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="card-body">
-                                    <div class="p-3 mt-n3 mx-n3 bg-warning-subtle rounded-top">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1">
-                                                <h5 class="mb-0 fs-14"><a href="apps-projects-overview.html" class="text-body">Dashboard UI</a></h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div class="d-flex gap-1 align-items-center my-n2">
-                                                    <button type="button" class="btn avatar-xs p-0 favourite-btn active">
-                                                        <span class="avatar-title bg-transparent fs-15">
-                                                            <i class="ri-star-fill"></i>
-                                                        </span>
-                                                    </button>
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-link text-muted p-1 mt-n1 py-0 text-decoration-none fs-15" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                            <i data-feather="more-horizontal" class="icon-sm"></i>
-                                                        </button>
-
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="apps-projects-overview.html"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
-                                                            <a class="dropdown-item" href="apps-projects-create.html"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#removeProjectModal"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Remove</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="py-3">
-                                        <div class="row gy-3">
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Status</p>
-                                                    <div class="badge bg-success-subtle text-success fs-12">Completed</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Deadline</p>
-                                                    <h5 class="fs-14"> 10 Jun, 2021</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-3">
-                                            <p class="text-muted mb-0 me-2">Team :</p>
-                                            <div class="avatar-group">
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Bonnie Haynes">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-7.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Della Wilson">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-8.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Add Members">
-                                                    <div class="avatar-xxs">
-                                                        <div class="avatar-title fs-16 rounded-circle bg-light border-dashed border text-primary">
-                                                            +
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="d-flex mb-2">
-                                            <div class="flex-grow-1">
-                                                <div>Progress</div>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div>95%</div>
-                                            </div>
-                                        </div>
-                                        <div class="progress progress-sm animated-progress">
-                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;"></div><!-- /.progress-bar -->
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="card-body">
-                                    <div class="p-3 mt-n3 mx-n3 bg-warning-subtle rounded-top">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1">
-                                                <h5 class="mb-0 fs-14"><a href="apps-projects-overview.html" class="text-body">Dashboard UI</a></h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div class="d-flex gap-1 align-items-center my-n2">
-                                                    <button type="button" class="btn avatar-xs p-0 favourite-btn active">
-                                                        <span class="avatar-title bg-transparent fs-15">
-                                                            <i class="ri-star-fill"></i>
-                                                        </span>
-                                                    </button>
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-link text-muted p-1 mt-n1 py-0 text-decoration-none fs-15" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                            <i data-feather="more-horizontal" class="icon-sm"></i>
-                                                        </button>
-
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="apps-projects-overview.html"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
-                                                            <a class="dropdown-item" href="apps-projects-create.html"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#removeProjectModal"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Remove</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="py-3">
-                                        <div class="row gy-3">
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Status</p>
-                                                    <div class="badge bg-success-subtle text-success fs-12">Completed</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Deadline</p>
-                                                    <h5 class="fs-14"> 10 Jun, 2021</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-3">
-                                            <p class="text-muted mb-0 me-2">Team :</p>
-                                            <div class="avatar-group">
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Bonnie Haynes">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-7.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Della Wilson">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-8.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Add Members">
-                                                    <div class="avatar-xxs">
-                                                        <div class="avatar-title fs-16 rounded-circle bg-light border-dashed border text-primary">
-                                                            +
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="d-flex mb-2">
-                                            <div class="flex-grow-1">
-                                                <div>Progress</div>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div>95%</div>
-                                            </div>
-                                        </div>
-                                        <div class="progress progress-sm animated-progress">
-                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;"></div><!-- /.progress-bar -->
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="card-body">
-                                    <div class="p-3 mt-n3 mx-n3 bg-warning-subtle rounded-top">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1">
-                                                <h5 class="mb-0 fs-14"><a href="apps-projects-overview.html" class="text-body">Dashboard UI</a></h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div class="d-flex gap-1 align-items-center my-n2">
-                                                    <button type="button" class="btn avatar-xs p-0 favourite-btn active">
-                                                        <span class="avatar-title bg-transparent fs-15">
-                                                            <i class="ri-star-fill"></i>
-                                                        </span>
-                                                    </button>
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-link text-muted p-1 mt-n1 py-0 text-decoration-none fs-15" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                            <i data-feather="more-horizontal" class="icon-sm"></i>
-                                                        </button>
-
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="apps-projects-overview.html"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
-                                                            <a class="dropdown-item" href="apps-projects-create.html"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#removeProjectModal"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Remove</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="py-3">
-                                        <div class="row gy-3">
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Status</p>
-                                                    <div class="badge bg-success-subtle text-success fs-12">Completed</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Deadline</p>
-                                                    <h5 class="fs-14"> 10 Jun, 2021</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-3">
-                                            <p class="text-muted mb-0 me-2">Team :</p>
-                                            <div class="avatar-group">
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Bonnie Haynes">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-7.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Della Wilson">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-8.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Add Members">
-                                                    <div class="avatar-xxs">
-                                                        <div class="avatar-title fs-16 rounded-circle bg-light border-dashed border text-primary">
-                                                            +
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="d-flex mb-2">
-                                            <div class="flex-grow-1">
-                                                <div>Progress</div>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div>95%</div>
-                                            </div>
-                                        </div>
-                                        <div class="progress progress-sm animated-progress">
-                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;"></div><!-- /.progress-bar -->
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="card-body">
-                                    <div class="p-3 mt-n3 mx-n3 bg-warning-subtle rounded-top">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1">
-                                                <h5 class="mb-0 fs-14"><a href="apps-projects-overview.html" class="text-body">Dashboard UI</a></h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div class="d-flex gap-1 align-items-center my-n2">
-                                                    <button type="button" class="btn avatar-xs p-0 favourite-btn active">
-                                                        <span class="avatar-title bg-transparent fs-15">
-                                                            <i class="ri-star-fill"></i>
-                                                        </span>
-                                                    </button>
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-link text-muted p-1 mt-n1 py-0 text-decoration-none fs-15" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                            <i data-feather="more-horizontal" class="icon-sm"></i>
-                                                        </button>
-
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="apps-projects-overview.html"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
-                                                            <a class="dropdown-item" href="apps-projects-create.html"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#removeProjectModal"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Remove</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="py-3">
-                                        <div class="row gy-3">
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Status</p>
-                                                    <div class="badge bg-success-subtle text-success fs-12">Completed</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Deadline</p>
-                                                    <h5 class="fs-14"> 10 Jun, 2021</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-3">
-                                            <p class="text-muted mb-0 me-2">Team :</p>
-                                            <div class="avatar-group">
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Bonnie Haynes">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-7.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Della Wilson">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-8.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Add Members">
-                                                    <div class="avatar-xxs">
-                                                        <div class="avatar-title fs-16 rounded-circle bg-light border-dashed border text-primary">
-                                                            +
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="d-flex mb-2">
-                                            <div class="flex-grow-1">
-                                                <div>Progress</div>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div>95%</div>
-                                            </div>
-                                        </div>
-                                        <div class="progress progress-sm animated-progress">
-                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;"></div><!-- /.progress-bar -->
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="card-body">
-                                    <div class="p-3 mt-n3 mx-n3 bg-warning-subtle rounded-top">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1">
-                                                <h5 class="mb-0 fs-14"><a href="apps-projects-overview.html" class="text-body">Dashboard UI</a></h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div class="d-flex gap-1 align-items-center my-n2">
-                                                    <button type="button" class="btn avatar-xs p-0 favourite-btn active">
-                                                        <span class="avatar-title bg-transparent fs-15">
-                                                            <i class="ri-star-fill"></i>
-                                                        </span>
-                                                    </button>
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-link text-muted p-1 mt-n1 py-0 text-decoration-none fs-15" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                            <i data-feather="more-horizontal" class="icon-sm"></i>
-                                                        </button>
-
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="apps-projects-overview.html"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
-                                                            <a class="dropdown-item" href="apps-projects-create.html"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#removeProjectModal"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Remove</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="py-3">
-                                        <div class="row gy-3">
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Status</p>
-                                                    <div class="badge bg-success-subtle text-success fs-12">Completed</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Deadline</p>
-                                                    <h5 class="fs-14"> 10 Jun, 2021</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-3">
-                                            <p class="text-muted mb-0 me-2">Team :</p>
-                                            <div class="avatar-group">
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Bonnie Haynes">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-7.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Della Wilson">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-8.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Add Members">
-                                                    <div class="avatar-xxs">
-                                                        <div class="avatar-title fs-16 rounded-circle bg-light border-dashed border text-primary">
-                                                            +
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="d-flex mb-2">
-                                            <div class="flex-grow-1">
-                                                <div>Progress</div>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div>95%</div>
-                                            </div>
-                                        </div>
-                                        <div class="progress progress-sm animated-progress">
-                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;"></div><!-- /.progress-bar -->
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="card-body">
-                                    <div class="p-3 mt-n3 mx-n3 bg-warning-subtle rounded-top">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1">
-                                                <h5 class="mb-0 fs-14"><a href="apps-projects-overview.html" class="text-body">Dashboard UI</a></h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div class="d-flex gap-1 align-items-center my-n2">
-                                                    <button type="button" class="btn avatar-xs p-0 favourite-btn active">
-                                                        <span class="avatar-title bg-transparent fs-15">
-                                                            <i class="ri-star-fill"></i>
-                                                        </span>
-                                                    </button>
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-link text-muted p-1 mt-n1 py-0 text-decoration-none fs-15" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                            <i data-feather="more-horizontal" class="icon-sm"></i>
-                                                        </button>
-
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="apps-projects-overview.html"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
-                                                            <a class="dropdown-item" href="apps-projects-create.html"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#removeProjectModal"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Remove</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="py-3">
-                                        <div class="row gy-3">
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Status</p>
-                                                    <div class="badge bg-success-subtle text-danger fs-12">Completed</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Deadline</p>
-                                                    <h5 class="fs-14"> 10 Jun, 2021</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-3">
-                                            <p class="text-muted mb-0 me-2">Team :</p>
-                                            <div class="avatar-group">
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Bonnie Haynes">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-7.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Della Wilson">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-8.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Add Members">
-                                                    <div class="avatar-xxs">
-                                                        <div class="avatar-title fs-16 rounded-circle bg-light border-dashed border text-primary">
-                                                            +
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="d-flex mb-2">
-                                            <div class="flex-grow-1">
-                                                <div>Progress</div>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div>95%</div>
-                                            </div>
-                                        </div>
-                                        <div class="progress progress-sm animated-progress">
-                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;"></div><!-- /.progress-bar -->
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="card-body">
-                                    <div class="p-3 mt-n3 mx-n3 bg-warning-subtle rounded-top">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1">
-                                                <h5 class="mb-0 fs-14"><a href="apps-projects-overview.html" class="text-body">Dashboard UI</a></h5>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div class="d-flex gap-1 align-items-center my-n2">
-                                                    <button type="button" class="btn avatar-xs p-0 favourite-btn active">
-                                                        <span class="avatar-title bg-transparent fs-15">
-                                                            <i class="ri-star-fill"></i>
-                                                        </span>
-                                                    </button>
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-link text-muted p-1 mt-n1 py-0 text-decoration-none fs-15" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                            <i data-feather="more-horizontal" class="icon-sm"></i>
-                                                        </button>
-
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href="apps-projects-overview.html"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
-                                                            <a class="dropdown-item" href="apps-projects-create.html"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a>
-                                                            <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#removeProjectModal"><i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Remove</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="py-3">
-                                        <div class="row gy-3">
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Status</p>
-                                                    <div class="badge bg-success-subtle text-warning fs-12">Completed</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div>
-                                                    <p class="text-muted mb-1">Deadline</p>
-                                                    <h5 class="fs-14"> 10 Jun, 2021</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex align-items-center mt-3">
-                                            <p class="text-muted mb-0 me-2">Team :</p>
-                                            <div class="avatar-group">
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Bonnie Haynes">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-7.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Della Wilson">
-                                                    <div class="avatar-xxs">
-                                                        <img src="/administration/program/assets/images/users/avatar-8.jpg" alt="" class="rounded-circle img-fluid">
-                                                    </div>
-                                                </a>
-                                                <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Add Members">
-                                                    <div class="avatar-xxs">
-                                                        <div class="avatar-title fs-16 rounded-circle bg-light border-dashed border text-primary">
-                                                            +
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="d-flex mb-2">
-                                            <div class="flex-grow-1">
-                                                <div>Progress</div>
-                                            </div>
-                                            <div class="flex-shrink-0">
-                                                <div>95%</div>
-                                            </div>
-                                        </div>
-                                        <div class="progress progress-sm animated-progress">
-                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;"></div><!-- /.progress-bar -->
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row g-0 text-center text-sm-start align-items-center mb-4">
-                        <div class="col-sm-6">
-                            <div>
-                                <p class="mb-sm-0 text-muted">Showing <span class="fw-semibold">1</span> to <span class="fw-semibold">10</span> of <span class="fw-semibold text-decoration-underline">12</span> entries</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <ul class="pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0">
-                                <li class="page-item disabled">
-                                    <a href="#" class="page-link">Previous</a>
-                                </li>
-                                <li class="page-item active">
-                                    <a href="#" class="page-link">1</a>
-                                </li>
-                                <li class="page-item ">
-                                    <a href="#" class="page-link">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">3</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">4</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">5</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">Next</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+										<div class="col-12">
+											<div class="row">
+												<div class="col-4">
+													<div class="d-flex align-items-center mt-3">
+														<p class="text-muted mb-0 me-2">SLIDE IMAGE :</p>
+														<div class="avatar-group">
+															<div class="gallery-container">
+																<a class="image-popup" target="_blank"
+																	href="/administration/program/assets/images/small/img-1.jpg"
+																	title=""> <img width="100"
+																	class="img-thumbnail gallery-img img-fluid mx-auto"
+																	src="/administration/program/assets/images/small/img-1.jpg"
+																	alt="">
+																</a> <a class="image-popup" target="_blank"
+																	href="/administration/program/assets/images/small/img-1.jpg"
+																	title=""> <img width="100"
+																	class="img-thumbnail gallery-img img-fluid mx-auto"
+																	src="/administration/program/assets/images/small/img-1.jpg"
+																	alt="">
+																</a>
+															</div>
+															<button type="button" class="btn btn-primary"
+																data-bs-toggle="modal"
+																data-bs-target="#exampleModalgrid">변경</button>
+															<div class="modal fade" id="exampleModalgrid"
+																tabindex="-1" aria-labelledby="exampleModalgridLabel">
+																<div class="modal-dialog">
+																	<div class="modal-content">
+																		<div class="modal-header">
+																			<h5 class="modal-title" id="exampleModalgridLabel">Grid
+																				Modals</h5>
+																			<button type="button" class="btn-close"
+																				data-bs-dismiss="modal" aria-label="Close"></button>
+																		</div>
+																		<div class="modal-body">
+																			<form action="javascript:void(0);">
+																				<div class="row g-3">
+																					<div class="col-xxl-6">
+																						<div>
+																							<label for="firstName" class="form-label">First
+																								Name</label> <input type="text" class="form-control"
+																								id="firstName" placeholder="Enter firstname">
+																						</div>
+																					</div>
+																					<div class="col-xxl-6">
+																						<div>
+																							<label for="lastName" class="form-label">Last
+																								Name</label> <input type="text" class="form-control"
+																								id="lastName" placeholder="Enter lastname">
+																						</div>
+																					</div>
+																					<div class="col-lg-12">
+																						<label class="form-label">Gender</label>
+																						<div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio1"
+																									value="option1"> <label
+																									class="form-check-label" for="inlineRadio1">Male</label>
+																							</div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio2"
+																									value="option2"> <label
+																									class="form-check-label" for="inlineRadio2">Female</label>
+																							</div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio3"
+																									value="option3"> <label
+																									class="form-check-label" for="inlineRadio3">Others</label>
+																							</div>
+																						</div>
+																					</div>
+																					<div class="col-xxl-6">
+																						<label for="emailInput" class="form-label">Email</label>
+																						<input type="email" class="form-control"
+																							id="emailInput" placeholder="Enter your email">
+																					</div>
+																					<div class="col-xxl-6">
+																						<label for="passwordInput" class="form-label">Password</label>
+																						<input type="password" class="form-control"
+																							id="passwordInput" value="451326546"
+																							placeholder="Enter password">
+																					</div>
+																					<div class="col-lg-12">
+																						<div class="hstack gap-2 justify-content-end">
+																							<button type="button" class="btn btn-light"
+																								data-bs-dismiss="modal">Close</button>
+																							<button type="submit" class="btn btn-primary">Submit</button>
+																						</div>
+																					</div>
+																				</div>
+																			</form>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-4">
+													<div class="d-flex align-items-center mt-3">
+														<p class="text-muted mb-0 me-2">OVERVIEW IMAGE :</p>
+														<div class="avatar-group">
+															<div class="gallery-container">
+																<a class="image-popup" target="_blank"
+																	href="/administration/program/assets/images/small/img-1.jpg"
+																	title=""> <img width="100"
+																	class="img-thumbnail gallery-img img-fluid mx-auto"
+																	src="/administration/program/assets/images/small/img-1.jpg"
+																	alt="">
+																</a>
+															</div>
+															<button type="button" class="btn btn-primary"
+																data-bs-toggle="modal"
+																data-bs-target="#exampleModalgrid">UPDATE</button>
+															<div class="modal fade" id="exampleModalgrid"
+																tabindex="-1" aria-labelledby="exampleModalgridLabel">
+																<div class="modal-dialog">
+																	<div class="modal-content">
+																		<div class="modal-header">
+																			<h5 class="modal-title" id="exampleModalgridLabel">Grid
+																				Modals</h5>
+																			<button type="button" class="btn-close"
+																				data-bs-dismiss="modal" aria-label="Close"></button>
+																		</div>
+																		<div class="modal-body">
+																			<form action="javascript:void(0);">
+																				<div class="row g-3">
+																					<div class="col-xxl-6">
+																						<div>
+																							<label for="firstName" class="form-label">First
+																								Name</label> <input type="text" class="form-control"
+																								id="firstName" placeholder="Enter firstname">
+																						</div>
+																					</div>
+																					<div class="col-xxl-6">
+																						<div>
+																							<label for="lastName" class="form-label">Last
+																								Name</label> <input type="text" class="form-control"
+																								id="lastName" placeholder="Enter lastname">
+																						</div>
+																					</div>
+																					<div class="col-lg-12">
+																						<label class="form-label">Gender</label>
+																						<div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio1"
+																									value="option1"> <label
+																									class="form-check-label" for="inlineRadio1">Male</label>
+																							</div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio2"
+																									value="option2"> <label
+																									class="form-check-label" for="inlineRadio2">Female</label>
+																							</div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio3"
+																									value="option3"> <label
+																									class="form-check-label" for="inlineRadio3">Others</label>
+																							</div>
+																						</div>
+																					</div>
+																					<div class="col-xxl-6">
+																						<label for="emailInput" class="form-label">Email</label>
+																						<input type="email" class="form-control"
+																							id="emailInput" placeholder="Enter your email">
+																					</div>
+																					<div class="col-xxl-6">
+																						<label for="passwordInput" class="form-label">Password</label>
+																						<input type="password" class="form-control"
+																							id="passwordInput" value="451326546"
+																							placeholder="Enter password">
+																					</div>
+																					<div class="col-lg-12">
+																						<div class="hstack gap-2 justify-content-end">
+																							<button type="button" class="btn btn-light"
+																								data-bs-dismiss="modal">Close</button>
+																							<button type="submit" class="btn btn-primary">Submit</button>
+																						</div>
+																					</div>
+																				</div>
+																			</form>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-4">
+													<div class="d-flex align-items-center mt-3">
+														<p class="text-muted mb-0 me-2">PRODUCT SPEC IMAGE :</p>
+														<div class="avatar-group">
+															<div class="gallery-container">
+																<a class="image-popup" target="_blank"
+																	href="/administration/program/assets/images/small/img-1.jpg"
+																	title=""> <img width="100"
+																	class="img-thumbnail gallery-img img-fluid mx-auto"
+																	src="/administration/program/assets/images/small/img-1.jpg"
+																	alt="">
+																</a>
+															</div>
+															<button type="button" class="btn btn-primary"
+																data-bs-toggle="modal"
+																data-bs-target="#exampleModalgrid">UPDATE</button>
+															<div class="modal fade" id="exampleModalgrid"
+																tabindex="-1" aria-labelledby="exampleModalgridLabel">
+																<div class="modal-dialog">
+																	<div class="modal-content">
+																		<div class="modal-header">
+																			<h5 class="modal-title" id="exampleModalgridLabel">Grid
+																				Modals</h5>
+																			<button type="button" class="btn-close"
+																				data-bs-dismiss="modal" aria-label="Close"></button>
+																		</div>
+																		<div class="modal-body">
+																			<form action="javascript:void(0);">
+																				<div class="row g-3">
+																					<div class="col-xxl-6">
+																						<div>
+																							<label for="firstName" class="form-label">First
+																								Name</label> <input type="text" class="form-control"
+																								id="firstName" placeholder="Enter firstname">
+																						</div>
+																					</div>
+																					<div class="col-xxl-6">
+																						<div>
+																							<label for="lastName" class="form-label">Last
+																								Name</label> <input type="text" class="form-control"
+																								id="lastName" placeholder="Enter lastname">
+																						</div>
+																					</div>
+																					<div class="col-lg-12">
+																						<label class="form-label">Gender</label>
+																						<div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio1"
+																									value="option1"> <label
+																									class="form-check-label" for="inlineRadio1">Male</label>
+																							</div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio2"
+																									value="option2"> <label
+																									class="form-check-label" for="inlineRadio2">Female</label>
+																							</div>
+																							<div class="form-check form-check-inline">
+																								<input class="form-check-input" type="radio"
+																									name="inlineRadioOptions" id="inlineRadio3"
+																									value="option3"> <label
+																									class="form-check-label" for="inlineRadio3">Others</label>
+																							</div>
+																						</div>
+																					</div>
+																					<div class="col-xxl-6">
+																						<label for="emailInput" class="form-label">Email</label>
+																						<input type="email" class="form-control"
+																							id="emailInput" placeholder="Enter your email">
+																					</div>
+																					<div class="col-xxl-6">
+																						<label for="passwordInput" class="form-label">Password</label>
+																						<input type="password" class="form-control"
+																							id="passwordInput" value="451326546"
+																							placeholder="Enter password">
+																					</div>
+																					<div class="col-lg-12">
+																						<div class="hstack gap-2 justify-content-end">
+																							<button type="button" class="btn btn-light"
+																								data-bs-dismiss="modal">Close</button>
+																							<button type="submit" class="btn btn-primary">Submit</button>
+																						</div>
+																					</div>
+																				</div>
+																			</form>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div
+						class="row g-0 text-center text-sm-start align-items-center mb-4">
+						<div class="col-sm-6">
+							<div>
+								<p class="mb-sm-0 text-muted">
+									Showing <span class="fw-semibold">1</span> to <span
+										class="fw-semibold">10</span> of <span
+										class="fw-semibold text-decoration-underline">12</span>
+									entries
+								</p>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<ul
+								class="pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0">
+								<li class="page-item disabled"><a href="#"
+									class="page-link">Previous</a></li>
+								<li class="page-item active"><a href="#" class="page-link">1</a>
+								</li>
+								<li class="page-item "><a href="#" class="page-link">2</a>
+								</li>
+								<li class="page-item"><a href="#" class="page-link">3</a></li>
+								<li class="page-item"><a href="#" class="page-link">4</a></li>
+								<li class="page-item"><a href="#" class="page-link">5</a></li>
+								<li class="page-item"><a href="#" class="page-link">Next</a>
+								</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 			</div>
 			<th:block th:replace="program/fragments/common :: footerSrc"></th:block>
 		</div>
 	</div>
 	<th:block th:replace="program/fragments/common :: settingBlock"></th:block>
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js" integrity="sha256-ipiJrswvAR4VAx/th+6zWsdeYmVae0iJuiR+6OqHJHQ=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"
+		integrity="sha256-ipiJrswvAR4VAx/th+6zWsdeYmVae0iJuiR+6OqHJHQ="
+		crossorigin="anonymous"></script>
 	<th:block th:replace="program/fragments/common :: scriptSrc"></th:block>
-    <script src="/administration/program/assets/libs/sortablejs/Sortable.min.js"></script>
+	<script
+		src="/administration/program/assets/libs/sortablejs/Sortable.min.js"></script>
 	<script src="/administration/program/assets/js/pages/nestable.init.js"></script>
 </body>
 
