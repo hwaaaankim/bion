@@ -1,10 +1,12 @@
 package com.dev.BionLifeScienceWar.repository.product;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.dev.BionLifeScienceWar.model.product.BigSort;
@@ -26,4 +28,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	Page<Product> findAllByMiddleSort(Pageable pageable, MiddleSort bigSort);
 	
 	List<Product> findBySubjectContains(String subject);
+	
+	Optional<Product> findByProductCode(String code);
+	
+	@Query("SELECT MAX(productIndex) FROM Product")
+	Optional<Integer> findFirstIndex();
 }

@@ -22,5 +22,7 @@ public class BigSort {
 	@Column(name="BIG_SORT_NAME")
 	private String name;
 	
+	@Column(name="BIG_SORT_INDEX")
+	private int bigSortIndex;
 
 }

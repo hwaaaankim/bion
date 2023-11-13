@@ -84,6 +84,25 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
+
+		<!-- 엑셀 -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>5.2.2</version>
+		</dependency>
+
+		<!-- 엑셀 -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>5.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-scratchpad</artifactId>
+			<version>5.2.2</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -92,8 +111,8 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<profiles>
-		                <profile>prod</profile>
-		            </profiles>
+						<profile>prod</profile>
+					</profiles>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

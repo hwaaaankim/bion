@@ -1,7 +1,10 @@
 package com.dev.BionLifeScienceWar.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dev.BionLifeScienceWar.model.Banner;
 import com.dev.BionLifeScienceWar.model.Event;
@@ -46,6 +51,9 @@ import com.dev.BionLifeScienceWar.repository.product.BigSortRepository;
 import com.dev.BionLifeScienceWar.repository.product.MiddleSortRepository;
 import com.dev.BionLifeScienceWar.repository.product.ProductRepository;
 import com.dev.BionLifeScienceWar.repository.product.SmallSortRepository;
+import com.dev.BionLifeScienceWar.service.product.ProductService;
+import com.dev.BionLifeScienceWar.service.program.ExcelDownloadService;
+import com.dev.BionLifeScienceWar.service.program.ExcelUploadService;
 
 @Controller
 public class HomeController {
@@ -101,6 +109,15 @@ public class HomeController {
 	
 	@Autowired
 	CertificationRepository certificationRepository;
+	
+	@Autowired
+	ExcelDownloadService excelDownloadService;
+	
+	@Autowired
+	ExcelUploadService excelUploadService;
+	
+	@Autowired
+	ProductService productService;
 	
 	@Value("${spring.upload.path}")
 	private String uploadPath;
@@ -257,6 +274,24 @@ public class HomeController {
 		model.addAttribute("bs", brandSmallSortRepository.findAll());
 		model.addAttribute("bp", brandProductRepository.findAll());
 		return "front/customer/contact";
+	}
+	
+	@RequestMapping("/excelTest")
+	@ResponseBody
+	public void excelTest(
+			HttpServletResponse res
+			) throws IOException {
+		excelDownloadService.bigSortDownload(res);
+		
+	}
+	
+	@RequestMapping("/excelUploadTest")
+	@ResponseBody
+	public void excelUploadTest(
+			MultipartFile file
+			) {
+		
+		excelUploadService.uploadExcel(file);
 	}
 	
 	@RequestMapping("/productOverall")
