@@ -15,6 +15,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.lang.Nullable;
+
 import lombok.Data;
 
 @Entity
@@ -29,6 +31,10 @@ public class Product {
 	
 	@Column(name="PRODUCT_SUBJECT")
 	private String subject;
+	
+	@Column(name="PRODUCT_CODE")
+	@Nullable
+	private String productCode;
 	
 	@Column(name="PRODUCT_CONTENT")
 	private String content;

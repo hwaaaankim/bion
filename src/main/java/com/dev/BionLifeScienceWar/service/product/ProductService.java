@@ -39,7 +39,27 @@ public class ProductService {
 	@Value("${spring.upload.path}")
 	private String commonPath;
 
-	public Product productInsert(MultipartFile productOverviewImage, MultipartFile productSpecImage, Product product)
+	public void excelInsert(
+			Product product
+			) {
+		product.setTableImagePath("-");
+		product.setTableImageRoad("-");
+		product.setTableImageName("-");
+		product.setSpecImageName("-");
+		product.setSpecImagePath("-");
+		product.setSpecImageRoad("-");
+		int index = 1;
+		if(productRepository.findFirstIndex().isPresent()) {
+			index = productRepository.findFirstIndex().get() + 1;
+		}
+		product.setProductIndex(index);
+		productRepository.save(product);
+	}
+	
+	public Product productInsert(
+			MultipartFile productOverviewImage, 
+			MultipartFile productSpecImage, 
+			Product product)
 			throws IllegalStateException, IOException {
 	
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -144,6 +164,7 @@ public class ProductService {
 
 		productOverviewImage.transferTo(overviewFileFolder);
 		productSpecImage.transferTo(specFileFolder);
+		product.setProductCode(generatedString + "-" + current_date);
 		product.setTableImagePath(overviewPath + "/" + overviewFileName);
 		product.setTableImageRoad(overviewRoad + "/" + overviewFileName);
 		product.setTableImageName(overviewFileName);

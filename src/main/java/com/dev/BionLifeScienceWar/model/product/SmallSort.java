@@ -30,6 +30,9 @@ public class SmallSort {
 	@Transient
 	private Long middleId;
 	
+	@Column(name="SMALL_SORT_INDEX")
+	private int smallSortIndex;
+	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(
 			name="SMALL_REFER_ID", referencedColumnName="MIDDLE_SORT_ID"

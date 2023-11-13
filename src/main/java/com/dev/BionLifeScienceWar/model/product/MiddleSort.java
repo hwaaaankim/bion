@@ -29,6 +29,9 @@ public class MiddleSort {
 	@Transient
 	private Long bigId;
 	
+	@Column(name="MIDDLE_SORT_INDEX")
+	private int middleSortIndex;
+	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(
 			name="MIDDLE_REFER_ID", referencedColumnName="BIG_SORT_ID"
