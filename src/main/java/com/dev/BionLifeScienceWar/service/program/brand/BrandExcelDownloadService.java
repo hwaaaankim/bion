@@ -1,4 +1,4 @@
-package com.dev.BionLifeScienceWar.service.program;
+package com.dev.BionLifeScienceWar.service.program.brand;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ import com.dev.BionLifeScienceWar.repository.product.SmallSortRepository;
 
 @Service
 @Transactional
-public class ExcelDownloadService {
+public class BrandExcelDownloadService {
 
 	@Autowired
 	ProductRepository productRepository;

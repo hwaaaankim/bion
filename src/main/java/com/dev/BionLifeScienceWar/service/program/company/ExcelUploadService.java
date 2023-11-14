@@ -1,4 +1,4 @@
-package com.dev.BionLifeScienceWar.service.program;
+package com.dev.BionLifeScienceWar.service.program.company;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -52,8 +52,8 @@ import com.dev.BionLifeScienceWar.repository.product.MiddleSortRepository;
 import com.dev.BionLifeScienceWar.repository.product.ProductRepository;
 import com.dev.BionLifeScienceWar.repository.product.SmallSortRepository;
 import com.dev.BionLifeScienceWar.service.product.ProductService;
-import com.dev.BionLifeScienceWar.service.program.ExcelDownloadService;
-import com.dev.BionLifeScienceWar.service.program.ExcelUploadService;
+import com.dev.BionLifeScienceWar.service.program.company.ExcelDownloadService;
+import com.dev.BionLifeScienceWar.service.program.company.ExcelUploadService;
 
 @Controller
 public class HomeController {
@@ -471,7 +471,11 @@ public class HomeController {
 			}
 			if(products.getNumberOfElements()>0) {
 				for(Product p : products) {
-					p.setFirstImageRoad(p.getImages().get(0).getProductImageRoad());
+					if(!p.getImages().isEmpty()) {
+						p.setFirstImageRoad(p.getImages().get(0).getProductImageRoad());
+					}else {
+						p.setFirstImageRoad("-");
+					}
 				}
 			}
 			model.addAttribute("products", products);

@@ -21,11 +21,19 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	
 	Page<Product> findAll(Pageable pageble);
 	
-	List<Product> findAllBySign(Boolean sign);
-	
 	Page<Product> findAllByBigSort(Pageable pageable, BigSort bigSort);
 	
 	Page<Product> findAllByMiddleSort(Pageable pageable, MiddleSort bigSort);
+	
+	Page<Product> findAllBySmallSortAndSubjectContains(Pageable pageable, SmallSort smallSort, String subject);
+	
+	Page<Product> findAllBySubjectContains(Pageable pageble, String subject);
+	
+	Page<Product> findAllByBigSortAndSubjectContains(Pageable pageable, BigSort bigSort, String subject);
+	
+	Page<Product> findAllByMiddleSortAndSubjectContains(Pageable pageable, MiddleSort bigSort, String subject);
+
+	List<Product> findAllBySign(Boolean sign);
 	
 	List<Product> findBySubjectContains(String subject);
 	
