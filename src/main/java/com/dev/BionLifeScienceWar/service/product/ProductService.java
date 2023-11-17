@@ -62,19 +62,18 @@ public class ProductService {
 			Product product)
 			throws IllegalStateException, IOException {
 	
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
 		String current_date = simpleDateFormat.format(new Date());
 		String absolutePath = new File("").getAbsolutePath() + "\\";
-//        String overviewPath = "src/main/resources/static/administration/overview/"+current_date;
-//        String specPath = "src/main/resources/static/administration/spec/"+current_date;
-//        String overviewPath = "/home/hosting_users/bionls/tomcat/webapps/overview/"+current_date;
-//        String specPath = "/home/hosting_users/bionls/tomcat/webapps/spec/"+current_date;
-		String overviewPath = commonPath + "/overview/" + current_date;
-		String specPath = commonPath + "/spec/" + current_date;
-		String overviewRoad = "/administration/overview/" + current_date;
-		String specRoad = "/administration/spec/" + current_date;
-		File overviewFileFolder = new File(overviewPath);
-		File specFileFolder = new File(specPath);
+//      String overviewPath = "src/main/resources/static/administration/overview/"+current_date;
+//      String specPath = "src/main/resources/static/administration/spec/"+current_date;
+//      String overviewPath = "/home/hosting_users/bionls/tomcat/webapps/overview/"+current_date;
+//      String specPath = "/home/hosting_users/bionls/tomcat/webapps/spec/"+current_date;
+//		String overviewPath = commonPath + "/overview/" + current_date;
+//		String specPath = commonPath + "/spec/" + current_date;
+//		String overviewRoad = "/administration/overview/" + current_date;
+//		String specRoad = "/administration/spec/" + current_date;
+		
 
 		int leftLimit = 48; // numeral '0'
 		int rightLimit = 122; // letter 'z'
@@ -84,7 +83,18 @@ public class ProductService {
 		String generatedString = random.ints(leftLimit, rightLimit + 1)
 				.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
 				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
-
+		String productCode = generatedString + "_" + current_date;
+		
+		String overviewPath = commonPath + "/overview/" + current_date;
+		String specPath = commonPath + "/spec/" + current_date;
+		String overviewRoad = "/administration/overview/" + current_date;
+		String specRoad = "/administration/spec/" + current_date;
+		
+		File overviewFileFolder = new File(overviewPath);
+		File specFileFolder = new File(specPath);
+		
+		
+		
 		if (!overviewFileFolder.exists()) {
 			overviewFileFolder.mkdirs();
 		}
@@ -164,7 +174,7 @@ public class ProductService {
 
 		productOverviewImage.transferTo(overviewFileFolder);
 		productSpecImage.transferTo(specFileFolder);
-		product.setProductCode(generatedString + "-" + current_date);
+		product.setProductCode(productCode);
 		product.setTableImagePath(overviewPath + "/" + overviewFileName);
 		product.setTableImageRoad(overviewRoad + "/" + overviewFileName);
 		product.setTableImageName(overviewFileName);
