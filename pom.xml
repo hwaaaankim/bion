@@ -103,6 +103,14 @@
 			<artifactId>poi-scratchpad</artifactId>
 			<version>5.2.2</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.zeroturnaround/zt-zip -->
+		<dependency>
+		    <groupId>org.zeroturnaround</groupId>
+		    <artifactId>zt-zip</artifactId>
+		    <version>1.6</version>
+		</dependency>
+				
 	</dependencies>
 	<build>
 		<plugins>
