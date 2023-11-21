@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -48,10 +51,12 @@ public class ProductService {
 		product.setSpecImageName("-");
 		product.setSpecImagePath("-");
 		product.setSpecImageRoad("-");
+		
 		int index = 1;
 		if(productRepository.findFirstIndex().isPresent()) {
 			index = productRepository.findFirstIndex().get() + 1;
 		}
+		
 		product.setProductIndex(index);
 		productRepository.save(product);
 	}
@@ -65,15 +70,6 @@ public class ProductService {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
 		String current_date = simpleDateFormat.format(new Date());
 		String absolutePath = new File("").getAbsolutePath() + "\\";
-//      String overviewPath = "src/main/resources/static/administration/overview/"+current_date;
-//      String specPath = "src/main/resources/static/administration/spec/"+current_date;
-//      String overviewPath = "/home/hosting_users/bionls/tomcat/webapps/overview/"+current_date;
-//      String specPath = "/home/hosting_users/bionls/tomcat/webapps/spec/"+current_date;
-//		String overviewPath = commonPath + "/overview/" + current_date;
-//		String specPath = commonPath + "/spec/" + current_date;
-//		String overviewRoad = "/administration/overview/" + current_date;
-//		String specRoad = "/administration/spec/" + current_date;
-		
 
 		int leftLimit = 48; // numeral '0'
 		int rightLimit = 122; // letter 'z'
@@ -85,29 +81,16 @@ public class ProductService {
 				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
 		String productCode = generatedString + "_" + current_date;
 		
-		String overviewPath = commonPath + "/overview/" + current_date;
-		String specPath = commonPath + "/spec/" + current_date;
-		String overviewRoad = "/administration/overview/" + current_date;
-		String specRoad = "/administration/spec/" + current_date;
-		
+		String overviewPath = commonPath + "/company/" + productCode + "/overview/" + current_date;
+		String overviewRoad = "/administration/company/" + productCode + "/overview/" + current_date;
 		File overviewFileFolder = new File(overviewPath);
-		File specFileFolder = new File(specPath);
-		
-		
-		
 		if (!overviewFileFolder.exists()) {
 			overviewFileFolder.mkdirs();
 		}
-
-		if (!specFileFolder.exists()) {
-			specFileFolder.mkdirs();
-		}
-
+		
 		String overviewContentType = productOverviewImage.getContentType();
-		String specContentType = productSpecImage.getContentType();
 		String overviewOriginalFileExtension = "";
-		String specOriginalFileExtension = "";
-		// 확장자 명이 없으면 이 파일은 잘 못 된 것이다
+		
 		if (ObjectUtils.isEmpty(overviewContentType)) {
 			return null;
 		} else {
@@ -135,6 +118,19 @@ public class ProductService {
 				overviewOriginalFileExtension = ".hwp";
 			}
 		}
+		String overviewFileName = generatedString + "_" + productOverviewImage.getOriginalFilename();
+		
+		String specPath = commonPath + "/company/" + productCode + "/spec/" + current_date;
+		String specRoad = "/administration/company/" + productCode+ "/spec/" + current_date;
+		File specFileFolder = new File(specPath);
+
+		if (!specFileFolder.exists()) {
+			specFileFolder.mkdirs();
+		}
+
+		String specContentType = productSpecImage.getContentType();
+		String specOriginalFileExtension = "";
+		
 
 		if (ObjectUtils.isEmpty(specContentType)) {
 			return null;
@@ -162,8 +158,8 @@ public class ProductService {
 				specOriginalFileExtension = ".hwp";
 			}
 		}
-		String overviewFileName = generatedString + "_" + productOverviewImage.getOriginalFilename();
 		String specFileName = generatedString + "_" + productSpecImage.getOriginalFilename();
+		
 		if (env.equals("local")) {
 			overviewFileFolder = new File(absolutePath + overviewPath + "/" + overviewFileName);
 			specFileFolder = new File(absolutePath + specPath + "/" + specFileName);
@@ -171,7 +167,18 @@ public class ProductService {
 			overviewFileFolder = new File(overviewPath + "/" + overviewFileName);
 			specFileFolder = new File(specPath + "/" + specFileName);
 		}
-
+		int index = 1;
+		if(productRepository.findFirstIndex().isPresent()) {
+			index = productRepository.findFirstIndex().get() + 1;
+		}
+		
+		if(product.getSign()==null) {
+			product.setSign(false);
+		}else {
+			product.setSign(true);
+		}
+		
+		product.setProductIndex(index);
 		productOverviewImage.transferTo(overviewFileFolder);
 		productSpecImage.transferTo(specFileFolder);
 		product.setProductCode(productCode);
@@ -186,7 +193,59 @@ public class ProductService {
 
 	}
 
-	public String productUpdate(MultipartFile productOverviewImage, MultipartFile productSpecImage, Product product)
+	
+	public Boolean removeOverViewImage(
+			Long id
+			) {
+		String overViewPath = productRepository.findById(id).get().getTableImagePath();
+		Boolean overResult = true;
+		try {
+			File overViewFile = new File(overViewPath);
+			overResult = overViewFile.delete();
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return overResult;
+	}
+	
+	public void deleteFiles(Long id) throws IOException {
+		
+		File folder = new File(commonPath + "/company/" + productRepository.findById(id).get().getProductCode());
+		ExecutorService executorService = Executors.newCachedThreadPool();
+
+		executorService.submit(() -> {
+			try {
+				FileUtils.cleanDirectory(folder); 
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		});
+		executorService.submit(() -> {
+			folder.delete();
+		});
+	}
+	
+	public Boolean removeSpecImage(
+			Long id
+			) {
+		String specPath = productRepository.findById(id).get().getSpecImagePath();
+		Boolean specResult = true;
+		try {
+			File specFile = new File(specPath);
+			specResult = specFile.delete();
+			
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return specResult;
+	}
+	
+	public String productUpdate(
+			MultipartFile productOverviewImage, 
+			MultipartFile productSpecImage, 
+			Product product)
 			throws IllegalStateException, IOException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String current_date = simpleDateFormat.format(new Date());
@@ -201,11 +260,11 @@ public class ProductService {
 			String generatedString = random.ints(leftLimit, rightLimit + 1)
 					.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
 					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
-//			String overviewPath = "src/main/resources/static/administration/overview/"+current_date;
-//			String overviewPath = "/home/hosting_users/bionls/tomcat/webapps/overview/"+current_date;
-			String overviewPath = commonPath + "/overview/" + current_date;
-
-			String overviewRoad = "/administration/overview/" + current_date;
+			
+			
+			String overviewPath = commonPath + "/company/" + product.getProductCode() + "/overview/" + current_date;
+			String overviewRoad = "/administration/company/" + product.getProductCode() + "/overview/" + current_date;
+			
 			File overviewFileFolder = new File(overviewPath);
 
 			if (!overviewFileFolder.exists()) {
@@ -262,10 +321,10 @@ public class ProductService {
 			String generatedString = random.ints(leftLimit, rightLimit + 1)
 					.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
 					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
-//			String specPath = "src/main/resources/static/administration/spec/"+current_date;
-//			String specPath = "/home/hosting_users/bionls/tomcat/webapps/spec/"+current_date;
-			String specPath = commonPath + "/spec/" + current_date;
-			String specRoad = "/administration/spec/" + current_date;
+			
+			String specPath = commonPath + "/company/" + product.getProductCode() + "/spec/" + current_date;
+			String specRoad = "/administration/company/" + product.getProductCode()+ "/spec/" + current_date;
+			
 			File specFileFolder = new File(specPath);
 
 			if (!specFileFolder.exists()) {

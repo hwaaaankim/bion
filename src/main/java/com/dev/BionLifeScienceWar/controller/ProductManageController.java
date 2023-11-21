@@ -1,6 +1,5 @@
 package com.dev.BionLifeScienceWar.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.dev.BionLifeScienceWar.model.product.BigSort;
 import com.dev.BionLifeScienceWar.model.product.MiddleSort;
 import com.dev.BionLifeScienceWar.model.product.Product;
+import com.dev.BionLifeScienceWar.model.product.SmallSort;
 import com.dev.BionLifeScienceWar.repository.product.BigSortRepository;
 import com.dev.BionLifeScienceWar.repository.product.MiddleSortRepository;
 import com.dev.BionLifeScienceWar.repository.product.ProductRepository;
@@ -80,8 +80,63 @@ public class ProductManageController {
 	}
 	
 	@RequestMapping("/productOverall")
-	public String productOverall() {
+	public String productOverall(	
+			Model model, 
+			@RequestParam(required = false) Long smallId,
+			@RequestParam(required = false) Long middleId,
+			@RequestParam(required = false) Long bigId,
+			@PageableDefault(size = 10) Pageable pageable
+			) {
+		int startPage = 0;
+		int endPage = 0;
+		if (smallId != null) {
+			Page<Product> products = productRepository.findAllBySmallSortOrderByProductIndexAsc(
+					pageable,
+					smallSortRepository.findById(smallId).get()
+					);
+			model.addAttribute("sortable", products);
+			startPage = Math.max(1, products.getPageable().getPageNumber() - 4);
+			endPage = Math.min(products.getTotalPages(), products.getPageable().getPageNumber() + 4);
+			model.addAttribute("smallsorts", smallSortRepository.findAll());
+			model.addAttribute("middlesorts", middleSortRepository.findAll());
+			model.addAttribute("code", "product");
+			
+		}else if(smallId == null && middleId != null){
+			Optional<MiddleSort> m = middleSortRepository.findById(middleId);
+			Page<SmallSort> smallSorts = smallSortRepository.findAllByMiddleSortOrderBySmallSortIndexAsc(pageable, m.get());
+			model.addAttribute("sortable", smallSorts);
+			startPage = Math.max(1, smallSorts.getPageable().getPageNumber() - 4);
+			endPage = Math.min(smallSorts.getTotalPages(), smallSorts.getPageable().getPageNumber() + 4);
+			model.addAttribute("middlesorts", middleSortRepository.findAll());
+			model.addAttribute("smallsorts", smallSortRepository.findAllByMiddleSort(m.get()));
+			model.addAttribute("code", "smallsort");
+			
+		}else if(smallId == null && middleId == null && bigId != null) {
+			
+			Optional<BigSort> b = bigSortRepository.findById(bigId);
+			Page<MiddleSort> middleSorts = middleSortRepository.findAllByBigSortOrderByMiddleSortIndexAsc(pageable, b.get());
+			model.addAttribute("sortable", middleSorts);
+			startPage = Math.max(1, middleSorts.getPageable().getPageNumber() - 4);
+			endPage = Math.min(middleSorts.getTotalPages(), middleSorts.getPageable().getPageNumber() + 4);
+			model.addAttribute("middlesorts", middleSortRepository.findAllByBigSort(b.get()));
+			model.addAttribute("code", "middlesort");
+			
+		}else {
+			Page<BigSort> bigSorts =  bigSortRepository.findAllByOrderByBigSortIndexAsc(pageable);
+			startPage = Math.max(1, bigSorts.getPageable().getPageNumber() - 4);
+			endPage = Math.min(bigSorts.getTotalPages(), bigSorts.getPageable().getPageNumber() + 4);
+			model.addAttribute("sortable", bigSorts);
+			model.addAttribute("code", "bigsort");
+			
 		
+		}
+		
+		model.addAttribute("middleId", middleId);
+		model.addAttribute("smallId", smallId);
+		model.addAttribute("bigId", bigId);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("bigsorts", bigSortRepository.findAll());
 		return "program/company/productOverall";
 	}
 	

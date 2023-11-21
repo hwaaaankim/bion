@@ -138,7 +138,7 @@
 							<div class="row">
 								<div class="entry event col-12" th:each="i:${notice}">
 									<div class="grid-inner row align-items-center g-0 p-4">
-										<div class="col-md-12 ps-md-6">
+										<div class="col-md-12">
 											<div class="entry-title title-xs">
 												<h2>
 													<a th:href="@{/notice#faq-} + ${i.id}" th:text="${i.subject}"
@@ -173,7 +173,7 @@
 
 								<div class="entry event col-12" th:each="f:${fi}">
 									<div class="grid-inner row align-items-center g-0 p-4">
-										<div class="col-md-12 ps-md-6">
+										<div class="col-md-12">
 											<div class="entry-title title-xs">
 												<h2>
 													<a th:href="@{${f.fileroad}}" download

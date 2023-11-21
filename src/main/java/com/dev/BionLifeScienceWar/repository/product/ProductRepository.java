@@ -17,9 +17,9 @@ import com.dev.BionLifeScienceWar.model.product.SmallSort;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>{
 
-	Page<Product> findAllBySmallSort(Pageable pageable, SmallSort smallSort);
+	Page<Product> findAllBySmallSortOrderByIdDesc(Pageable pageable, SmallSort smallSort);
 	
-	Page<Product> findAll(Pageable pageble);
+	Page<Product> findAllByOrderByIdDesc(Pageable pageble);
 	
 	Page<Product> findAllByBigSort(Pageable pageable, BigSort bigSort);
 	
@@ -34,6 +34,28 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	Page<Product> findAllByMiddleSortAndSubjectContains(Pageable pageable, MiddleSort bigSort, String subject);
 
 	List<Product> findAllBySign(Boolean sign);
+	
+	
+	Page<Product> findAllBySmallSortOrderByProductIndexAsc(Pageable pageable, SmallSort smallSort);
+	
+	Page<Product> findAllByOrderByProductIndexAsc(Pageable pageble);
+	
+	Page<Product> findAllByBigSortOrderByProductIndexAsc(Pageable pageable, BigSort bigSort);
+	
+	Page<Product> findAllByMiddleSortOrderByProductIndexAsc(Pageable pageable, MiddleSort bigSort);
+	
+	Page<Product> findAllBySmallSortAndSubjectContainsOrderByProductIndexAsc(Pageable pageable, SmallSort smallSort, String subject);
+	
+	Page<Product> findAllBySubjectContainsOrderByProductIndexAsc(Pageable pageble, String subject);
+	
+	Page<Product> findAllByBigSortAndSubjectContainsOrderByProductIndexAsc(Pageable pageable, BigSort bigSort, String subject);
+	
+	Page<Product> findAllByMiddleSortAndSubjectContainsOrderByProductIndexAsc(Pageable pageable, MiddleSort bigSort, String subject);
+
+	List<Product> findAllBySignOrderByProductIndexAsc(Boolean sign);
+	
+	List<Product> findAllByOrderByProductIndexAsc();
+	
 	
 	List<Product> findBySubjectContains(String subject);
 	

@@ -28,18 +28,33 @@ public class ProductFileService {
 	@Value("${spring.upload.path}")
 	private String commonPath;
 	
+	public Boolean fileDelete(
+			Long id
+			) {
+		List<ProductFile> files = productFileRepository.findAllByProductId(id);
+		for(ProductFile p : files) {
+			File pFile = new File(p.getProductFilePath());
+			if(!pFile.delete()) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	public String fileUpload(
 			List<MultipartFile> productFiles,
-			Long id
+			Long id,
+			String productCode
 			) throws IllegalStateException, IOException {
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String current_date = simpleDateFormat.format(new Date());
         String absolutePath = new File("").getAbsolutePath() + "\\";
-//        String path = "src/main/resources/static/administration/productfile/"+current_date;
-//        String path = "/home/hosting_users/bionls/tomcat/webapps/productfile/"+current_date;
-        String path = commonPath + "/productfile/" + current_date;
-        String road = "/administration/productfile/"+current_date;
+
+        String path = commonPath + "/company/" + productCode + "/productfile/" + current_date;
+        String road = "/administration/company/" + productCode + "/productfile/"+current_date;
+        
         File fileFolder = new File(path);
         int leftLimit = 48; // numeral '0'
 		int rightLimit = 122; // letter 'z'

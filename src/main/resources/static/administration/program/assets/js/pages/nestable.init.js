@@ -2,6 +2,9 @@ var nestableSorted = document.getElementById('nested-sortable');
 var nestedSortables = [].slice.call(
 	document.querySelectorAll(".nested-sortable")
 );
+$('#indexChangeBtn').attr('disabled', true);
+var exItems = document.querySelectorAll('.sortable-items');
+var sortableItems = document.querySelectorAll('.sortable-items');
 nestedSortablesHandles =
 	(nestedSortables &&
 		Array.from(nestedSortables).forEach(function(e) {
@@ -12,24 +15,15 @@ nestedSortablesHandles =
 				swapThreshold: 0.65,
 				invertSwap: true,
 				onChange: function(e) {
-					console.log(e.from.getAttribute('data-key'));
-					console.log(e.to.getAttribute('data-key'));
-					e.preventDefault();
-					return false;
 				},
 				onAdd: function(e) {
-					console.log('onAdd');
-					e.preventDefault();
-					return false;
 				},
 				onSort: function(e) {
-					console.log('onSort');
-					e.preventDefault();
-					return false;
 				},
 				onEnd:function(evt){
-					var itemEl = evt.item;  // dragged HTMLElement
-					console.log(itemEl);
+					sortableItems = document.querySelectorAll('.sortable-items');
+					$('#indexChangeBtn').attr('disabled', false);
+					evt.item;  // dragged HTMLElement
 			        evt.to;    // target list
 			        evt.from;  // previous list
 			        evt.oldIndex;  // element's old index within old parent
@@ -38,11 +32,17 @@ nestedSortablesHandles =
 			        evt.newDraggableIndex; // element's new index within new parent, only counting draggable elements
 			        evt.clone // the clone element
 			        evt.pullMode = false;  // when item is in another sortable: `"clone"` if cloning, `true` if moving
-					
-					return false;
 				},
-				onMove:function(){
+				onMove:function(e){
 				}
 			});
 		}));
-
+$('#indexChangeBtn').on('click',function(){
+	console.log($('#code').val());
+	Array.from(sortableItems).forEach(function(item){
+		console.log(item.id);
+	})
+	Array.from(exItems).forEach(function(item){
+		console.log(item.id);
+	})
+});

@@ -26,13 +26,13 @@
 						<div class="col-12">
 							<div
 								class="page-title-box d-sm-flex align-items-center justify-content-between">
-								<h4 class="mb-sm-0">PRODUCT OVERFALL</h4>
+								<h4 class="mb-sm-0">PRODUCT MANAGER</h4>
 
 								<div class="page-title-right">
 									<ol class="breadcrumb m-0">
 										<li class="breadcrumb-item"><a
 											href="javascript: void(0);">Prodcut Manage Center</a></li>
-										<li class="breadcrumb-item active">Prorduct Overall</li>
+										<li class="breadcrumb-item active">Prorduct Manager</li>
 									</ol>
 								</div>
 
@@ -103,7 +103,7 @@
 														name="smallId">
 														<option selected value="">== 소분류 선택 ==</option>
 														<option th:each="s:${smallsorts}" th:text="${s.name}"
-															th:value="${s.id}" th:selected="${smamllId == s.id}"></option>
+															th:value="${s.id}" th:selected="${smallId == s.id}"></option>
 													</select>
 												</div>
 												<div class="col-sm">
@@ -451,20 +451,13 @@
    		var smallId = /*[[${smallId}]]*/ 'default';
     </script>
 	<script src="/administration/lib/programProductManager.js"></script>
-	<script
-		src="/administration/program/assets/libs/dropzone/dropzone-min.js"></script>
-	<script
-		src="/administration/program/assets/libs/filepond/filepond.min.js"></script>
-	<script
-		src="/administration/program/assets/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js"></script>
-	<script
-		src="/administration/program/assets/libs/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js"></script>
-	<script
-		src="/administration/program/assets/libs/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js"></script>
-	<script
-		src="/administration/program/assets/libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js"></script>
-	<script
-		src="/administration/program/assets/js/pages/form-file-upload.init.js"></script>
+	<script src="/administration/program/assets/libs/dropzone/dropzone-min.js"></script>
+	<script src="/administration/program/assets/libs/filepond/filepond.min.js"></script>
+	<script src="/administration/program/assets/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js"></script>
+	<script src="/administration/program/assets/libs/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js"></script>
+	<script src="/administration/program/assets/libs/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js"></script>
+	<script src="/administration/program/assets/libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js"></script>
+	<script src="/administration/program/assets/js/pages/form-file-upload.init.js"></script>
 </body>
 
 </html>

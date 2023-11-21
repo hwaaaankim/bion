@@ -14,17 +14,14 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.dev.BionLifeScienceWar.model.product.BigSort;
-import com.dev.BionLifeScienceWar.model.product.MiddleSort;
 import com.dev.BionLifeScienceWar.model.product.Product;
 import com.dev.BionLifeScienceWar.model.product.ProductInfo;
 import com.dev.BionLifeScienceWar.model.product.ProductSpec;
-import com.dev.BionLifeScienceWar.model.product.SmallSort;
 import com.dev.BionLifeScienceWar.repository.product.BigSortRepository;
 import com.dev.BionLifeScienceWar.repository.product.MiddleSortRepository;
+import com.dev.BionLifeScienceWar.repository.product.ProductImageRepository;
 import com.dev.BionLifeScienceWar.repository.product.ProductInfoRepository;
 import com.dev.BionLifeScienceWar.repository.product.ProductRepository;
 import com.dev.BionLifeScienceWar.repository.product.ProductSpecRepository;
@@ -53,6 +50,9 @@ public class ExcelUploadService {
 	ProductInfoRepository productInfoRepository;
 	
 	@Autowired
+	ProductImageRepository productImageRepository;
+	
+	@Autowired
 	ProductService productService;
 
 	public void uploadExcel(MultipartFile file) {
@@ -78,10 +78,10 @@ public class ExcelUploadService {
 
 		executorService.submit(() -> {
 			try {
-				System.out.println("11111111111111111111111111111111111");
 				productInfoRepository.deleteAll();
 				productSpecRepository.deleteAll();
 				productRepository.deleteAll();
+				productImageRepository.deleteAll();
 			} catch (Exception e) {
 				System.out.println(e);
 			}
@@ -90,7 +90,6 @@ public class ExcelUploadService {
 
 		executorService.submit(() -> {
 			try {
-				System.out.println("333333333333333333333333333333333333333333");
 				String fileExtsn = FilenameUtils.getExtension(file.getOriginalFilename()); // 파일 Original 확장명
 				Workbook workbook = null;
 
@@ -102,6 +101,10 @@ public class ExcelUploadService {
 					} else {
 						workbook = new XSSFWorkbook(file.getInputStream());
 					}
+					
+					List<String> productCodes = new ArrayList<String>();
+					List<String> infoCodes = new ArrayList<String>();
+					List<String> specCodes = new ArrayList<String>();
 					
 					Sheet productSheet = workbook.getSheetAt(3);
 					for (int i = 1; i < productSheet.getPhysicalNumberOfRows(); i++) {
@@ -126,6 +129,7 @@ public class ExcelUploadService {
 							String subContentValue = subContent + "";
 							String signStr = sign + "";
 							Boolean signValue = true;
+							productCodes.add(codeValue);
 							if(signStr.equals("TRUE")) {
 								signValue = true;
 							}else {
@@ -143,11 +147,13 @@ public class ExcelUploadService {
 							
 						}
 					}
+					
 					Sheet productInfoSheet = workbook.getSheetAt(5);
 					for (int i = 1; i < productInfoSheet.getPhysicalNumberOfRows(); i++) {
 						Row row = productInfoSheet.getRow(i);
-
+						
 						if (row != null) {
+							
 							ProductInfo info = new ProductInfo();
 							Cell code = row.getCell(0);
 							Cell text = row.getCell(1);
@@ -155,6 +161,7 @@ public class ExcelUploadService {
 							String textValue = text + "";
 							info.setProductId(productRepository.findByProductCode(codeValue).get().getId());
 							info.setProductInfoText(textValue);
+							infoCodes.add(codeValue);
 							productInfoRepository.save(info);
 						}
 					}
@@ -171,6 +178,7 @@ public class ExcelUploadService {
 							String codeValue = code + "";
 							String subjectValue = subject + "";
 							String contentValue = content + "";
+							specCodes.add(codeValue);
 							spec.setProductSpecSubject(subjectValue);
 							spec.setProductSpecContent(contentValue);
 							spec.setProductId(productRepository.findByProductCode(codeValue).get().getId());
@@ -179,6 +187,24 @@ public class ExcelUploadService {
 						}
 					}
 
+					for(String code : productCodes) {
+						if(!infoCodes.contains(code)) {
+							ProductInfo info = new ProductInfo();
+							info.setProductId(productRepository.findByProductCode(code).get().getId());
+							info.setProductInfoText("-");
+							productInfoRepository.save(info);
+						}
+						
+						if(!specCodes.contains(code)) {
+							ProductSpec spec = new ProductSpec();
+							spec.setProductSpecSubject("-");
+							spec.setProductSpecContent("-");
+							spec.setProductId(productRepository.findByProductCode(code).get().getId());
+							productSpecRepository.save(spec);
+						}
+					}
+					
+					
 				} catch (Exception e) {
 					System.out.println(e.fillInStackTrace());
 				}

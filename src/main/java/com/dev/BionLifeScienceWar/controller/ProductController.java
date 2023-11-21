@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -72,6 +72,9 @@ public class ProductController {
 	@Autowired
 	ProductImageService productImageService;
 
+	@Value("${spring.upload.path}")
+	private String commonPath;
+	
 	@RequestMapping("/sortManager")
 	public String sortManager(Model model) {
 		List<BigSort> b = bigSortRepository.findAll();
@@ -89,6 +92,11 @@ public class ProductController {
 
 	@RequestMapping("/bigsortInsert")
 	public String bigsortInsert(BigSort bigSort, Model model) {
+		int index = 1;
+		if(bigSortRepository.findFirstIndex().isPresent()) {
+			index = bigSortRepository.findFirstIndex().get() + 1;
+		}
+		bigSort.setBigSortIndex(index);
 		bigSortRepository.save(bigSort);
 
 		return "redirect:/admin/sortManager";
@@ -103,7 +111,6 @@ public class ProductController {
 				bigSortRepository.deleteById(id);
 			}
 		}catch(DeleteViolationException e) {
-//			System.out.println(e);
 			throw new DeleteViolationException();
 		}	
 			
@@ -112,8 +119,18 @@ public class ProductController {
 	}
 
 	@RequestMapping("/middlesortInsert")
-	public String middlesortInsert(MiddleSort middleSort, Model model, Long bigId) {
+	public String middlesortInsert(
+			MiddleSort middleSort, 
+			Model model, 
+			Long bigId
+			) {
 
+		int index = 1;
+		if(middleSortRepository.findFirstIndex().isPresent()) {
+			index = middleSortRepository.findFirstIndex().get() + 1;
+		}
+		middleSort.setMiddleSortIndex(index);
+		
 		middleSort.setBigSort(bigSortRepository.findById(bigId).get());
 		middleSortRepository.save(middleSort);
 		return "redirect:/admin/sortManager";
@@ -122,8 +139,7 @@ public class ProductController {
 	@RequestMapping("/searchMiddleSort")
 	@ResponseBody
 	public List<MiddleSort> searchMiddleSort(Model model, Long bigId) {
-//		model.addAttribute("selectedMiddlesorts", middleSortRepository.findAllByBigSort(bigSortRepository.findById(bigId).get()));
-//		return "admin/product/sortManager :: #middlePanelMiddleSort";
+
 		return middleSortRepository.findAllByBigSort(bigSortRepository.findById(bigId).get());
 	}
 
@@ -135,14 +151,24 @@ public class ProductController {
 				middleSortRepository.deleteById(id);
 			}
 		}catch(DeleteViolationException e) {
-//			System.out.println(e);
 			throw new DeleteViolationException();
 		}	
 		return "redirect:/admin/sortManager";
 	}
 
 	@RequestMapping("/smallsortInsert")
-	public String smallsortInsert(SmallSort smallSort, Model model, Long middleId) {
+	public String smallsortInsert(
+			SmallSort smallSort, 
+			Model model, 
+			Long middleId
+			) {
+		
+		int index = 1;
+		if(smallSortRepository.findFirstIndex().isPresent()) {
+			index = smallSortRepository.findFirstIndex().get() + 1;
+		}
+		smallSort.setSmallSortIndex(index);
+		
 		smallSort.setMiddleSort(middleSortRepository.findById(middleId).get());
 		smallSortRepository.save(smallSort);
 		return "redirect:/admin/sortManager";
@@ -162,7 +188,6 @@ public class ProductController {
 				smallSortRepository.deleteById(id);
 			}
 		}catch(DeleteViolationException e) {
-//			System.out.println(e);
 			throw new DeleteViolationException();
 		}	
 		return "redirect:/admin/sortManager";
@@ -175,7 +200,7 @@ public class ProductController {
 			@PageableDefault(size = 10) Pageable pageable
 			) {
 		if (smallId != null) {
-			Page<Product> products = productRepository.findAllBySmallSort(pageable,
+			Page<Product> products = productRepository.findAllBySmallSortOrderByIdDesc(pageable,
 					smallSortRepository.findById(smallId).get());
 			model.addAttribute("products", products);
 			int startPage = Math.max(1, products.getPageable().getPageNumber() - 4);
@@ -184,7 +209,7 @@ public class ProductController {
 			model.addAttribute("endPage", endPage);
 			model.addAttribute("smallId", smallId);
 		}else {
-			Page<Product> products = productRepository.findAll(pageable);
+			Page<Product> products = productRepository.findAllByOrderByIdDesc(pageable);
 			model.addAttribute("products", products);
 			int startPage = Math.max(1, products.getPageable().getPageNumber() - 4);
 			int endPage = Math.min(products.getTotalPages(), products.getPageable().getPageNumber() + 4);
@@ -209,9 +234,9 @@ public class ProductController {
 	@ResponseBody
 	public String productInsert(
 			Product product, 
-			String[] spec, 
-			String[] infoQ, 
-			String[] infoA,
+			@RequestParam(required = false, defaultValue ="") String[] spec, 
+			@RequestParam(required = false, defaultValue ="") String[] infoQ, 
+			@RequestParam(required = false, defaultValue ="") String[] infoA,
 			MultipartFile productOverviewImage, 
 			MultipartFile productSpecImage, 
 			List<MultipartFile> slides,
@@ -221,24 +246,52 @@ public class ProductController {
 		product.setSmallSort(smallSortRepository.findById(product.getSmallId()).get());
 		product.setBigSort(bigSortRepository.findById(product.getBigId()).get());
 		product.setMiddleSort(middleSortRepository.findById(product.getMiddleId()).get());
+		
 		Product p = productService.productInsert(productOverviewImage, productSpecImage, product);
-
-		for (String s : spec) {
+		
+		if(spec.length > 0 ) {
+			for (String s : spec) {
+				ProductInfo in = new ProductInfo();
+				in.setProductId(p.getId());
+				in.setProductInfoText(s);
+				productInfoRepository.save(in);
+			}
+		}else {
 			ProductInfo in = new ProductInfo();
 			in.setProductId(p.getId());
-			in.setProductInfoText(s);
+			in.setProductInfoText("-");
 			productInfoRepository.save(in);
 		}
-		for (int a = 0; a < infoQ.length; a++) {
+		
+		if(infoQ.length > 0) {
+			for (int a = 0; a < infoQ.length; a++) {
+				ProductSpec sp = new ProductSpec();
+				sp.setProductSpecSubject(infoQ[a]);
+				sp.setProductSpecContent(infoA[a]);
+				sp.setProductId(p.getId());
+				productSpecRepository.save(sp);
+			}
+		}else {
 			ProductSpec sp = new ProductSpec();
-			sp.setProductSpecSubject(infoQ[a]);
-			sp.setProductSpecContent(infoA[a]);
+			sp.setProductSpecSubject("-");
+			sp.setProductSpecContent("-");
 			sp.setProductId(p.getId());
 			productSpecRepository.save(sp);
 		}
-
-		productFileService.fileUpload(productFile, p.getId());
-		productImageService.fileUpload(slides, p.getId());
+		if(!productFile.isEmpty()) {
+			productFileService.fileUpload(
+				productFile, 
+				p.getId(), 
+				p.getProductCode()
+				);
+		}
+		if(!slides.isEmpty()) {
+			productImageService.fileUpload(
+				slides, 
+				p.getId(), 
+				p.getProductCode()
+				);
+		}
 
 		StringBuffer sb = new StringBuffer();
 		String msg = "제품이 등록 되었습니다.";
@@ -268,9 +321,9 @@ public class ProductController {
 			Model model, 
 			@PageableDefault(size = 10) Pageable pageable,
 			Product product, 
-			String[] spec, 
-			String[] infoQ, 
-			String[] infoA,
+			@RequestParam(required = false, defaultValue ="") String[] spec, 
+			@RequestParam(required = false, defaultValue ="") String[] infoQ, 
+			@RequestParam(required = false, defaultValue ="") String[] infoA,
 			MultipartFile productOverviewImage, 
 			MultipartFile productSpecImage, 
 			List<MultipartFile> slides,
@@ -285,26 +338,49 @@ public class ProductController {
 		productService.productUpdate(productOverviewImage, productSpecImage, product);
 		productInfoRepository.deleteAllByProductId(product.getId());
 		productSpecRepository.deleteAllByProductId(product.getId());
-		for (String s : spec) {
+		if(spec.length > 0 && spec != null) {
+			for (String s : spec) {
+				ProductInfo in = new ProductInfo();
+				in.setProductId(product.getId());
+				in.setProductInfoText(s);
+				productInfoRepository.save(in);
+			}
+		}else {
 			ProductInfo in = new ProductInfo();
 			in.setProductId(product.getId());
-			in.setProductInfoText(s);
+			in.setProductInfoText("-");
 			productInfoRepository.save(in);
 		}
-		for (int a = 0; a < infoQ.length; a++) {
+		if(infoQ.length > 0 && infoQ != null) {
+			for (int a = 0; a < infoQ.length; a++) {
+				ProductSpec sp = new ProductSpec();
+				sp.setProductSpecSubject(infoQ[a]);
+				sp.setProductSpecContent(infoA[a]);
+				sp.setProductId(product.getId());
+				productSpecRepository.save(sp);
+			}
+		}else {
 			ProductSpec sp = new ProductSpec();
-			sp.setProductSpecSubject(infoQ[a]);
-			sp.setProductSpecContent(infoA[a]);
+			sp.setProductSpecSubject("-");
+			sp.setProductSpecContent("-");
 			sp.setProductId(product.getId());
 			productSpecRepository.save(sp);
 		}
+		
 		if(slides.size()>0 && !slides.get(0).isEmpty()) {
 			productImageRepository.deleteAllByProductId(product.getId());
-			productImageService.fileUpload(slides, product.getId());
+			productImageService.fileUpload(
+					slides, 
+					product.getId(),
+					productRepository.findById(product.getId()).get().getProductCode());
 		}
+		
 		if(productFile.size()>0 && !productFile.get(0).isEmpty()) {
 			productFileRepository.deleteAllByProductId(product.getId());
-			productFileService.fileUpload(productFile, product.getId());
+			productFileService.fileUpload(
+					productFile, 
+					product.getId(), 
+					productRepository.findById(product.getId()).get().getProductCode());
 		}
 		Page<Product> products = productRepository.findAll(pageable);
 		int startPage = Math.max(1, products.getPageable().getPageNumber() - 4);
@@ -325,7 +401,12 @@ public class ProductController {
 			@PathVariable Long id
 			) {
 		
-		productRepository.deleteById(id);
+		try {
+			productService.deleteFiles(id);
+			productRepository.deleteById(id);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		StringBuffer sb = new StringBuffer();
 		String msg = "제품이 삭제 되었습니다.";
 

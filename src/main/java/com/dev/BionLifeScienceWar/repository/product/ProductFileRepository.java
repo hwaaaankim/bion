@@ -1,5 +1,7 @@
 package com.dev.BionLifeScienceWar.repository.product;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +14,6 @@ public interface ProductFileRepository extends JpaRepository<ProductFile, Long>{
 
 	@Transactional
 	int deleteAllByProductId(Long id);
+	
+	List<ProductFile> findAllByProductId(Long id);
 }
