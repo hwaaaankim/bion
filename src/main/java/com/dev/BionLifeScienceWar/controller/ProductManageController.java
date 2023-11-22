@@ -140,21 +140,15 @@ public class ProductManageController {
 		return "program/company/productOverall";
 	}
 	
-	@RequestMapping("/productDetail")
-	public String productDetail() {
+	@RequestMapping("/productAddManager")
+	public String productAddManager() {
 		
-		return "program/company/productDetail";
+		return "program/company/productAddManager";
 	}
 	
-	@RequestMapping("/productInsertForm")
-	public String productInsertForm() {
+	@RequestMapping("/productResetManager")
+	public String productResetManager() {
 		
-		return "program/company/productInsertForm";
-	}
-	
-	@RequestMapping("/fileManager")
-	public String fileManager() {
-		
-		return "program/company/fileManager";
+		return "program/company/productResetManager";
 	}
 }
