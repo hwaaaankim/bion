@@ -52,8 +52,8 @@ public class ProductFileService {
         String current_date = simpleDateFormat.format(new Date());
         String absolutePath = new File("").getAbsolutePath() + "\\";
 
-        String path = commonPath + "/company/" + productCode + "/productfile/" + current_date;
-        String road = "/administration/company/" + productCode + "/productfile/"+current_date;
+        String path = commonPath + "/company/" + productCode + "/files";
+        String road = "/administration/company/" + productCode + "/files";
         
         File fileFolder = new File(path);
         int leftLimit = 48; // numeral '0'

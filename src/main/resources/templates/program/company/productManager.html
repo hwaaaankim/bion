@@ -218,13 +218,13 @@
 																<a class="image-popup" target="_blank"
 																	th:each="i:${p.images}"
 																	th:href="@{${i.productImageRoad}}" title=""> <img
-																	width="100" height="60"
+																	style="max-height:130px;max-width:100px;"
 																	class="img-thumbnail gallery-img img-fluid mx-auto"
 																	th:src="@{${i.productImageRoad}}" alt="">
 																</a>
 															</div>
 															<button type="button" class="btn btn-primary change-btn"
-																th:onclick="|changeModal('${p.id}')|"
+																th:onclick="|changeSingleModal('${p.id}', 'slide')|"
 																data-bs-toggle="modal"
 																data-bs-target="#exampleModalgrid">변경</button>
 														</div>
@@ -237,7 +237,7 @@
 															<div class="gallery-container">
 																<a class="image-popup" target="_blank"
 																	th:href="@{${p.tableImageRoad}}" title=""> <img
-																	width="100" height="60"
+																	style="max-height:130px;max-width:100px;"
 																	class="img-thumbnail gallery-img img-fluid mx-auto"
 																	th:src="@{${p.tableImageRoad}}" alt="">
 																</a>
@@ -256,14 +256,14 @@
 															<div class="gallery-container">
 																<a class="image-popup" target="_blank"
 																	th:href="@{${p.specImageRoad}}" title=""> <img
-																	width="100" height="60"
+																	style="max-height:130px;max-width:100px;"
 																	class="img-thumbnail gallery-img img-fluid mx-auto"
 																	th:src="@{${p.specImageRoad}}" alt="">
 																</a>
 															</div>
 															<button type="button" class="btn btn-primary change-btn"
 																th:onclick="|changeSingleModal('${p.id}', 'spec')|"
-																data-bs-toggle="modal" data-bs-target="#overviewImageModal">변경</button>
+																data-bs-toggle="modal" data-bs-target="#specImageModal">변경</button>
 														</div>
 													</div>
 												</div>
@@ -278,7 +278,7 @@
 																	download> </a>
 															</div>
 															<button type="button" class="btn btn-primary change-btn"
-																th:onclick="|changeModal('${p.id}')|"
+																th:onclick="|changeSingleModal('${p.id}', 'files')|"
 																data-bs-toggle="modal" data-bs-target="#filesModal">변경</button>
 														</div>
 													</div>
@@ -330,38 +330,53 @@
 			<th:block th:replace="program/fragments/common :: footerSrc"></th:block>
 		</div>
 	</div>
+	
 	<div class="modal fade" id="exampleModalgrid" tabindex="-1"
 		aria-labelledby="exampleModalgridLabel">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalgridLabel">PRODUCT
+					<h5 class="modal-title">PRODUCT
 						SLIDE IMAGE 업로드</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="/admin/productCenter/productFileInsert" method="POST" enctype="multipart/form-data">
-						<div class="row g-3">
-							<div class="col-lg-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title mb-0">이미지 업로드</h4>
+					<div class="row g-3">
+						<div class="col-lg-12">
+							<div class="card-body">
+                                <p class="text-muted">
+									# <code>엑셀[.xlsx]확장자의</code> 업로드 만을 지원 합니다.<br> 
+									# <code>다운로드 받은 엑셀 파일</code>의 양식을 통해 업로드를 진행해 주시기 바랍니다.<br> 
+									# 업로드 한 엑셀 파일에 따라<code> 모든 정보가 수정</code>되니 주의해 주시기 바랍니다. <br>
+									# 1회 업로드 허용 용량은<code> 10MB</code>입니다. <br> 
+								</p>
+                                <form class="dropzone fou" method="post" action="/admin/productCenter/productFileInsert" enctype="multipart/form-data">
+									<div class="row mb-2">	
+										<div class="col-sm-auto">
+											<div>
+												<button type="submit" class="btn btn-warning">리셋용 ZIP파일 업로드</button>
+											</div>
+										</div>
 									</div>
+                                    <div class="fallback filebox">
+                                        <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+									    <label for="slidefile">파일찾기</label> 
+									    <input type="file" name="file" id="slidefile" multiple>
+                                        <input type="hidden" name="productIdInput" id="productIdInput">
+										<input type="hidden" name="productCodeInput" id="productCodeInput">
+                                    </div>
+                                    <div class="dz-message needsclick">
+                                        <div class="mb-3">
+                                            <i class="display-4 text-muted ri-upload-cloud-2-fill"></i>
+                                        </div>
 
-									<div class="card-body">
-										<p class="text-muted">업로드할 파일을 드래그 혹은 Browse 버튼 클릭을 통해 등록
-											후 확인 버튼을 클릭 해 주세요.</p>
-										<input type="file" class="filepond filepond-input-multiple"
-											name="files" multiple data-allow-reorder="true"
-											data-max-file-size="100MB" data-max-files="5"> <input
-											type="hidden" name="productIdInput"> <input
-											type="hidden" name="productCodeInput" value="slide">
-									</div>
-								</div>
-							</div>
+                                        <h4>드래그 또는 클릭하여 업로드할 파일을 선택 해 주시기 바랍니다.</h4>
+                                    </div>
+                                </form>
+                            </div>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -371,32 +386,96 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalgridLabel">PRODUCT IMAGE 업로드</h5>
+					<h5 class="modal-title">PRODUCT IMAGE 업로드</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="/admin/productCenter/productFileInsert" method="POST" enctype="multipart/form-data">
-						<div class="row g-3">
-							<div class="col-lg-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title mb-0">이미지 업로드</h4>
+					<div class="row g-3">
+						<div class="col-lg-12">
+							<div class="card-body">
+                                <p class="text-muted">
+									# <code>엑셀[.xlsx]확장자의</code> 업로드 만을 지원 합니다.<br> 
+									# <code>다운로드 받은 엑셀 파일</code>의 양식을 통해 업로드를 진행해 주시기 바랍니다.<br> 
+									# 업로드 한 엑셀 파일에 따라<code> 모든 정보가 수정</code>되니 주의해 주시기 바랍니다. <br>
+									# 1회 업로드 허용 용량은<code> 10MB</code>입니다. <br> 
+								</p>
+                                <form class="dropzone fou" method="post" action="/admin/productCenter/productFileInsert" enctype="multipart/form-data">
+									<div class="row mb-2">	
+										<div class="col-sm-auto">
+											<div>
+												<button type="submit" class="btn btn-warning">리셋용 ZIP파일 업로드</button>
+											</div>
+										</div>
 									</div>
+                                    <div class="fallback filebox">
+                                        <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+									    <label for="overviewfile">파일찾기</label> 
+									    <input type="file" name="file" id="overviewfile">
+                                        <input type="hidden" name="productIdInput" id="productIdInput">
+										<input type="hidden" name="productCodeInput" id="productCodeInput">
+                                    </div>
+                                    <div class="dz-message needsclick">
+                                        <div class="mb-3">
+                                            <i class="display-4 text-muted ri-upload-cloud-2-fill"></i>
+                                        </div>
 
-									<div class="card-body">
-										<p class="text-muted">업로드할 파일을 드래그 혹은 Browse 버튼 클릭을 통해 등록
-											후 확인 버튼을 클릭 해 주세요.</p>
-										<input type="file" class="filepond filepond-input-circle"
-											name="files" accept="image/png, image/jpeg, image/gif" /> 
-										<input
-											type="hidden" name="productIdInput"> <input
-											type="hidden" name="productCodeInput" value="">
-									</div>
-								</div>
-							</div>
+                                        <h4>드래그 또는 클릭하여 업로드할 파일을 선택 해 주시기 바랍니다.</h4>
+                                    </div>
+                                </form>
+
+                            </div>
 						</div>
-					</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="specImageModal" tabindex="-1"
+		aria-labelledby="exampleModalgridLabel">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">PRODUCT SPEC IMAGE 업로드</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row g-3">
+						<div class="col-lg-12">
+							<div class="card-body">
+                                <p class="text-muted">
+									# <code>엑셀[.xlsx]확장자의</code> 업로드 만을 지원 합니다.<br> 
+									# <code>다운로드 받은 엑셀 파일</code>의 양식을 통해 업로드를 진행해 주시기 바랍니다.<br> 
+									# 업로드 한 엑셀 파일에 따라<code> 모든 정보가 수정</code>되니 주의해 주시기 바랍니다. <br>
+									# 1회 업로드 허용 용량은<code> 10MB</code>입니다. <br> 
+								</p>
+                                <form class="dropzone fou" method="post" action="/admin/productCenter/productFileInsert" enctype="multipart/form-data">
+									<div class="row mb-2">	
+										<div class="col-sm-auto">
+											<div>
+												<button type="submit" class="btn btn-warning">리셋용 ZIP파일 업로드</button>
+											</div>
+										</div>
+									</div>
+                                    <div class="fallback filebox">
+                                        <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+									    <label for="specfile">파일찾기</label> 
+									    <input type="file" name="file" id="specfile">
+                                        <input type="hidden" name="productIdInput" id="productIdInput">
+										<input type="hidden" name="productCodeInput" id="productCodeInput">
+                                    </div>
+                                    <div class="dz-message needsclick">
+                                        <div class="mb-3">
+                                            <i class="display-4 text-muted ri-upload-cloud-2-fill"></i>
+                                        </div>
+
+                                        <h4>드래그 또는 클릭하여 업로드할 파일을 선택 해 주시기 바랍니다.</h4>
+                                    </div>
+                                </form>
+                            </div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -406,36 +485,46 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalgridLabel">제품 FIlEs
+					<h5 class="modal-title">제품 FIlEs
 						업로드</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="/admin/productCenter/productFileInsert" method="POST" enctype="multipart/form-data">
-						<div class="row g-3">
-							<div class="col-lg-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title mb-0">FILEs 업로드</h4>
+					<div class="row g-3">
+						<div class="col-lg-12">
+							<div class="card-body">
+                                <p class="text-muted">
+									# <code>엑셀[.xlsx]확장자의</code> 업로드 만을 지원 합니다.<br> 
+									# <code>다운로드 받은 엑셀 파일</code>의 양식을 통해 업로드를 진행해 주시기 바랍니다.<br> 
+									# 업로드 한 엑셀 파일에 따라<code> 모든 정보가 수정</code>되니 주의해 주시기 바랍니다. <br>
+									# 1회 업로드 허용 용량은<code> 10MB</code>입니다. <br> 
+								</p>
+                                <form class="dropzone fou" method="post" action="/admin/productCenter/productFileInsert" enctype="multipart/form-data">
+									<div class="row mb-2">	
+										<div class="col-sm-auto">
+											<div>
+												<button type="submit" class="btn btn-warning">리셋용 ZIP파일 업로드</button>
+											</div>
+										</div>
 									</div>
+                                    <div class="fallback filebox">
+                                        <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+									    <label for="files">파일찾기</label> 
+									    <input type="file" name="file" id="files" multiple>                                        <input type="hidden" name="productIdInput" id="productIdInput">
+										<input type="hidden" name="productCodeInput" id="productCodeInput">
+                                    </div>
+                                    <div class="dz-message needsclick">
+                                        <div class="mb-3">
+                                            <i class="display-4 text-muted ri-upload-cloud-2-fill"></i>
+                                        </div>
 
-									<div class="card-body">
-										<p class="text-muted">업로드할 파일을 드래그 혹은 Browse 버튼 클릭을 통해 등록
-											후 확인 버튼을 클릭 해 주세요.</p>
-										<input type="file" 
-										class="filepond filepond-input-multiple"
-										name="files" 
-										multiple 
-										data-allow-reorder="true"
-										data-max-file-size="100MB" data-max-files="5"> 
-										<input type="hidden" name="productIdInput"> 
-										<input type="hidden" name="productCodeInput" value="files">
-									</div>
-								</div>
-							</div>
+                                        <h4>클릭하여 업로드할 파일을 선택 해 주시기 바랍니다.</h4>
+                                    </div>
+                                </form>
+                            </div>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -451,13 +540,6 @@
    		var smallId = /*[[${smallId}]]*/ 'default';
     </script>
 	<script src="/administration/lib/programProductManager.js"></script>
-	<script src="/administration/program/assets/libs/dropzone/dropzone-min.js"></script>
-	<script src="/administration/program/assets/libs/filepond/filepond.min.js"></script>
-	<script src="/administration/program/assets/libs/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js"></script>
-	<script src="/administration/program/assets/libs/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js"></script>
-	<script src="/administration/program/assets/libs/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js"></script>
-	<script src="/administration/program/assets/libs/filepond-plugin-file-encode/filepond-plugin-file-encode.min.js"></script>
-	<script src="/administration/program/assets/js/pages/form-file-upload.init.js"></script>
 </body>
 
 </html>

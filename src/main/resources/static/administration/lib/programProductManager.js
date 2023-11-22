@@ -215,9 +215,6 @@ $(function() {
 			$('#info-wrap').find('div:last').remove();
 		}
 	});
-	
-	
-
 });
 
 

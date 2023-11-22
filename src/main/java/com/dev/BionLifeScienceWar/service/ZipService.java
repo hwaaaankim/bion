@@ -26,8 +26,8 @@ public class ZipService {
 
 	public ResponseEntity<Object> downZip() {
 		String absolutePath = new File("").getAbsolutePath() + "/";
-		String existFilePath = absolutePath + commonPath + "/brand";
-		String zipFilePath = absolutePath + "brand.zip";
+		String existFilePath = absolutePath + commonPath + "/company";
+		String zipFilePath = absolutePath + "company.zip";
 		ZipUtil.pack(new File(existFilePath), new File(zipFilePath));
 		
 

@@ -52,8 +52,8 @@ public class ProductImageService {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String current_date = simpleDateFormat.format(new Date());
         String absolutePath = new File("").getAbsolutePath() + "\\";
-        String path = commonPath + "/company/" + productCode + "/productimage/" + current_date;
-        String road = "/administration/company/" + productCode + "/productimage/" + current_date;
+        String path = commonPath + "/company/" + productCode + "/slide";
+        String road = "/administration/company/" + productCode + "/slide";
         File fileFolder = new File(path);
         int leftLimit = 48; // numeral '0'
 		int rightLimit = 122; // letter 'z'

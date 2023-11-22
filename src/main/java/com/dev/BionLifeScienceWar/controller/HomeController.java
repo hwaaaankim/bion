@@ -1,16 +1,11 @@
 package com.dev.BionLifeScienceWar.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -20,12 +15,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
-import org.zeroturnaround.zip.ZipUtil;
 
 import com.dev.BionLifeScienceWar.model.Banner;
 import com.dev.BionLifeScienceWar.model.Event;
@@ -134,7 +130,7 @@ public class HomeController {
 	private String uploadPath;
 	
 
-	@RequestMapping("/zipDownload")
+	@GetMapping("/zipDownload")
 	@ResponseBody
 	public ResponseEntity<Object> zipDownload() {
 //		zipService.downZip();
@@ -142,7 +138,7 @@ public class HomeController {
 		
 	}
 	
-	@RequestMapping("/excelTest")
+	@GetMapping("/excelTest")
 	@ResponseBody
 	public void excelTest(
 			HttpServletResponse res
@@ -151,52 +147,22 @@ public class HomeController {
 		
 	}
 	
-	@RequestMapping("/excelUploadTest")
+	@PostMapping("/excelUploadTest")
 	@ResponseBody
 	public void excelUploadTest(
 			MultipartFile file
-			) {
+			) throws IOException {
 		excelUploadService.uploadExcel(file);
 	}
 	
-	@RequestMapping("/zipUpload")
+	@PostMapping("/zipUpload")
 	@ResponseBody
 	public void zipUpload(
 			MultipartFile file
 			) throws IOException {
 		
+		productService.zipProductInsert(file);
 		
-		File exFile = new File(uploadPath + "/company");
-		if(exFile.exists() && exFile.isDirectory()) {
-			FileUtils.cleanDirectory(exFile); 
-			exFile.delete();
-		}
-
-		File zipFile = new File(uploadPath + "/company");
-		zipFile.createNewFile();
-		FileOutputStream fos = new FileOutputStream(zipFile);
-		fos.write(file.getBytes());
-		fos.close();
-		ZipUtil.explode(zipFile);
-		
-		for(File company : zipFile.listFiles()) {
-			if(company.isDirectory()) {
-				System.out.println("company" + company.getName());
-				for(File product : company.listFiles()) {
-					if(product.isDirectory()) {
-						System.out.println("product" + product.getName());
-						for(File type : product.listFiles()) {
-							System.out.println("type" + type.getName());
-							if(type.isDirectory()) {
-								for(File files : type.listFiles()) {
-									System.out.println("files" + files.getName());
-								}
-							}
-						}
-					}
-				}
-			}
-		}
 	}
 	
 	@ResponseStatus(value=HttpStatus.NOT_FOUND, reason="잘못된 접근입니다.")
@@ -204,7 +170,7 @@ public class HomeController {
 		private static final long serialVersionUID = 1L; }
 	
 	@SuppressWarnings("null")
-	@RequestMapping({"/", "/index"})
+	@GetMapping({"/", "/index"})
 	public String index(
 			Model model
 			) {

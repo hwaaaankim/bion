@@ -1,5 +1,8 @@
 package com.dev.BionLifeScienceWar.controller;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +11,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dev.BionLifeScienceWar.model.product.BigSort;
 import com.dev.BionLifeScienceWar.model.product.MiddleSort;
@@ -17,8 +23,13 @@ import com.dev.BionLifeScienceWar.model.product.Product;
 import com.dev.BionLifeScienceWar.model.product.SmallSort;
 import com.dev.BionLifeScienceWar.repository.product.BigSortRepository;
 import com.dev.BionLifeScienceWar.repository.product.MiddleSortRepository;
+import com.dev.BionLifeScienceWar.repository.product.ProductFileRepository;
+import com.dev.BionLifeScienceWar.repository.product.ProductImageRepository;
 import com.dev.BionLifeScienceWar.repository.product.ProductRepository;
 import com.dev.BionLifeScienceWar.repository.product.SmallSortRepository;
+import com.dev.BionLifeScienceWar.service.product.ProductFileService;
+import com.dev.BionLifeScienceWar.service.product.ProductImageService;
+import com.dev.BionLifeScienceWar.service.product.ProductService;
 
 @Controller
 @RequestMapping("/admin/productCenter")
@@ -36,8 +47,22 @@ public class ProductManageController {
 	@Autowired
 	ProductRepository productRepository;
 	
+	@Autowired
+	ProductFileService productFileService;
+
+	@Autowired
+	ProductImageService productImageService;
 	
-	@RequestMapping("/productManager")
+	@Autowired
+	ProductImageRepository productImageRepository;
+	
+	@Autowired
+	ProductFileRepository productFileRepository;
+	
+	@Autowired
+	ProductService productService;
+	
+	@GetMapping("/productManager")
 	public String productManager(
 			Model model, 
 			@RequestParam(required = false) Long smallId,
@@ -46,25 +71,25 @@ public class ProductManageController {
 			@RequestParam(required = false, defaultValue = "") String searchWord,
 			@PageableDefault(size = 10) Pageable pageable
 			) {
-		Page<Product> products = productRepository.findAllBySubjectContains(pageable, searchWord);
+		Page<Product> products = productRepository.findAllBySubjectContainsOrderByIdDesc(pageable, searchWord);
 		if (smallId != null) {
-			products = productRepository.findAllBySmallSortAndSubjectContains(pageable,
+			products = productRepository.findAllBySmallSortAndSubjectContainsOrderByIdDesc(pageable,
 					smallSortRepository.findById(smallId).get(), searchWord);
 			model.addAttribute("smallsorts", smallSortRepository.findAll());
 			model.addAttribute("middlesorts", middleSortRepository.findAll());
 		
 		}else if(smallId == null && middleId != null){
 			Optional<MiddleSort> m = middleSortRepository.findById(middleId);
-			products = productRepository.findAllByMiddleSortAndSubjectContains(pageable, m.get(), searchWord);
+			products = productRepository.findAllByMiddleSortAndSubjectContainsOrderByIdDesc(pageable, m.get(), searchWord);
 			model.addAttribute("middlesorts", middleSortRepository.findAll());
 			model.addAttribute("smallsorts", smallSortRepository.findAllByMiddleSort(m.get()));
 			
 		}else if(smallId == null && middleId == null && bigId != null) {
 			Optional<BigSort> b = bigSortRepository.findById(bigId);
-			products = productRepository.findAllByBigSortAndSubjectContains(pageable, b.get(), searchWord);
+			products = productRepository.findAllByBigSortAndSubjectContainsOrderByIdDesc(pageable, b.get(), searchWord);
 			model.addAttribute("middlesorts", middleSortRepository.findAllByBigSort(b.get()));
 		}else {
-			products = productRepository.findAllBySubjectContains(pageable, searchWord);
+			products = productRepository.findAllBySubjectContainsOrderByIdDesc(pageable, searchWord);
 		}
 		int startPage = Math.max(1, products.getPageable().getPageNumber() - 4);
 		int endPage = Math.min(products.getTotalPages(), products.getPageable().getPageNumber() + 4);
@@ -79,7 +104,7 @@ public class ProductManageController {
 		return "program/company/productManager";
 	}
 	
-	@RequestMapping("/productOverall")
+	@GetMapping("/productOverall")
 	public String productOverall(	
 			Model model, 
 			@RequestParam(required = false) Long smallId,
@@ -140,15 +165,121 @@ public class ProductManageController {
 		return "program/company/productOverall";
 	}
 	
-	@RequestMapping("/productAddManager")
+	@GetMapping("/productAddManager")
 	public String productAddManager() {
 		
 		return "program/company/productAddManager";
 	}
 	
-	@RequestMapping("/productResetManager")
+	@PostMapping("/productFileInsert")
+	public String productFileInsert(
+			Long productIdInput,
+			String productCodeInput,
+			List<MultipartFile> file
+			
+			) throws IllegalStateException, IOException {
+		if(productCodeInput.equals("slide")) {
+			if(file.size()>0 && !file.get(0).isEmpty()) {
+				productImageRepository.deleteAllByProductId(productIdInput);
+				productImageService.fileUpload(
+						file, 
+						productIdInput,
+						productRepository.findById(productIdInput).get().getProductCode());
+			}
+		}else if(productCodeInput.equals("files")) {
+			if(file.size()>0 && !file.get(0).isEmpty()) {
+				productFileRepository.deleteAllByProductId(productIdInput);
+				productFileService.fileUpload(
+						file, 
+						productIdInput, 
+						productRepository.findById(productIdInput).get().getProductCode());
+			}
+		}else if(productCodeInput.equals("spec")) {
+			if(file.size()>0 && !file.get(0).isEmpty()) {
+				productService.productSpec(file.get(0),productRepository.findById(productIdInput).get());
+			}
+			
+		}else if(productCodeInput.equals("overview")) {
+			if(file.size()>0 && !file.get(0).isEmpty()) {
+				productService.productOverview(file.get(0),productRepository.findById(productIdInput).get());
+			}
+		}
+		
+		return "redirect:productManager";
+	}
+	
+	@GetMapping("/productResetManager")
 	public String productResetManager() {
 		
 		return "program/company/productResetManager";
+	}
+	
+	@PostMapping("/changeIndex")
+	public String changeIndex(
+			@RequestParam(value="exIndex[]") Long[] exIndex,
+			@RequestParam(value="sortableIndex[]") Long[] sortableIndex,
+			String code
+			) {
+		if(code.equals("bigsort")) {
+			int[] finalIndex = new int[sortableIndex.length];
+			for(int a=0; a<sortableIndex.length; a++) {
+				
+				int after = bigSortRepository.findById(exIndex[Arrays.asList(sortableIndex).indexOf(exIndex[a])]).get().getBigSortIndex();
+				finalIndex[a] = after;
+			}
+			for(int b=0; b<finalIndex.length; b++) {
+				int afterValue = finalIndex[b];
+				bigSortRepository.findById(exIndex[b]).ifPresent(n->{
+					n.setBigSortIndex(afterValue);
+					bigSortRepository.save(n);
+				});
+			}
+		}else if(code.equals("middlesort")) {
+			int[] finalIndex = new int[sortableIndex.length];
+			for(int a=0; a<sortableIndex.length; a++) {
+				
+				int after = middleSortRepository.findById(exIndex[Arrays.asList(sortableIndex).indexOf(exIndex[a])]).get().getMiddleSortIndex();
+				finalIndex[a] = after;
+			}
+			for(int b=0; b<finalIndex.length; b++) {
+				int afterValue = finalIndex[b];
+				middleSortRepository.findById(exIndex[b]).ifPresent(n->{
+					n.setMiddleSortIndex(afterValue);
+					middleSortRepository.save(n);
+				});
+			}
+			
+		}else if(code.equals("smallsort")) {
+			int[] finalIndex = new int[sortableIndex.length];
+			for(int a=0; a<sortableIndex.length; a++) {
+				
+				int after = smallSortRepository.findById(exIndex[Arrays.asList(sortableIndex).indexOf(exIndex[a])]).get().getSmallSortIndex();
+				finalIndex[a] = after;
+			}
+			for(int b=0; b<finalIndex.length; b++) {
+				int afterValue = finalIndex[b];
+				smallSortRepository.findById(exIndex[b]).ifPresent(n->{
+					n.setSmallSortIndex(afterValue);
+					smallSortRepository.save(n);
+				});
+			}
+			
+		}else if(code.equals("product")) {
+			int[] finalIndex = new int[sortableIndex.length];
+			for(int a=0; a<sortableIndex.length; a++) {
+				
+				int after = productRepository.findById(exIndex[Arrays.asList(sortableIndex).indexOf(exIndex[a])]).get().getProductIndex();
+				finalIndex[a] = after;
+			}
+			for(int b=0; b<finalIndex.length; b++) {
+				int afterValue = finalIndex[b];
+				productRepository.findById(exIndex[b]).ifPresent(n->{
+					n.setProductIndex(afterValue);
+					productRepository.save(n);
+				});
+			}
+			
+		}
+		return "redirect:productOverall";
 	}
 }
