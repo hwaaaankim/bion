@@ -60,16 +60,26 @@ public class ExcelUploadService {
 
 	public void uploadExcel(MultipartFile file) throws IOException {
 
-		String bigSortHeaderNames[] = new String[] { "BIG_SORT_ID", "BIG_SORT_NAME", "BIG_SORT_INDEX" };
-		String middleSortHeaderNames[] = new String[] { "MIDDLE_SORT_ID", "MIDDLE_SORT_NAME", "MIDDLE_REFER_ID",
-				"MIDDLE_SORT_INDEX" };
-		String smallSortHeaderNames[] = new String[] { "SMALL_SORT_ID", "SMALL_SORT_NAME", "SMALL_REFER_ID",
-				"SMALL_SORT_INDEX" };
-		String productHeaderNames[] = new String[] { "PRODUCT_ID", "PRODUCT_SUBJECT", "PRODUCT_CONTENT",
-				"PRODUCT_SUB_CONTENT", "PRODUCT_SIGN", "PRODUCT_REFER_ID", "PRODUCT_MIDDLE_REFER_ID",
-				"PRODUCT_BIG_REFER_ID", "PRODUCT_INDEX" };
-		String productInfoHeaderNames[] = new String[] { "PRODUCT_ID", "PRODUCT_INFO_TEXT" };
-		String productSpecHeaderNames[] = new String[] { "PRODUCT_ID", "PRODUCT_SPEC_SUBJECT", "PRODUCT_SPEC_CONTENT" };
+		String bigSortHeaderNames[] = new String[] {
+				"BIG_SORT_ID", "BIG_SORT_NAME", "BIG_SORT_INDEX"
+				};
+		String middleSortHeaderNames[] = new String[] {
+				"MIDDLE_SORT_ID","MIDDLE_SORT_NAME", "MIDDLE_REFER_ID", "MIDDLE_SORT_INDEX"
+				};
+		String smallSortHeaderNames[] = new String[] {
+				"SMALL_SORT_ID", "SMALL_SORT_NAME", "SMALL_REFER_ID", "SMALL_SORT_INDEX"
+				};
+		String productHeaderNames[] = new String[] {
+				"PRODUCT_CODE", "PRODUCT_SUBJECT", "PRODUCT_CONTENT", 
+				"PRODUCT_SUB_CONTENT", "PRODUCT_SIGN","PRODUCT_REFER_ID" ,"PRODUCT_MIDDLE_REFER_ID",
+				"PRODUCT_BIG_REFER_ID"
+				};
+		String productInfoHeaderNames[] = new String[] { 
+				"PRODUCT_CODE", "PRODUCT_INFO_TEXT" 
+				};
+		String productSpecHeaderNames[] = new String[] { 
+				"PRODUCT_CODE", "PRODUCT_SPEC_SUBJECT", "PRODUCT_SPEC_CONTENT" 
+				};
 		List<String[]> headers = new ArrayList<String[]>();
 		headers.add(bigSortHeaderNames);
 		headers.add(middleSortHeaderNames);
@@ -105,14 +115,14 @@ public class ExcelUploadService {
 
 					if (row != null) {
 						Product product = new Product();
-						Cell code = row.getCell(1);
-						Cell subject = row.getCell(2);
-						Cell content = row.getCell(3);
-						Cell subContent = row.getCell(4);
-						Cell sign = row.getCell(5);
-						Cell smallSort = row.getCell(6);
-						Cell middleSort = row.getCell(7);
-						Cell bigSort = row.getCell(8);
+						Cell code = row.getCell(0);
+						Cell subject = row.getCell(1);
+						Cell content = row.getCell(2);
+						Cell subContent = row.getCell(3);
+						Cell sign = row.getCell(4);
+						Cell smallSort = row.getCell(5);
+						Cell middleSort = row.getCell(6);
+						Cell bigSort = row.getCell(7);
 						Long smallValue = (long) smallSort.getNumericCellValue();
 						Long middleValue = (long) middleSort.getNumericCellValue();
 						Long bigValue = (long) bigSort.getNumericCellValue();
@@ -224,5 +234,174 @@ public class ExcelUploadService {
 			}
 		});
 		executorService.shutdown();
+		
+		
+	}
+	
+	public void uploadAddExcel(MultipartFile file) throws IOException {
+
+		String bigSortHeaderNames[] = new String[] {
+				"BIG_SORT_ID", "BIG_SORT_NAME", "BIG_SORT_INDEX"
+				};
+		String middleSortHeaderNames[] = new String[] {
+				"MIDDLE_SORT_ID","MIDDLE_SORT_NAME", "MIDDLE_REFER_ID", "MIDDLE_SORT_INDEX"
+				};
+		String smallSortHeaderNames[] = new String[] {
+				"SMALL_SORT_ID", "SMALL_SORT_NAME", "SMALL_REFER_ID", "SMALL_SORT_INDEX"
+				};
+		String productHeaderNames[] = new String[] {
+				"PRODUCT_CODE", "PRODUCT_SUBJECT", "PRODUCT_CONTENT", 
+				"PRODUCT_SUB_CONTENT", "PRODUCT_SIGN","PRODUCT_REFER_ID" ,"PRODUCT_MIDDLE_REFER_ID",
+				"PRODUCT_BIG_REFER_ID"
+				};
+		String productInfoHeaderNames[] = new String[] { 
+				"PRODUCT_CODE", "PRODUCT_INFO_TEXT" 
+				};
+		String productSpecHeaderNames[] = new String[] { 
+				"PRODUCT_CODE", "PRODUCT_SPEC_SUBJECT", "PRODUCT_SPEC_CONTENT" 
+				};
+		List<String[]> headers = new ArrayList<String[]>();
+		headers.add(bigSortHeaderNames);
+		headers.add(middleSortHeaderNames);
+		headers.add(smallSortHeaderNames);
+		headers.add(productHeaderNames);
+		headers.add(productInfoHeaderNames);
+		headers.add(productSpecHeaderNames);
+		Workbook workbook = new XSSFWorkbook(file.getInputStream());
+
+		List<String> productCodes = new ArrayList<String>();
+		List<String> infoCodes = new ArrayList<String>();
+		List<String> specCodes = new ArrayList<String>();
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+		executorService.submit(() -> {
+			try {
+				Sheet productSheet = workbook.getSheetAt(3);
+				for (int i = 1; i < productSheet.getPhysicalNumberOfRows(); i++) {
+					Row row = productSheet.getRow(i);
+					if (row != null) {
+						Product product = new Product();
+						Cell code = row.getCell(0);
+						Cell subject = row.getCell(1);
+						Cell content = row.getCell(2);
+						Cell subContent = row.getCell(3);
+						Cell sign = row.getCell(4);
+						Cell smallSort = row.getCell(5);
+						Cell middleSort = row.getCell(6);
+						Cell bigSort = row.getCell(7);
+						Long smallValue = (long) smallSort.getNumericCellValue();
+						Long middleValue = (long) middleSort.getNumericCellValue();
+						Long bigValue = (long) bigSort.getNumericCellValue();
+						String codeValue = code + "";
+						String subjectValue = subject + "";
+						String contentValue = content + "";
+						String subContentValue = subContent + "";
+						String signStr = sign + "";
+						Boolean signValue = true;
+						productCodes.add(codeValue);
+						if (signStr.equals("TRUE")) {
+							signValue = true;
+						} else {
+							signValue = false;
+						}
+						product.setProductCode(codeValue);
+						product.setSubject(subjectValue);
+						product.setContent(contentValue);
+						product.setProductSubContent(subContentValue);
+						product.setSign(signValue);
+						product.setSmallSort(smallSortRepository.findById(smallValue).get());
+						product.setMiddleSort(middleSortRepository.findById(middleValue).get());
+						product.setBigSort(bigSortRepository.findById(bigValue).get());
+						productService.excelInsert(product);
+
+					}
+				}
+
+			} catch (Exception e) {
+				System.out.println(e.fillInStackTrace());
+			}
+			
+			
+		});
+		
+		executorService.submit(() -> {
+
+			try {
+
+				Sheet productInfoSheet = workbook.getSheetAt(5);
+				for (int i = 1; i < productInfoSheet.getPhysicalNumberOfRows(); i++) {
+					Row row = productInfoSheet.getRow(i);
+
+					if (row != null) {
+
+						ProductInfo info = new ProductInfo();
+						Cell code = row.getCell(0);
+						Cell text = row.getCell(1);
+						String codeValue = code + "";
+						String textValue = text + "";
+						info.setProductId(productRepository.findByProductCode(codeValue).get().getId());
+						info.setProductInfoText(textValue);
+						infoCodes.add(codeValue);
+						productInfoRepository.save(info);
+					}
+				}
+
+			} catch (Exception e) {
+				System.out.println(e.fillInStackTrace());
+			}
+			
+			try {
+
+				Sheet productSpecSheet = workbook.getSheetAt(4);
+				for (int i = 1; i < productSpecSheet.getPhysicalNumberOfRows(); i++) {
+					Row row = productSpecSheet.getRow(i);
+
+					if (row != null) {
+						ProductSpec spec = new ProductSpec();
+						Cell code = row.getCell(0);
+						Cell subject = row.getCell(1);
+						Cell content = row.getCell(2);
+						String codeValue = code + "";
+						String subjectValue = subject + "";
+						String contentValue = content + "";
+						specCodes.add(codeValue);
+						spec.setProductSpecSubject(subjectValue);
+						spec.setProductSpecContent(contentValue);
+						spec.setProductId(productRepository.findByProductCode(codeValue).get().getId());
+						productSpecRepository.save(spec);
+
+					}
+				}
+
+			} catch (Exception e) {
+				System.out.println(e.fillInStackTrace());
+			}
+
+			
+			try {
+
+				for (String code : productCodes) {
+					if (!infoCodes.contains(code)) {
+						ProductInfo info = new ProductInfo();
+						info.setProductId(productRepository.findByProductCode(code).get().getId());
+						info.setProductInfoText("-");
+						productInfoRepository.save(info);
+					}
+
+					if (!specCodes.contains(code)) {
+						ProductSpec spec = new ProductSpec();
+						spec.setProductSpecSubject("-");
+						spec.setProductSpecContent("-");
+						spec.setProductId(productRepository.findByProductCode(code).get().getId());
+						productSpecRepository.save(spec);
+					}
+				}
+
+			} catch (Exception e) {
+				System.out.println(e.fillInStackTrace());
+			}
+		});
+		executorService.shutdown();
+		
 	}
 }

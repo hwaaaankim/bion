@@ -115,55 +115,13 @@ public class HomeController {
 	CertificationRepository certificationRepository;
 	
 	@Autowired
-	ExcelDownloadService excelDownloadService;
-	
-	@Autowired
-	ExcelUploadService excelUploadService;
-	
-	@Autowired
 	ProductService productService;
-	
-	@Autowired
-	ZipService zipService;
 	
 	@Value("${spring.upload.path}")
 	private String uploadPath;
 	
 
-	@GetMapping("/zipDownload")
-	@ResponseBody
-	public ResponseEntity<Object> zipDownload() {
-//		zipService.downZip();
-		return zipService.downZip();
-		
-	}
 	
-	@GetMapping("/excelTest")
-	@ResponseBody
-	public void excelTest(
-			HttpServletResponse res
-			) throws IOException {
-		excelDownloadService.bigSortDownload(res);
-		
-	}
-	
-	@PostMapping("/excelUploadTest")
-	@ResponseBody
-	public void excelUploadTest(
-			MultipartFile file
-			) throws IOException {
-		excelUploadService.uploadExcel(file);
-	}
-	
-	@PostMapping("/zipUpload")
-	@ResponseBody
-	public void zipUpload(
-			MultipartFile file
-			) throws IOException {
-		
-		productService.zipProductInsert(file);
-		
-	}
 	
 	@ResponseStatus(value=HttpStatus.NOT_FOUND, reason="잘못된 접근입니다.")
     public class UrlNotFoundException extends RuntimeException {

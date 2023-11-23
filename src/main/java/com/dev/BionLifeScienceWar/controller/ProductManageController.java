@@ -5,16 +5,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dev.BionLifeScienceWar.model.product.BigSort;
@@ -27,9 +31,13 @@ import com.dev.BionLifeScienceWar.repository.product.ProductFileRepository;
 import com.dev.BionLifeScienceWar.repository.product.ProductImageRepository;
 import com.dev.BionLifeScienceWar.repository.product.ProductRepository;
 import com.dev.BionLifeScienceWar.repository.product.SmallSortRepository;
+import com.dev.BionLifeScienceWar.service.ZipService;
 import com.dev.BionLifeScienceWar.service.product.ProductFileService;
 import com.dev.BionLifeScienceWar.service.product.ProductImageService;
 import com.dev.BionLifeScienceWar.service.product.ProductService;
+import com.dev.BionLifeScienceWar.service.program.company.ExcelCheckService;
+import com.dev.BionLifeScienceWar.service.program.company.ExcelDownloadService;
+import com.dev.BionLifeScienceWar.service.program.company.ExcelUploadService;
 
 @Controller
 @RequestMapping("/admin/productCenter")
@@ -61,6 +69,82 @@ public class ProductManageController {
 	
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	ExcelDownloadService excelDownloadService;
+	
+	@Autowired
+	ExcelUploadService excelUploadService;
+	
+	@Autowired
+	ZipService zipService;
+	
+	@Autowired
+	ExcelCheckService excelCheckService;
+	
+	@GetMapping("/addExcelDownload")
+	@ResponseBody
+	public void addExcelDownload(
+			HttpServletResponse res
+			) throws IOException {
+		excelDownloadService.productAddSheetDownload(res);
+		
+	}
+	
+	@PostMapping("/addExcelUpload")
+	@ResponseBody
+	public void addExcelUpload(
+			MultipartFile file
+			) throws IOException {
+		if(excelCheckService.excelCheck(file).equals("success")){
+			excelUploadService.uploadAddExcel(file);
+		}
+	}
+	
+	@PostMapping("/addZipUpload")
+	@ResponseBody
+	public void addZipUpload(
+			MultipartFile file
+			) throws IOException {
+		
+		productService.zipAddProductInsert(file);
+		
+	}
+	
+	@GetMapping("/resetZipDownload")
+	@ResponseBody
+	public ResponseEntity<Object> resetZipDownload() {
+		return zipService.downZip();
+		
+	}
+	
+	@GetMapping("/resetExcelDownload")
+	@ResponseBody
+	public void resetExcelDownload(
+			HttpServletResponse res
+			) throws IOException {
+		excelDownloadService.bigSortDownload(res);
+		
+	}
+	
+	@PostMapping("/resetExcelUpload")
+	@ResponseBody
+	public void resetExcelUpload(
+			MultipartFile file
+			) throws IOException {
+		excelUploadService.uploadExcel(file);
+	}
+	
+	@PostMapping("/resetZipUpload")
+	@ResponseBody
+	public void resetZipUpload(
+			MultipartFile file
+			) throws IOException {
+		
+		productService.zipProductInsert(file);
+		
+	}
+	
 	
 	@GetMapping("/productManager")
 	public String productManager(
@@ -213,6 +297,7 @@ public class ProductManageController {
 		
 		return "program/company/productResetManager";
 	}
+	
 	
 	@PostMapping("/changeIndex")
 	public String changeIndex(

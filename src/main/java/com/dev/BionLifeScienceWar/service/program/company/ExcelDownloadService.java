@@ -84,9 +84,9 @@ public class ExcelDownloadService {
 				"SMALL_SORT_ID", "SMALL_SORT_NAME", "SMALL_REFER_ID", "SMALL_SORT_INDEX"
 				};
 		String productHeaderNames[] = new String[] {
-				"PRODUCT_ID","PRODUCT_CODE", "PRODUCT_SUBJECT", "PRODUCT_CONTENT", 
+				"PRODUCT_CODE", "PRODUCT_SUBJECT", "PRODUCT_CONTENT", 
 				"PRODUCT_SUB_CONTENT", "PRODUCT_SIGN","PRODUCT_REFER_ID" ,"PRODUCT_MIDDLE_REFER_ID",
-				"PRODUCT_BIG_REFER_ID", "PRODUCT_INDEX"
+				"PRODUCT_BIG_REFER_ID"
 				};
 		String productInfoHeaderNames[] = new String[] { 
 				"PRODUCT_CODE", "PRODUCT_INFO_TEXT" 
@@ -252,45 +252,45 @@ public class ExcelDownloadService {
 		for (int x=0; x<productBodyDatass.length; x++) {
 			productBodyRow = product.createRow(productRowCount++);
 			for (int i = 0; i < productBodyDatass[x].length; i++) {
-				productBodyCell = productBodyRow.createCell(cellNumbber);
-				productBodyCell.setCellValue(products.get(x).getId());
-				productBodyCell.setCellStyle(bodyXssfCellStyle);
+//				productBodyCell = productBodyRow.createCell(cellNumbber);
+//				productBodyCell.setCellValue(products.get(x).getId());
+//				productBodyCell.setCellStyle(bodyXssfCellStyle);
 				
-				productBodyCell = productBodyRow.createCell(cellNumbber+1);
+				productBodyCell = productBodyRow.createCell(cellNumbber);
 				productBodyCell.setCellValue(products.get(x).getProductCode()); 
 				productBodyCell.setCellStyle(bodyXssfCellStyle);
 				
-				productBodyCell = productBodyRow.createCell(cellNumbber+2);
+				productBodyCell = productBodyRow.createCell(cellNumbber+1);
 				productBodyCell.setCellValue(products.get(x).getSubject()); 
 				productBodyCell.setCellStyle(bodyXssfCellStyle);
 				
-				productBodyCell = productBodyRow.createCell(cellNumbber+3);
+				productBodyCell = productBodyRow.createCell(cellNumbber+2);
 				productBodyCell.setCellValue(products.get(x).getContent());
 				productBodyCell.setCellStyle(bodyXssfCellStyle);
 				
-				productBodyCell = productBodyRow.createCell(cellNumbber+4);
+				productBodyCell = productBodyRow.createCell(cellNumbber+3);
 				productBodyCell.setCellValue(products.get(x).getProductSubContent());
 				productBodyCell.setCellStyle(bodyXssfCellStyle);
 				
-				productBodyCell = productBodyRow.createCell(cellNumbber+5);
+				productBodyCell = productBodyRow.createCell(cellNumbber+4);
 				productBodyCell.setCellValue(products.get(x).getSign());
 				productBodyCell.setCellStyle(bodyXssfCellStyle);
 				
-				productBodyCell = productBodyRow.createCell(cellNumbber+6);
+				productBodyCell = productBodyRow.createCell(cellNumbber+5);
 				productBodyCell.setCellValue(products.get(x).getSmallSort().getId());
 				productBodyCell.setCellStyle(bodyXssfCellStyle);
 				
-				productBodyCell = productBodyRow.createCell(cellNumbber+7);
+				productBodyCell = productBodyRow.createCell(cellNumbber+6);
 				productBodyCell.setCellValue(products.get(x).getMiddleSort().getId());
 				productBodyCell.setCellStyle(bodyXssfCellStyle);
 				
-				productBodyCell = productBodyRow.createCell(cellNumbber+8);
+				productBodyCell = productBodyRow.createCell(cellNumbber+7);
 				productBodyCell.setCellValue(products.get(x).getBigSort().getId());
 				productBodyCell.setCellStyle(bodyXssfCellStyle);
 				
-				productBodyCell = productBodyRow.createCell(cellNumbber+9);
-				productBodyCell.setCellValue(products.get(x).getProductIndex());// 데이터 추가
-				productBodyCell.setCellStyle(bodyXssfCellStyle); // 스타일 추가
+//				productBodyCell = productBodyRow.createCell(cellNumbber+9);
+//				productBodyCell.setCellValue(products.get(x).getProductIndex());
+//				productBodyCell.setCellStyle(bodyXssfCellStyle); 
 			}
 		}
 		
@@ -330,7 +330,203 @@ public class ExcelDownloadService {
 		/**
 		 * download
 		 */
-		String fileName = "spring_excel_download";
+		String fileName = "BIONLIFESCIENCE_PRODUCT_DATA_RESET_SHEET";
+
+		res.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+		res.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
+		ServletOutputStream servletOutputStream = res.getOutputStream();
+
+		workbook.write(servletOutputStream);
+		workbook.close();
+		servletOutputStream.flush();
+		servletOutputStream.close();
+	}
+	
+	
+	public void productAddSheetDownload(
+			HttpServletResponse res
+			) throws IOException {
+		Workbook workbook = new XSSFWorkbook();
+		Sheet bigSort = workbook.createSheet("대분류");
+		Sheet middleSort = workbook.createSheet("중분류");
+		Sheet smallSort = workbook.createSheet("소분류");
+		Sheet product = workbook.createSheet("제품정보");
+		Sheet productSpec = workbook.createSheet("제품스펙");
+		Sheet productInfo = workbook.createSheet("제품인포");
+		
+		bigSort.setDefaultColumnWidth(20); // 디폴트 너비 설정
+		middleSort.setDefaultColumnWidth(30);
+		smallSort.setDefaultColumnWidth(30);
+		product.setDefaultColumnWidth(40);
+		productInfo.setDefaultColumnWidth(40);
+		productSpec.setDefaultColumnWidth(40);
+
+		String bigSortHeaderNames[] = new String[] {
+				"BIG_SORT_ID", "BIG_SORT_NAME", "BIG_SORT_INDEX"
+				};
+		String middleSortHeaderNames[] = new String[] {
+				"MIDDLE_SORT_ID","MIDDLE_SORT_NAME", "MIDDLE_REFER_ID", "MIDDLE_SORT_INDEX"
+				};
+		String smallSortHeaderNames[] = new String[] {
+				"SMALL_SORT_ID", "SMALL_SORT_NAME", "SMALL_REFER_ID", "SMALL_SORT_INDEX"
+				};
+		String productHeaderNames[] = new String[] {
+				"PRODUCT_CODE", "PRODUCT_SUBJECT", "PRODUCT_CONTENT", 
+				"PRODUCT_SUB_CONTENT", "PRODUCT_SIGN","PRODUCT_REFER_ID" ,"PRODUCT_MIDDLE_REFER_ID",
+				"PRODUCT_BIG_REFER_ID"
+				};
+		String productInfoHeaderNames[] = new String[] { 
+				"PRODUCT_CODE", "PRODUCT_INFO_TEXT" 
+				};
+		String productSpecHeaderNames[] = new String[] { 
+				"PRODUCT_CODE", "PRODUCT_SPEC_SUBJECT", "PRODUCT_SPEC_CONTENT" 
+				};
+		
+		
+		
+		XSSFFont headerXSSFFont = (XSSFFont) workbook.createFont();
+		headerXSSFFont.setColor(new XSSFColor(new byte[] { (byte) 255, (byte) 255, (byte) 255 }));
+
+		/**
+		 * header cell style
+		 */
+		XSSFCellStyle headerXssfCellStyle = (XSSFCellStyle) workbook.createCellStyle();
+
+		// 테두리 설정
+		headerXssfCellStyle.setBorderLeft(BorderStyle.THIN);
+		headerXssfCellStyle.setBorderRight(BorderStyle.THIN);
+		headerXssfCellStyle.setBorderTop(BorderStyle.THIN);
+		headerXssfCellStyle.setBorderBottom(BorderStyle.THIN);
+
+		// 배경 설정
+		headerXssfCellStyle.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 34, (byte) 37, (byte) 41 }));
+		headerXssfCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		headerXssfCellStyle.setFont(headerXSSFFont);
+
+		/**
+		 * body cell style
+		 */
+		XSSFCellStyle bodyXssfCellStyle = (XSSFCellStyle) workbook.createCellStyle();
+
+		// 테두리 설정
+		bodyXssfCellStyle.setBorderLeft(BorderStyle.THIN);
+		bodyXssfCellStyle.setBorderRight(BorderStyle.THIN);
+		bodyXssfCellStyle.setBorderTop(BorderStyle.THIN);
+		bodyXssfCellStyle.setBorderBottom(BorderStyle.THIN);
+
+
+		Row headerRow = null;
+		Cell headerCell = null;
+		Sheet[] sheets = {bigSort, middleSort, smallSort, product, productInfo, productSpec};
+		List<String[]> headers = new ArrayList<String[]>();
+		headers.add(bigSortHeaderNames);
+		headers.add(middleSortHeaderNames);
+		headers.add(smallSortHeaderNames);
+		headers.add(productHeaderNames);
+		headers.add(productInfoHeaderNames);
+		headers.add(productSpecHeaderNames);
+		
+		
+		
+		for(int x = 0; x < sheets.length; x++) {
+			int rowCount = 0; // 데이터가 저장될 행
+			headerRow = sheets[x].createRow(rowCount++);
+			for(int y=0; y< headers.get(x).length; y++) {
+				headerCell = headerRow.createCell(y);
+				headerCell.setCellValue(headers.get(x)[y]); // 데이터 추가
+				headerCell.setCellStyle(headerXssfCellStyle); // 스타일 추가
+			}
+			
+		}
+		
+		
+		List<BigSort> bigSorts = bigSortRepository.findAll();
+		List<MiddleSort> middleSorts = middleSortRepository.findAll();
+		List<SmallSort> smallSorts = smallSortRepository.findAll();
+
+		/**
+		 * body data
+		 */
+		String bigBodyDatass[][] = new String[bigSorts.size()][headers.get(0).length];
+		String middleBodyDatass[][] = new String[middleSorts.size()][headers.get(1).length];
+		String smallBodyDatass[][] = new String[smallSorts.size()][headers.get(2).length];
+		int bigRowCount = 1; // 데이터가 저장될 행
+		int middleRowCount = 1;
+		int smallRowCount = 1;
+		Row bigBodyRow = null;
+		Row middleBodyRow = null;
+		Row smallBodyRow = null;
+		Cell bigBodyCell = null;
+		Cell middleBodyCell = null;
+		Cell smallBodyCell = null;
+		int cellNumbber = 0;
+		
+		for (int x=0; x<bigBodyDatass.length; x++) {
+			bigBodyRow = bigSort.createRow(bigRowCount++);
+			
+			for (int i = 0; i < bigBodyDatass[x].length; i++) {
+				bigBodyCell = bigBodyRow.createCell(cellNumbber);
+				bigBodyCell.setCellValue(bigSorts.get(x).getId());
+				bigBodyCell.setCellStyle(bodyXssfCellStyle);
+				
+				bigBodyCell = bigBodyRow.createCell(cellNumbber+1);
+				bigBodyCell.setCellValue(bigSorts.get(x).getName());
+				bigBodyCell.setCellStyle(bodyXssfCellStyle);
+				
+				bigBodyCell = bigBodyRow.createCell(cellNumbber+2);
+				bigBodyCell.setCellValue(bigSorts.get(x).getBigSortIndex());// 데이터 추가
+				bigBodyCell.setCellStyle(bodyXssfCellStyle); // 스타일 추가
+			}
+		}
+		
+		for (int x=0; x<middleBodyDatass.length; x++) {
+			middleBodyRow = middleSort.createRow(middleRowCount++);
+			for (int i = 0; i < middleBodyDatass[x].length; i++) {
+				middleBodyCell = middleBodyRow.createCell(cellNumbber);
+				middleBodyCell.setCellValue(middleSorts.get(x).getId());
+				middleBodyCell.setCellStyle(bodyXssfCellStyle);
+				
+				middleBodyCell = middleBodyRow.createCell(cellNumbber+1);
+				middleBodyCell.setCellValue(middleSorts.get(x).getName());
+				middleBodyCell.setCellStyle(bodyXssfCellStyle);
+				
+				middleBodyCell = middleBodyRow.createCell(cellNumbber+2);
+				middleBodyCell.setCellValue(middleSorts.get(x).getBigSort().getId());// 데이터 추가
+				middleBodyCell.setCellStyle(bodyXssfCellStyle);
+				
+				middleBodyCell = middleBodyRow.createCell(cellNumbber+3);
+				middleBodyCell.setCellValue(middleSorts.get(x).getMiddleSortIndex());// 데이터 추가
+				middleBodyCell.setCellStyle(bodyXssfCellStyle); // 스타일 추가
+			}
+		}
+		
+		for (int x=0; x<smallBodyDatass.length; x++) {
+			smallBodyRow = smallSort.createRow(smallRowCount++);
+			for (int i = 0; i < smallBodyDatass[x].length; i++) {
+				smallBodyCell = smallBodyRow.createCell(cellNumbber);
+				smallBodyCell.setCellValue(smallSorts.get(x).getId());
+				smallBodyCell.setCellStyle(bodyXssfCellStyle);
+				
+				smallBodyCell = smallBodyRow.createCell(cellNumbber+1);
+				smallBodyCell.setCellValue(smallSorts.get(x).getName());
+				smallBodyCell.setCellStyle(bodyXssfCellStyle);
+				
+				smallBodyCell = smallBodyRow.createCell(cellNumbber+2);
+				smallBodyCell.setCellValue(smallSorts.get(x).getMiddleSort().getId());
+				smallBodyCell.setCellStyle(bodyXssfCellStyle);
+				
+				smallBodyCell = smallBodyRow.createCell(cellNumbber+3);
+				smallBodyCell.setCellValue(smallSorts.get(x).getSmallSortIndex());// 데이터 추가
+				smallBodyCell.setCellStyle(bodyXssfCellStyle); // 스타일 추가
+			}
+		}
+		
+			
+
+		/**
+		 * download
+		 */
+		String fileName = "BIONLIFESCIENCE_PRODUCT_ADD_SHEET";
 
 		res.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 		res.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");

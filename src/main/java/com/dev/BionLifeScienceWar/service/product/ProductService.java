@@ -3,6 +3,8 @@ package com.dev.BionLifeScienceWar.service.product;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
@@ -183,6 +185,121 @@ public class ProductService {
 					}
 				}
 			}
+		}
+	}
+	
+	public void zipAddProductInsert(
+			MultipartFile file
+			) throws IOException {
+		
+		String absolutePath = new File("").getAbsolutePath() + "\\";
+		
+		File exFile = new File(commonPath + "/temp");
+		if(exFile.exists() && exFile.isDirectory()) {
+			FileUtils.cleanDirectory(exFile); 
+			exFile.delete();
+		}
+		
+		File zipFile = new File(commonPath + "/temp");
+		zipFile.createNewFile();
+		FileOutputStream fos = new FileOutputStream(zipFile);
+		fos.write(file.getBytes());
+		fos.close();
+		ZipUtil.explode(zipFile);
+		
+		for(File product : zipFile.listFiles()) {
+			if(product.isDirectory() && !product.getName().equals("company")) {
+				String productCode = product.getName();
+				if(product.listFiles().length > 0) {
+					for(File sort : product.listFiles()) {
+						if(sort.isDirectory()) {
+							String fileType = sort.getName();
+							switch(fileType) {
+								case "slide" :{
+									Optional<Product> p = productRepository.findByProductCode(productCode);
+									
+									if(product.listFiles().length>0 && product.listFiles()!=null) {
+										for(File type : sort.listFiles()) {
+											String fileName = type.getName();
+											ProductImage f = new ProductImage();
+							        		f.setProductId(p.get().getId());
+											if(env.equals("local")) {
+							                	f.setProductImagePath(absolutePath + commonPath + "/company/" + productCode + "/slide/" +  fileName);
+											}else if(env.equals("prod")) {
+												f.setProductImagePath(commonPath + "/company/" + productCode + "/slide/" +  fileName);
+											}
+											f.setProductImageRoad("/administration/company/" + productCode + "/slide/" + fileName );
+							                f.setProductImageName(fileName);
+							                productImageRepository.save(f);
+										}
+									}
+									break;
+								}
+								case "spec" :{
+									for(File type : sort.listFiles()) {
+										String fileName = type.getName();
+										System.out.println("spec file name" + fileName);
+										Optional<Product> p = productRepository.findByProductCode(productCode);
+										p.ifPresent(np -> {
+											np.setSpecImageName(fileName);
+											np.setSpecImagePath(commonPath + "/company/" + productCode + "/spec/" + fileName);
+											np.setSpecImageRoad("/administration/company/" + productCode + "/spec/" + fileName);
+											productRepository.save(np);
+										});
+									}
+									
+									break;
+									
+								}
+								case "overview" :{
+									for(File type : sort.listFiles()) {
+										String fileName = type.getName();
+										Optional<Product> p = productRepository.findByProductCode(productCode);
+										p.ifPresent(np -> {
+											np.setTableImageName(fileName);
+											np.setTableImagePath(commonPath + "/company/" + productCode + "/overview/" + fileName);
+											np.setTableImageRoad("/administration/company/" + productCode + "/overview/" + fileName);
+											productRepository.save(np);
+										});
+									}
+									break;
+								}
+								case "files" :{
+									Optional<Product> p = productRepository.findByProductCode(productCode);
+									
+									if(product.listFiles().length>0 && product.listFiles()!=null) {
+										for(File type : sort.listFiles()) {
+											String fileName = type.getName();
+											ProductFile f = new ProductFile();
+											f.setProductId(p.get().getId());
+											if(env.equals("local")) {
+							                	f.setProductFilePath(absolutePath + commonPath + "/company/" + productCode + "/files/" +  fileName);
+											}else if(env.equals("prod")) {
+												f.setProductFilePath(commonPath + "/company/" + productCode + "/files/" +  fileName);
+											}
+											f.setProductFileRoad("/administration/company/" + productCode + "/files/" + fileName);
+							                f.setProductFileName(fileName);
+							                f.setProductFileDate(new Date());
+							                productFileRepository.save(f);
+										}
+									}
+									break;
+								}
+							}
+							
+						}
+					}
+				}
+			}
+		}
+		for(File f : zipFile.listFiles()) {
+			File to = new File(commonPath + "/company/" + f.getName());
+			Files.move(f.toPath(), to.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		}
+		
+		if(exFile.exists() && exFile.isDirectory()) {
+			FileUtils.cleanDirectory(exFile); 
+			exFile.delete();
 		}
 	}
 	
