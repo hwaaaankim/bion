@@ -8026,8 +8026,8 @@ body:not(.device-touch) .portfolio {
 .entry-title h3,
 .entry-title h4 {
   margin: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.3rem;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -8068,8 +8068,8 @@ body:not(.device-touch) .portfolio {
 	line-height:1.2;
 }
 .entry-title h2 a{
-	font-size:18px;
-	line-height:1.2;
+	font-size:16px;
+	line-height:1.4;
 }
 .entry-title h2 a:hover,
 .entry-title h3 a:hover,
@@ -18346,7 +18346,9 @@ label.checkbox {
   animation-name: fadeOutUpSmall;
 }
 .notice-wrap{
-	white-space:pre-wrap;
+	white-space:pre-wrap !important;
+	overflow:auto !important;
+	
 }
 .breadcrumb-item.active{
 	color:black;

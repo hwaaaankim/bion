@@ -78,7 +78,6 @@
 										<textarea 
 										class="form-control" 
 										id="productSubContent"
-										required="required"
 										name="productSubContent"></textarea>
 									</div>
 								</div>
@@ -89,7 +88,6 @@
 										<div class="spec-wrap">
 											<input 
 											type="text" 
-											required="required" 
 											name="spec" 
 											placeholder="제품 스펙을 입력 해 주세요. 예) 80mm*80mm*100mm" 
 											class="form-control" 
@@ -104,8 +102,8 @@
 										for="inputSuccess"># 제품 INFO 입력</label>
 									<div class="col-lg-10 form-inline" id="info-wrap">
 										<div class="spec-wrap">
-											<input type="text" name="infoQ" required="required" class="form-control" placeholder="주제를 입력 해 주세요. 예) 제조자" style="width:40%;">
-											<input type="text" name="infoA" required="required" class="form-control" placeholder="답변을 입력 해 주세요. 예) 바이온라이프사이언스" style="width:40%;">
+											<input type="text" name="infoQ" class="form-control" placeholder="주제를 입력 해 주세요. 예) 제조자" style="width:40%;">
+											<input type="text" name="infoA" class="form-control" placeholder="답변을 입력 해 주세요. 예) 바이온라이프사이언스" style="width:40%;">
 										    <button type="button" class="btn btn-success" id="info-plus-button">+ 추가</button>
 										    <button type="button" class="btn btn-danger" id="info-del-button">- 삭제</button>
 									    </div>
@@ -119,8 +117,9 @@
 										type="file" 
 										class="form-control wth-100" 
 										style="margin-bottom:10px;" 
-										name="productOverviewImage" 
-										required="required">
+										name="productOverviewImage"
+										required="required"
+										>
 										<span class="label label-danger">주의</span> <span> image용 확장자(jpg/jpeg/png)만을 지원합니다</span><br>
 										<span class="label label-danger">주의</span> <span> 이미지 이름에 공백 혹은 특수문자를 제거 해 주시기 바랍니다</span><br>
 										<span class="label label-danger">주의</span> <span> 가로사이즈 1,440px 을 기준으로 최적화 되어 있습니다.</span>
@@ -135,7 +134,8 @@
 										class="form-control wth-100" 
 										style="margin-bottom:10px;" 
 										name="productSpecImage"
-										required="required">
+										required="required"
+										>
 										<span class="label label-danger">주의</span> <span> image용 확장자(jpg/jpeg/png)만을 지원합니다</span><br>
 										<span class="label label-danger">주의</span> <span> 이미지 이름에 공백 혹은 특수문자를 제거 해 주시기 바랍니다</span><br>
 										<span class="label label-danger">주의</span> <span> 가로사이즈 1,440px 을 기준으로 최적화 되어 있습니다.</span>
@@ -187,7 +187,7 @@
 										class="form-control" 
 										style="margin-bottom:10px; width:20px;" 
 										name="sign"
-										checked="checked">
+										>
 										<span class="label label-success">사용</span> <span> 체크시 메인화면의 대표제품에 등록됩니다.</span><br>
 									</div>
 								</div>

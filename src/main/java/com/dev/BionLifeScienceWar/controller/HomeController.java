@@ -12,9 +12,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -51,9 +54,10 @@ import com.dev.BionLifeScienceWar.repository.product.BigSortRepository;
 import com.dev.BionLifeScienceWar.repository.product.MiddleSortRepository;
 import com.dev.BionLifeScienceWar.repository.product.ProductRepository;
 import com.dev.BionLifeScienceWar.repository.product.SmallSortRepository;
+import com.dev.BionLifeScienceWar.service.ZipService;
 import com.dev.BionLifeScienceWar.service.product.ProductService;
-import com.dev.BionLifeScienceWar.service.program.ExcelDownloadService;
-import com.dev.BionLifeScienceWar.service.program.ExcelUploadService;
+import com.dev.BionLifeScienceWar.service.program.company.ExcelDownloadService;
+import com.dev.BionLifeScienceWar.service.program.company.ExcelUploadService;
 
 @Controller
 public class HomeController {
@@ -111,28 +115,24 @@ public class HomeController {
 	CertificationRepository certificationRepository;
 	
 	@Autowired
-	ExcelDownloadService excelDownloadService;
-	
-	@Autowired
-	ExcelUploadService excelUploadService;
-	
-	@Autowired
 	ProductService productService;
 	
 	@Value("${spring.upload.path}")
 	private String uploadPath;
 	
 
+	
+	
 	@ResponseStatus(value=HttpStatus.NOT_FOUND, reason="잘못된 접근입니다.")
     public class UrlNotFoundException extends RuntimeException {
 		private static final long serialVersionUID = 1L; }
 	
 	@SuppressWarnings("null")
-	@RequestMapping({"/", "/index"})
+	@GetMapping({"/", "/index"})
 	public String index(
 			Model model
 			) {
-//		System.out.println(uploadPath);
+
 		List<Banner> b = bannerRepository.findAll();
 		if(b.size()<1) {
 			Banner ba = new Banner();
@@ -154,7 +154,7 @@ public class HomeController {
 		}
 		List<Notice> notice = noticeRepository.findTop5ByOrderBySignDescDateDesc();
 		List<ReferenceFile> fi = referenceFileRepository.findAll();
-		List<Product> pr = productRepository.findAllBySign(true);
+		List<Product> pr = productRepository.findAllBySignOrderByProductIndexAsc(true);
 		for(Product p : pr) {
 			if(p.getImages().size() > 0) {
 				
@@ -169,10 +169,10 @@ public class HomeController {
 		model.addAttribute("ev", ev.get(0));
 		model.addAttribute("ba", b);
 		
-		model.addAttribute("b", bigSortRepository.findAll());
-		model.addAttribute("m", middleSortRepository.findAll());
-		model.addAttribute("s", smallSortRepository.findAll());
-		model.addAttribute("p", productRepository.findAll());
+		model.addAttribute("b", bigSortRepository.findAllByOrderByBigSortIndexAsc());
+		model.addAttribute("m", middleSortRepository.findAllByOrderByMiddleSortIndexAsc());
+		model.addAttribute("s", smallSortRepository.findAllByOrderBySmallSortIndexAsc());
+		model.addAttribute("p", productRepository.findAllByOrderByProductIndexAsc());
 		
 		model.addAttribute("brand", brandRepository.findAll());
 		model.addAttribute("bb", brandBigSortRepository.findAll());
@@ -186,10 +186,10 @@ public class HomeController {
 	public String about(
 			Model model
 			) {
-		model.addAttribute("b", bigSortRepository.findAll());
-		model.addAttribute("m", middleSortRepository.findAll());
-		model.addAttribute("s", smallSortRepository.findAll());
-		model.addAttribute("p", productRepository.findAll());
+		model.addAttribute("b", bigSortRepository.findAllByOrderByBigSortIndexAsc());
+		model.addAttribute("m", middleSortRepository.findAllByOrderByMiddleSortIndexAsc());
+		model.addAttribute("s", smallSortRepository.findAllByOrderBySmallSortIndexAsc());
+		model.addAttribute("p", productRepository.findAllByOrderByProductIndexAsc());
 		
 		model.addAttribute("brand", brandRepository.findAll());
 		model.addAttribute("bb", brandBigSortRepository.findAll());
@@ -210,10 +210,10 @@ public class HomeController {
 			s.setContents(historyContentRepository.findAllBySubjectIdOrderByDateDesc(s.getId()));
 		}
 		model.addAttribute("list",subject);
-		model.addAttribute("b", bigSortRepository.findAll());
-		model.addAttribute("m", middleSortRepository.findAll());
-		model.addAttribute("s", smallSortRepository.findAll());
-		model.addAttribute("p", productRepository.findAll());
+		model.addAttribute("b", bigSortRepository.findAllByOrderByBigSortIndexAsc());
+		model.addAttribute("m", middleSortRepository.findAllByOrderByMiddleSortIndexAsc());
+		model.addAttribute("s", smallSortRepository.findAllByOrderBySmallSortIndexAsc());
+		model.addAttribute("p", productRepository.findAllByOrderByProductIndexAsc());
 		
 		model.addAttribute("brand", brandRepository.findAll());
 		model.addAttribute("bb", brandBigSortRepository.findAll());
@@ -227,10 +227,10 @@ public class HomeController {
 	public String certifications(
 			Model model
 			) {
-		model.addAttribute("b", bigSortRepository.findAll());
-		model.addAttribute("m", middleSortRepository.findAll());
-		model.addAttribute("s", smallSortRepository.findAll());
-		model.addAttribute("p", productRepository.findAll());
+		model.addAttribute("b", bigSortRepository.findAllByOrderByBigSortIndexAsc());
+		model.addAttribute("m", middleSortRepository.findAllByOrderByMiddleSortIndexAsc());
+		model.addAttribute("s", smallSortRepository.findAllByOrderBySmallSortIndexAsc());
+		model.addAttribute("p", productRepository.findAllByOrderByProductIndexAsc());
 		
 		model.addAttribute("brand", brandRepository.findAll());
 		model.addAttribute("bb", brandBigSortRepository.findAll());
@@ -246,10 +246,10 @@ public class HomeController {
 	public String address(
 			Model model
 			) {
-		model.addAttribute("b", bigSortRepository.findAll());
-		model.addAttribute("m", middleSortRepository.findAll());
-		model.addAttribute("s", smallSortRepository.findAll());
-		model.addAttribute("p", productRepository.findAll());
+		model.addAttribute("b", bigSortRepository.findAllByOrderByBigSortIndexAsc());
+		model.addAttribute("m", middleSortRepository.findAllByOrderByMiddleSortIndexAsc());
+		model.addAttribute("s", smallSortRepository.findAllByOrderBySmallSortIndexAsc());
+		model.addAttribute("p", productRepository.findAllByOrderByProductIndexAsc());
 		
 		model.addAttribute("brand", brandRepository.findAll());
 		model.addAttribute("bb", brandBigSortRepository.findAll());
@@ -263,10 +263,10 @@ public class HomeController {
 	public String contact(
 			Model model
 			) {
-		model.addAttribute("b", bigSortRepository.findAll());
-		model.addAttribute("m", middleSortRepository.findAll());
-		model.addAttribute("s", smallSortRepository.findAll());
-		model.addAttribute("p", productRepository.findAll());
+		model.addAttribute("b", bigSortRepository.findAllByOrderByBigSortIndexAsc());
+		model.addAttribute("m", middleSortRepository.findAllByOrderByMiddleSortIndexAsc());
+		model.addAttribute("s", smallSortRepository.findAllByOrderBySmallSortIndexAsc());
+		model.addAttribute("p", productRepository.findAllByOrderByProductIndexAsc());
 		
 		model.addAttribute("brand", brandRepository.findAll());
 		model.addAttribute("bb", brandBigSortRepository.findAll());
@@ -276,32 +276,15 @@ public class HomeController {
 		return "front/customer/contact";
 	}
 	
-	@RequestMapping("/excelTest")
-	@ResponseBody
-	public void excelTest(
-			HttpServletResponse res
-			) throws IOException {
-		excelDownloadService.bigSortDownload(res);
-		
-	}
-	
-	@RequestMapping("/excelUploadTest")
-	@ResponseBody
-	public void excelUploadTest(
-			MultipartFile file
-			) {
-		
-		excelUploadService.uploadExcel(file);
-	}
 	
 	@RequestMapping("/productOverall")
 	public String productOverall(
 			Model model
 			) {
-		model.addAttribute("b", bigSortRepository.findAll());
-		model.addAttribute("m", middleSortRepository.findAll());
-		model.addAttribute("s", smallSortRepository.findAll());
-		model.addAttribute("p", productRepository.findAll());
+		model.addAttribute("b", bigSortRepository.findAllByOrderByBigSortIndexAsc());
+		model.addAttribute("m", middleSortRepository.findAllByOrderByMiddleSortIndexAsc());
+		model.addAttribute("s", smallSortRepository.findAllByOrderBySmallSortIndexAsc());
+		model.addAttribute("p", productRepository.findAllByOrderByProductIndexAsc());
 		
 		model.addAttribute("brand", brandRepository.findAll());
 		model.addAttribute("bb", brandBigSortRepository.findAll());
@@ -327,10 +310,10 @@ public class HomeController {
 				product.get().setFirstImageRoad("null");
 			}
 			model.addAttribute("product", product.get());
-			model.addAttribute("b", bigSortRepository.findAll());
-			model.addAttribute("m", middleSortRepository.findAll());
-			model.addAttribute("s", smallSortRepository.findAll());
-			model.addAttribute("p", productRepository.findAll());
+			model.addAttribute("b", bigSortRepository.findAllByOrderByBigSortIndexAsc());
+			model.addAttribute("m", middleSortRepository.findAllByOrderByMiddleSortIndexAsc());
+			model.addAttribute("s", smallSortRepository.findAllByOrderBySmallSortIndexAsc());
+			model.addAttribute("p", productRepository.findAllByOrderByProductIndexAsc());
 			
 			model.addAttribute("brand", brandRepository.findAll());
 			model.addAttribute("bb", brandBigSortRepository.findAll());
@@ -365,10 +348,11 @@ public class HomeController {
 			model.addAttribute("bm", brandMiddleSortRepository.findAll());
 			model.addAttribute("bs", brandSmallSortRepository.findAll());
 			model.addAttribute("bp", brandProductRepository.findAll());
-			model.addAttribute("b", bigSortRepository.findAll());
-			model.addAttribute("m", middleSortRepository.findAll());
-			model.addAttribute("s", smallSortRepository.findAll());
-			model.addAttribute("p", productRepository.findAll());
+			
+			model.addAttribute("b", bigSortRepository.findAllByOrderByBigSortIndexAsc());
+			model.addAttribute("m", middleSortRepository.findAllByOrderByMiddleSortIndexAsc());
+			model.addAttribute("s", smallSortRepository.findAllByOrderBySmallSortIndexAsc());
+			model.addAttribute("p", productRepository.findAllByOrderByProductIndexAsc());
 			return "front/brand/brandProductDetail";
 		}else {
 			throw new UrlNotFoundException();
@@ -382,10 +366,10 @@ public class HomeController {
 		
 		List<Notice> notice = noticeRepository.findTop5ByOrderBySignDescDateDesc();
 		model.addAttribute("notice", notice);
-		model.addAttribute("b", bigSortRepository.findAll());
-		model.addAttribute("m", middleSortRepository.findAll());
-		model.addAttribute("s", smallSortRepository.findAll());
-		model.addAttribute("p", productRepository.findAll());
+		model.addAttribute("b", bigSortRepository.findAllByOrderByBigSortIndexAsc());
+		model.addAttribute("m", middleSortRepository.findAllByOrderByMiddleSortIndexAsc());
+		model.addAttribute("s", smallSortRepository.findAllByOrderBySmallSortIndexAsc());
+		model.addAttribute("p", productRepository.findAllByOrderByProductIndexAsc());
 		
 		model.addAttribute("brand", brandRepository.findAll());
 		model.addAttribute("bb", brandBigSortRepository.findAll());
@@ -402,10 +386,10 @@ public class HomeController {
 			) {
 		
 		model.addAttribute("file",referenceFileRepository.findAll());
-		model.addAttribute("b", bigSortRepository.findAll());
-		model.addAttribute("m", middleSortRepository.findAll());
-		model.addAttribute("s", smallSortRepository.findAll());
-		model.addAttribute("p", productRepository.findAll());
+		model.addAttribute("b", bigSortRepository.findAllByOrderByBigSortIndexAsc());
+		model.addAttribute("m", middleSortRepository.findAllByOrderByMiddleSortIndexAsc());
+		model.addAttribute("s", smallSortRepository.findAllByOrderBySmallSortIndexAsc());
+		model.addAttribute("p", productRepository.findAllByOrderByProductIndexAsc());
 		
 		model.addAttribute("brand", brandRepository.findAll());
 		model.addAttribute("bb", brandBigSortRepository.findAll());
@@ -457,7 +441,7 @@ public class HomeController {
 			}else if(sort.equals("sub")) {
 				Optional<SmallSort> s = smallSortRepository.findById(id);
 				if(s.isPresent()) {
-					products = productRepository.findAllBySmallSort(pageable, s.get());
+					products = productRepository.findAllBySmallSortOrderByIdDesc(pageable, s.get());
 					if(products.getNumberOfElements()>0) {
 						name = smallSortRepository.findById(id).get().getName();
 					}else {
@@ -471,7 +455,11 @@ public class HomeController {
 			}
 			if(products.getNumberOfElements()>0) {
 				for(Product p : products) {
-					p.setFirstImageRoad(p.getImages().get(0).getProductImageRoad());
+					if(!p.getImages().isEmpty()) {
+						p.setFirstImageRoad(p.getImages().get(0).getProductImageRoad());
+					}else {
+						p.setFirstImageRoad("-");
+					}
 				}
 			}
 			model.addAttribute("products", products);
@@ -480,10 +468,12 @@ public class HomeController {
 			int endPage = Math.min(products.getTotalPages(), products.getPageable().getPageNumber() + 4);
 			model.addAttribute("startPage", startPage);
 			model.addAttribute("endPage", endPage);
-			model.addAttribute("b", bigSortRepository.findAll());
-			model.addAttribute("m", middleSortRepository.findAll());
-			model.addAttribute("s", smallSortRepository.findAll());
-			model.addAttribute("p", productRepository.findAll());
+			
+			model.addAttribute("b", bigSortRepository.findAllByOrderByBigSortIndexAsc());
+			model.addAttribute("m", middleSortRepository.findAllByOrderByMiddleSortIndexAsc());
+			model.addAttribute("s", smallSortRepository.findAllByOrderBySmallSortIndexAsc());
+			model.addAttribute("p", productRepository.findAllByOrderByProductIndexAsc());
+			
 			model.addAttribute("sort", sort);
 			model.addAttribute("id",id);
 			model.addAttribute("brand", brandRepository.findAll());
@@ -598,10 +588,12 @@ public class HomeController {
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("sort", sort);
 		model.addAttribute("id",id);
-		model.addAttribute("b", bigSortRepository.findAll());
-		model.addAttribute("m", middleSortRepository.findAll());
-		model.addAttribute("s", smallSortRepository.findAll());
-		model.addAttribute("p", productRepository.findAll());
+		
+		model.addAttribute("b", bigSortRepository.findAllByOrderByBigSortIndexAsc());
+		model.addAttribute("m", middleSortRepository.findAllByOrderByMiddleSortIndexAsc());
+		model.addAttribute("s", smallSortRepository.findAllByOrderBySmallSortIndexAsc());
+		model.addAttribute("p", productRepository.findAllByOrderByProductIndexAsc());
+		
 		model.addAttribute("brand", brandRepository.findAll());
 		model.addAttribute("bb", brandBigSortRepository.findAll());
 		model.addAttribute("bm", brandMiddleSortRepository.findAll());

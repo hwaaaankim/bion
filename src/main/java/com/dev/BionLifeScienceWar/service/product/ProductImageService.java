@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.dev.BionLifeScienceWar.model.product.ProductFile;
 import com.dev.BionLifeScienceWar.model.product.ProductImage;
 import com.dev.BionLifeScienceWar.repository.product.ProductImageRepository;
 
@@ -28,18 +29,31 @@ public class ProductImageService {
 	@Value("${spring.upload.path}")
 	private String commonPath;
 	
+	public Boolean fileDelete(
+			Long id
+			) {
+		List<ProductImage> files = productImageRepository.findAllByProductId(id);
+		for(ProductImage p : files) {
+			File pFile = new File(p.getProductImagePath());
+			if(!pFile.delete()) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	public String fileUpload(
 			List<MultipartFile> productImages,
-			Long id
+			Long id,
+			String productCode
 			) throws IllegalStateException, IOException {
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String current_date = simpleDateFormat.format(new Date());
         String absolutePath = new File("").getAbsolutePath() + "\\";
-//        String path = "src/main/resources/static/administration/productimage/"+current_date;
-//        String path = "/home/hosting_users/bionls/tomcat/webapps/productimage/" + current_date;
-        String path = commonPath + "/productimage/" + current_date;
-        String road = "/administration/productimage/" + current_date;
+        String path = commonPath + "/company/" + productCode + "/slide";
+        String road = "/administration/company/" + productCode + "/slide";
         File fileFolder = new File(path);
         int leftLimit = 48; // numeral '0'
 		int rightLimit = 122; // letter 'z'

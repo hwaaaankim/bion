@@ -1,17 +1,10 @@
-logging:
-  level:
-    org:
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
+
 # 동작 환경 설정
 spring:
   profiles:
     active: test
 server:
+  port: 8080
   servlet:
     session:
       timeout: 1440m      # 60m * 24h * 30d
@@ -20,10 +13,22 @@ server:
         name: SID
         http-only: true
         secure: true
----
+# 개발 환경
+--- 
+logging:
+  file.name: logs/application-debug.log
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+    org.springframework.web: ERROR
+    com.howtodoinjava: DEBUG
+    org.hibernate: ERROR
 spring:
-  config:    activate: 
-      on-profile: test  datasource:
+  config:
+    activate: 
+      on-profile: test
+  datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     password: bion2272!@
     url: jdbc:mariadb://183.111.199.216:3306/bionls?useUnicode=true&characterEncoding=utf8
@@ -45,7 +50,7 @@ spring:
         dialect: org.hibernate.dialect.MariaDB103Dialect
   servlet:
     multipart:
-      maxFileSize: 100MB
+      maxFileSize: 1000MB
       maxRequestSize: -1
   mail:
     host: smtp.gmail.com
@@ -60,10 +65,18 @@ spring:
             enable: true
   upload.path: src/main/resources/static/administration
   upload.env: local
-  
- 
+
 # 배포 환경
 --- 
+logging:
+  file.name: logs/application-debug.log
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+    org.springframework.web: ERROR
+    com.howtodoinjava: INFO
+    org.hibernate: ERROR
 spring:
   config:
     activate: 
@@ -90,7 +103,7 @@ spring:
         dialect: org.hibernate.dialect.MariaDB103Dialect
   servlet:
     multipart:
-      maxFileSize: 100MB
+      maxFileSize: 1000MB
       maxRequestSize: -1
   mail:
     host: smtp.gmail.com
