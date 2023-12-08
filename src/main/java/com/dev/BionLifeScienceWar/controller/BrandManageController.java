@@ -1,13 +1,14 @@
 package com.dev.BionLifeScienceWar.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin/brandCenter")
 public class BrandManageController {
 
-	@RequestMapping("/brandManager")
+	@GetMapping("/brandManager")
 	public String brandManager() {
 		
 		return "program/brand/brandManager";
