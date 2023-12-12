@@ -26,13 +26,13 @@
 						<div class="col-12">
 							<div
 								class="page-title-box d-sm-flex align-items-center justify-content-between">
-								<h4 class="mb-sm-0">PRODUCT OVERFALL</h4>
+								<h4 class="mb-sm-0">BRAND PRODUCT OVERFALL</h4>
 
 								<div class="page-title-right">
 									<ol class="breadcrumb m-0">
 										<li class="breadcrumb-item"><a
-											href="javascript: void(0);">Prodcut Manage Center</a></li>
-										<li class="breadcrumb-item active">Prorduct Overall</li>
+											href="javascript: void(0);">BRAND Manage Center</a></li>
+										<li class="breadcrumb-item active">BRAND Prorduct Overall</li>
 									</ol>
 								</div>
 
@@ -55,7 +55,7 @@
 										# <code>체크박스를 체크한 상태</code> 로 검색 시 해당 단어가 포함된 모든 결과가 표시됩니다.
 									</p>
 									<div class="live-preview">
-										<form action="/admin/productCenter/productOverall">
+										<form action="/admin/brandCenter/productOverall">
 											<div class="row gy-2 gx-3 mb-3 align-items-center">
 												<div class="col-sm-auto">
 													<label class="visually-hidden">페이지사이즈</label> <select
@@ -75,27 +75,34 @@
 													</select>
 												</div>
 												<div class="col-sm">
-													<label class="visually-hidden">대분류</label> <select
-														class="form-select" id="smallPanelBigSortSelect"
-														name="bigId">
-														<option selected value="">== 대분류 선택 ==</option>
+													<label class="visually-hidden">브랜드</label> 
+													<select class="form-control" id="brandProductBrandId" name="brandId" required="required">
+														<option value="">=== 브랜드 선택 ===</option>
+														<option th:each="b:${brands}" 
+														th:text="${b.name}" 
+														th:value="${b.id}"
+														th:selected="${brandId == b.id}"></option>
+													</select>
+												</div>
+												<div class="col-sm">
+													<label class="visually-hidden">대분류</label> 
+													<select class="form-control" name="brandBigSortId" id="brandProductBigSortId">
+														<option value="">=== 대분류 선택 ===</option>
 														<option th:each="b:${bigsorts}" th:text="${b.name}"
 															th:value="${b.id}" th:selected="${bigId == b.id}"></option>
 													</select>
 												</div>
 												<div class="col-sm">
-													<label class="visually-hidden">중분류</label> <select
-														class="form-select" id="smallPanelMiddleSortSelect"
-														name="middleId">
+													<label class="visually-hidden">중분류</label> 
+													<select class="form-control" name="brandMiddleSortId" id="brandProductMiddleSortId">
 														<option selected value="">== 중분류 선택 ==</option>
 														<option th:each="m:${middlesorts}" th:text="${m.name}"
 															th:value="${m.id}" th:selected="${middleId == m.id}"></option>
 													</select>
 												</div>
 												<div class="col-sm">
-													<label class="visually-hidden">소분류</label> <select
-														class="form-select" id="smallPanelSmallSortSelect"
-														name="smallId">
+													<label class="visually-hidden">소분류</label> 
+													<select class="form-control" name="brandSmallSortId" id="brandProductSmallSortId">
 														<option selected value="">== 소분류 선택 ==</option>
 														<option th:each="s:${smallsorts}" th:text="${s.name}"
 															th:value="${s.id}" th:selected="${smallId == s.id}"></option>
@@ -107,7 +114,7 @@
 												</div>
 												<div class="col-sm-auto">
 													<div>
-														<a href="/admin/productCenter/productOverall"
+														<a href="/admin/brandCenter/productOverall"
 															class="btn btn-danger"> 검색 초기화</a>
 													</div>
 												</div>
@@ -143,7 +150,7 @@
                                     <div class="list-group col nested-list nested-sortable">
                                         <div class="list-group-item nested-1 sortable-items" th:each="o:${sortable}" th:id="${o.id}"> 
                                         	<span th:if="${code} == 'product'"><i class="mdi mdi-language-css3 fs-16 align-middle text-secondary me-2"></i>[[${o.subject}]]</span>
-                                        	<span th:if="${code} == 'smallsort' or ${code} == 'middlesort' or ${code} == 'bigsort'"><i class="mdi mdi-folder fs-16 align-middle text-warning me-2"></i>[[${o.name}]]</span>
+                                        	<span th:if="${code} == 'smallsort' or ${code} == 'middlesort' or ${code} == 'bigsort' or ${code} == 'brand'"><i class="mdi mdi-folder fs-16 align-middle text-warning me-2"></i>[[${o.name}]]</span>
                                         	<input type="hidden" th:value="${code}" name="code" id="code">
                                         </div>
                                     </div>
@@ -196,13 +203,14 @@
 	<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js" integrity="sha256-ipiJrswvAR4VAx/th+6zWsdeYmVae0iJuiR+6OqHJHQ=" crossorigin="anonymous"></script>
 	<th:block th:replace="program/fragments/common :: scriptSrc"></th:block>
 	<script th:inline="javascript">
+		var brandId = /*[[${brand}]]*/ 'default';
    		var bigId = /*[[${bigId}]]*/ 'default';
    		var middleId = /*[[${middleId}]]*/ 'default';
    		var smallId = /*[[${smallId}]]*/ 'default';
     </script>
-	<script src="/administration/lib/programProductManager.js"></script>
+	<script src="/administration/program/brand/programProductManager.js"></script>
     <script src="/administration/program/assets/libs/sortablejs/Sortable.min.js"></script>
-	<script src="/administration/program/assets/js/pages/nestable.init.js"></script>
+	<script src="/administration/program/brand/nestable.init.js"></script>
 </body>
 
 </html>

@@ -120,7 +120,6 @@ public class HomeController {
 	@Value("${spring.upload.path}")
 	private String uploadPath;
 	
-
 	
 	
 	@ResponseStatus(value=HttpStatus.NOT_FOUND, reason="잘못된 접근입니다.")

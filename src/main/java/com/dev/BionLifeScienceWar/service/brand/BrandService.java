@@ -33,17 +33,18 @@ public class BrandService {
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String current_date = simpleDateFormat.format(new Date());
-        
 		String absolutePath = new File("").getAbsolutePath() + "\\";
-      
-//		String brandPath = "src/main/resources/static/administration/brand/"+current_date;
-//      String brandPath = "/home/hosting_users/bionls/tomcat/webapps/brand/"+current_date;
         String brandPath = commonPath + "/brand/" + current_date;
         String brandRoad = "/administration/brand/"+current_date;
         File brandFileFolder = new File(brandPath);
         
-        int leftLimit = 48; // numeral '0'
- 		int rightLimit = 122; // letter 'z'
+        int index = 1;
+        if(brandRepository.findFirstIndex().isPresent()) {
+        	index = brandRepository.findFirstIndex().get() + 1;
+        }
+        brand.setBrandIndex(index);
+        int leftLimit = 48; 
+ 		int rightLimit = 122;
  		int targetStringLength = 10;
  		Random random = new Random();
  		
@@ -58,8 +59,6 @@ public class BrandService {
  		}
  		
  		String brandFileName = generatedString + image.getOriginalFilename();
- 		
-// 		
  		
  		if(env.equals("local")) {
  			brandFileFolder = new File(absolutePath + brandPath + "/" + brandFileName);
@@ -84,8 +83,6 @@ public class BrandService {
         String current_date = simpleDateFormat.format(new Date());
 		String absolutePath = new File("").getAbsolutePath() + "\\";
       
-//		String brandPath = "src/main/resources/static/administration/brand/"+current_date;
-//      String brandPath = "/home/hosting_users/bionls/tomcat/webapps/brand/"+current_date;
         String brandPath = commonPath + "/brand/" + current_date;
         String brandRoad = "/administration/brand/"+current_date;
         File brandFileFolder = new File(brandPath);
@@ -107,8 +104,6 @@ public class BrandService {
 	 		}
 	 		
 	 		String brandFileName = generatedString + image.getOriginalFilename();
-	 		
-// 		 		
 	 		
 	 		if(env.equals("local")) {
 	 			brandFileFolder = new File(absolutePath + brandPath + "/" + brandFileName);

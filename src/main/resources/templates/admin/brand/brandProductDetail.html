@@ -106,7 +106,6 @@
 										<textarea 
 										class="form-control" 
 										id="productSubContent"
-										required="required"
 										th:text="${product.productSubContent}"
 										name="productSubContent"></textarea>
 									</div>
@@ -122,7 +121,6 @@
 									    <div class="spec-wrap" th:each="s:${product.infos}">
 											<input
 											type="text" 
-											required="required" 
 											name="spec" 
 											th:value="${s.productInfoText}"
 											placeholder="제품 스펙을 입력 해 주세요. 예) 80mm*80mm*100mm" 
@@ -136,14 +134,12 @@
 										for="inputSuccess"># 제품 INFO 입력</label>
 									<div class="col-lg-10 form-inline" id="info-wrap">
 										<div class="spec-wrap">
-											
 										    <button type="button" class="btn btn-success" id="info-plus-button">+ 추가</button>
 										    <button type="button" class="btn btn-danger" id="info-del-button">- 삭제</button>
 									    </div>
 									    <div class="spec-wrap" th:each="i:${product.specs}">
-											<input type="text" 
+											<input type="text"
 											name="infoQ" 
-											required="required"
 											class="form-control" 
 											placeholder="추가할 내용을 입력 해 주세요. 예) 제조자"
 											style="width:40%;"
@@ -151,7 +147,6 @@
 											<input 
 											type="text" 
 											name="infoA" 
-											required="required" 
 											class="form-control" 
 											placeholder="추가주제의 답변을 입력 해 주세요. 예) 바이온라이프사이언스" 
 											style="width:40%;"

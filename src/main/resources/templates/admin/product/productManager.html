@@ -33,15 +33,21 @@
 												<select class="form-control" id="smallPanelBigSortSelect" name="bigId" required="required">
 													<option value="">=== 대분류 선택 ===</option>
 													<option th:each="b:${bigsorts}" th:text="${b.name}"
-														th:value="${b.id}"></option>
+														th:value="${b.id}" th:selected="${bigId == b.id}"></option>
 												</select>
 											</div>
 											<div class="col-lg-4">
 												<select class="form-control" id="smallPanelMiddleSortSelect" name="middleId"  required="required">
+													<option selected value="">== 중분류 선택 ==</option>
+													<option th:each="m:${middlesorts}" th:text="${m.name}"
+														th:value="${m.id}" th:selected="${middleId == m.id}"></option>
 												</select>
 											</div>
 											<div class="col-lg-4">
 												<select class="form-control" id="smallPanelSmallSortSelect" name="smallId" required="required">
+													<option selected value="">== 소분류 선택 ==</option>
+													<option th:each="s:${smallsorts}" th:text="${s.name}"
+														th:value="${s.id}" th:selected="${smallId == s.id}"></option>
 												</select>
 											</div>
 										</div>

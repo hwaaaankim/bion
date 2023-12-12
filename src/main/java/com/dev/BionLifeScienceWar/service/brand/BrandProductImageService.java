@@ -30,17 +30,16 @@ public class BrandProductImageService {
 	
 	public String fileUpload(
 			List<MultipartFile> productImages,
-			Long id
+			Long id,
+			String productCode
 			) throws IllegalStateException, IOException {
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String current_date = simpleDateFormat.format(new Date());
         String absolutePath = new File("").getAbsolutePath() + "\\";
-        String path = commonPath + "/brandproductimage/" + current_date;
-//        String path = "src/main/resources/static/administration/brandproductimage/"+current_date;
-//        String path = "/home/hosting_users/bionls/tomcat/webapps/brandproductimage/" + current_date;
+        String path = commonPath + "/brandproduct/" + productCode + "/slide";
         
-        String road = "/administration/brandproductimage/" + current_date;
+        String road = "/administration/brandproduct/"  + productCode + "/slide";
         File fileFolder = new File(path);
         int leftLimit = 48; // numeral '0'
 		int rightLimit = 122; // letter 'z'

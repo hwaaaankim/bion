@@ -197,6 +197,8 @@ public class ProductController {
 	public String productManager(
 			Model model, 
 			@RequestParam(required = false) Long smallId,
+			@RequestParam(required = false) Long middleId,
+			@RequestParam(required = false) Long bigId,
 			@PageableDefault(size = 10) Pageable pageable
 			) {
 		if (smallId != null) {
@@ -207,7 +209,12 @@ public class ProductController {
 			int endPage = Math.min(products.getTotalPages(), products.getPageable().getPageNumber() + 4);
 			model.addAttribute("startPage", startPage);
 			model.addAttribute("endPage", endPage);
+			model.addAttribute("smallsorts", smallSortRepository.findAll());
+			model.addAttribute("middlesorts", middleSortRepository.findAll());
+			model.addAttribute("bigsorts", bigSortRepository.findAll());
 			model.addAttribute("smallId", smallId);
+			model.addAttribute("middleId", middleId);
+			model.addAttribute("bigId", bigId);
 		}else {
 			Page<Product> products = productRepository.findAllByOrderByIdDesc(pageable);
 			model.addAttribute("products", products);
@@ -215,7 +222,6 @@ public class ProductController {
 			int endPage = Math.min(products.getTotalPages(), products.getPageable().getPageNumber() + 4);
 			model.addAttribute("startPage", startPage);
 			model.addAttribute("endPage", endPage);
-			model.addAttribute("smallId", smallId);
 		}
 		model.addAttribute("bigsorts", bigSortRepository.findAll());
 
@@ -243,13 +249,14 @@ public class ProductController {
 			List<MultipartFile> productFile
 
 	) throws IllegalStateException, IOException {
+		
 		product.setSmallSort(smallSortRepository.findById(product.getSmallId()).get());
 		product.setBigSort(bigSortRepository.findById(product.getBigId()).get());
 		product.setMiddleSort(middleSortRepository.findById(product.getMiddleId()).get());
 		
 		Product p = productService.productInsert(productOverviewImage, productSpecImage, product);
 		
-		if(spec.length > 0 ) {
+		if(spec.length > 0  && spec != null) {
 			for (String s : spec) {
 				ProductInfo in = new ProductInfo();
 				in.setProductId(p.getId());
@@ -263,7 +270,7 @@ public class ProductController {
 			productInfoRepository.save(in);
 		}
 		
-		if(infoQ.length > 0) {
+		if(infoQ.length > 0  && infoQ != null) {
 			for (int a = 0; a < infoQ.length; a++) {
 				ProductSpec sp = new ProductSpec();
 				sp.setProductSpecSubject(infoQ[a]);
@@ -338,6 +345,7 @@ public class ProductController {
 		productService.productUpdate(productOverviewImage, productSpecImage, product);
 		productInfoRepository.deleteAllByProductId(product.getId());
 		productSpecRepository.deleteAllByProductId(product.getId());
+		
 		if(spec.length > 0 && spec != null) {
 			for (String s : spec) {
 				ProductInfo in = new ProductInfo();

@@ -75,18 +75,18 @@ public class ExcelDownloadService {
 		productSpec.setDefaultColumnWidth(40);
 
 		String bigSortHeaderNames[] = new String[] {
-				"BIG_SORT_ID", "BIG_SORT_NAME", "BIG_SORT_INDEX"
+				"대분류 ID", "대분류 이름"
 				};
 		String middleSortHeaderNames[] = new String[] {
-				"MIDDLE_SORT_ID","MIDDLE_SORT_NAME", "MIDDLE_REFER_ID", "MIDDLE_SORT_INDEX"
+				"중분류 ID","중분류 이름"
 				};
 		String smallSortHeaderNames[] = new String[] {
-				"SMALL_SORT_ID", "SMALL_SORT_NAME", "SMALL_REFER_ID", "SMALL_SORT_INDEX"
+				"소분류 ID", "소분류 이름"
 				};
 		String productHeaderNames[] = new String[] {
 				"PRODUCT_CODE", "PRODUCT_SUBJECT", "PRODUCT_CONTENT", 
-				"PRODUCT_SUB_CONTENT", "PRODUCT_SIGN","PRODUCT_REFER_ID" ,"PRODUCT_MIDDLE_REFER_ID",
-				"PRODUCT_BIG_REFER_ID"
+				"PRODUCT_SUB_CONTENT", "PRODUCT_SIGN","소분류 ID" ,"중분류 ID",
+				"대분류 ID"
 				};
 		String productInfoHeaderNames[] = new String[] { 
 				"PRODUCT_CODE", "PRODUCT_INFO_TEXT" 
@@ -200,10 +200,6 @@ public class ExcelDownloadService {
 				bigBodyCell = bigBodyRow.createCell(cellNumbber+1);
 				bigBodyCell.setCellValue(bigSorts.get(x).getName());
 				bigBodyCell.setCellStyle(bodyXssfCellStyle);
-				
-				bigBodyCell = bigBodyRow.createCell(cellNumbber+2);
-				bigBodyCell.setCellValue(bigSorts.get(x).getBigSortIndex());// 데이터 추가
-				bigBodyCell.setCellStyle(bodyXssfCellStyle); // 스타일 추가
 			}
 		}
 		
@@ -217,14 +213,6 @@ public class ExcelDownloadService {
 				middleBodyCell = middleBodyRow.createCell(cellNumbber+1);
 				middleBodyCell.setCellValue(middleSorts.get(x).getName());
 				middleBodyCell.setCellStyle(bodyXssfCellStyle);
-				
-				middleBodyCell = middleBodyRow.createCell(cellNumbber+2);
-				middleBodyCell.setCellValue(middleSorts.get(x).getBigSort().getId());// 데이터 추가
-				middleBodyCell.setCellStyle(bodyXssfCellStyle);
-				
-				middleBodyCell = middleBodyRow.createCell(cellNumbber+3);
-				middleBodyCell.setCellValue(middleSorts.get(x).getMiddleSortIndex());// 데이터 추가
-				middleBodyCell.setCellStyle(bodyXssfCellStyle); // 스타일 추가
 			}
 		}
 		
@@ -238,23 +226,12 @@ public class ExcelDownloadService {
 				smallBodyCell = smallBodyRow.createCell(cellNumbber+1);
 				smallBodyCell.setCellValue(smallSorts.get(x).getName());
 				smallBodyCell.setCellStyle(bodyXssfCellStyle);
-				
-				smallBodyCell = smallBodyRow.createCell(cellNumbber+2);
-				smallBodyCell.setCellValue(smallSorts.get(x).getMiddleSort().getId());
-				smallBodyCell.setCellStyle(bodyXssfCellStyle);
-				
-				smallBodyCell = smallBodyRow.createCell(cellNumbber+3);
-				smallBodyCell.setCellValue(smallSorts.get(x).getSmallSortIndex());// 데이터 추가
-				smallBodyCell.setCellStyle(bodyXssfCellStyle); // 스타일 추가
 			}
 		}
 		
 		for (int x=0; x<productBodyDatass.length; x++) {
 			productBodyRow = product.createRow(productRowCount++);
 			for (int i = 0; i < productBodyDatass[x].length; i++) {
-//				productBodyCell = productBodyRow.createCell(cellNumbber);
-//				productBodyCell.setCellValue(products.get(x).getId());
-//				productBodyCell.setCellStyle(bodyXssfCellStyle);
 				
 				productBodyCell = productBodyRow.createCell(cellNumbber);
 				productBodyCell.setCellValue(products.get(x).getProductCode()); 
@@ -288,9 +265,6 @@ public class ExcelDownloadService {
 				productBodyCell.setCellValue(products.get(x).getBigSort().getId());
 				productBodyCell.setCellStyle(bodyXssfCellStyle);
 				
-//				productBodyCell = productBodyRow.createCell(cellNumbber+9);
-//				productBodyCell.setCellValue(products.get(x).getProductIndex());
-//				productBodyCell.setCellStyle(bodyXssfCellStyle); 
 			}
 		}
 		
@@ -330,7 +304,7 @@ public class ExcelDownloadService {
 		/**
 		 * download
 		 */
-		String fileName = "BIONLIFESCIENCE_PRODUCT_DATA_RESET_SHEET";
+		String fileName = "BIONLIFESCIENCE_PRODUCT_RESET_SHEET";
 
 		res.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 		res.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
@@ -362,18 +336,18 @@ public class ExcelDownloadService {
 		productSpec.setDefaultColumnWidth(40);
 
 		String bigSortHeaderNames[] = new String[] {
-				"BIG_SORT_ID", "BIG_SORT_NAME", "BIG_SORT_INDEX"
+				"대분류 ID", "대분류 이름"
 				};
 		String middleSortHeaderNames[] = new String[] {
-				"MIDDLE_SORT_ID","MIDDLE_SORT_NAME", "MIDDLE_REFER_ID", "MIDDLE_SORT_INDEX"
+				"중분류 ID","중분류 이름"
 				};
 		String smallSortHeaderNames[] = new String[] {
-				"SMALL_SORT_ID", "SMALL_SORT_NAME", "SMALL_REFER_ID", "SMALL_SORT_INDEX"
+				"소분류 ID", "소분류 이름"
 				};
 		String productHeaderNames[] = new String[] {
 				"PRODUCT_CODE", "PRODUCT_SUBJECT", "PRODUCT_CONTENT", 
-				"PRODUCT_SUB_CONTENT", "PRODUCT_SIGN","PRODUCT_REFER_ID" ,"PRODUCT_MIDDLE_REFER_ID",
-				"PRODUCT_BIG_REFER_ID"
+				"PRODUCT_SUB_CONTENT", "PRODUCT_SIGN","소분류 ID" ,"중분류 ID",
+				"대분류 ID"
 				};
 		String productInfoHeaderNames[] = new String[] { 
 				"PRODUCT_CODE", "PRODUCT_INFO_TEXT" 
@@ -472,10 +446,6 @@ public class ExcelDownloadService {
 				bigBodyCell = bigBodyRow.createCell(cellNumbber+1);
 				bigBodyCell.setCellValue(bigSorts.get(x).getName());
 				bigBodyCell.setCellStyle(bodyXssfCellStyle);
-				
-				bigBodyCell = bigBodyRow.createCell(cellNumbber+2);
-				bigBodyCell.setCellValue(bigSorts.get(x).getBigSortIndex());// 데이터 추가
-				bigBodyCell.setCellStyle(bodyXssfCellStyle); // 스타일 추가
 			}
 		}
 		
@@ -489,14 +459,6 @@ public class ExcelDownloadService {
 				middleBodyCell = middleBodyRow.createCell(cellNumbber+1);
 				middleBodyCell.setCellValue(middleSorts.get(x).getName());
 				middleBodyCell.setCellStyle(bodyXssfCellStyle);
-				
-				middleBodyCell = middleBodyRow.createCell(cellNumbber+2);
-				middleBodyCell.setCellValue(middleSorts.get(x).getBigSort().getId());// 데이터 추가
-				middleBodyCell.setCellStyle(bodyXssfCellStyle);
-				
-				middleBodyCell = middleBodyRow.createCell(cellNumbber+3);
-				middleBodyCell.setCellValue(middleSorts.get(x).getMiddleSortIndex());// 데이터 추가
-				middleBodyCell.setCellStyle(bodyXssfCellStyle); // 스타일 추가
 			}
 		}
 		
@@ -510,14 +472,6 @@ public class ExcelDownloadService {
 				smallBodyCell = smallBodyRow.createCell(cellNumbber+1);
 				smallBodyCell.setCellValue(smallSorts.get(x).getName());
 				smallBodyCell.setCellStyle(bodyXssfCellStyle);
-				
-				smallBodyCell = smallBodyRow.createCell(cellNumbber+2);
-				smallBodyCell.setCellValue(smallSorts.get(x).getMiddleSort().getId());
-				smallBodyCell.setCellStyle(bodyXssfCellStyle);
-				
-				smallBodyCell = smallBodyRow.createCell(cellNumbber+3);
-				smallBodyCell.setCellValue(smallSorts.get(x).getSmallSortIndex());// 데이터 추가
-				smallBodyCell.setCellStyle(bodyXssfCellStyle); // 스타일 추가
 			}
 		}
 		

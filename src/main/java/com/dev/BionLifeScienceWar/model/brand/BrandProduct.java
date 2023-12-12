@@ -15,6 +15,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.lang.Nullable;
+
 import lombok.Data;
 
 @Entity
@@ -29,6 +31,10 @@ public class BrandProduct {
 	
 	@Column(name="BRAND_PRODUCT_SUBJECT")
 	private String subject;
+	
+	@Column(name="BRAND_PRODUCT_CODE")
+	@Nullable
+	private String brandProductCode;
 	
 	@Column(name="BRAND_PRODUCT_CONTENT")
 	private String content;
@@ -56,6 +62,9 @@ public class BrandProduct {
 	
 	@Column(name="BRAND_PRODUCT_SIGN")
 	private Boolean sign;
+	
+	@Column(name="BRAND_PRODUCT_INDEX")
+	private int brandProductIndex;
 	
 	@Transient
 	private Long brandSmallSortId;

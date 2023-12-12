@@ -26,13 +26,13 @@
 						<div class="col-12">
 							<div
 								class="page-title-box d-sm-flex align-items-center justify-content-between">
-								<h4 class="mb-sm-0">PRODUCT MANAGER</h4>
+								<h4 class="mb-sm-0">BRAND PRODUCT MANAGER</h4>
 
 								<div class="page-title-right">
 									<ol class="breadcrumb m-0">
 										<li class="breadcrumb-item"><a
-											href="javascript: void(0);">Product Manage Center</a></li>
-										<li class="breadcrumb-item active">Product Manager</li>
+											href="javascript: void(0);">BRAND Product Manage Center</a></li>
+										<li class="breadcrumb-item active">BRAND Product Manager</li>
 									</ol>
 								</div>
 
@@ -80,27 +80,34 @@
 													</select>
 												</div>
 												<div class="col-sm">
-													<label class="visually-hidden">대분류</label> <select
-														class="form-select" id="smallPanelBigSortSelect"
-														name="bigId">
-														<option selected value="">== 대분류 선택 ==</option>
+													<label class="visually-hidden">브랜드</label> 
+													<select class="form-control" id="brandProductBrandId" name="brandId" required="required">
+														<option value="">=== 브랜드 선택 ===</option>
+														<option th:each="b:${brands}" 
+														th:text="${b.name}" 
+														th:value="${b.id}"
+														th:selected="${brandId == b.id}"></option>
+													</select>
+												</div>
+												<div class="col-sm">
+													<label class="visually-hidden">대분류</label> 
+													<select class="form-control" name="brandBigSortId" id="brandProductBigSortId">
+														<option value="">=== 대분류 선택 ===</option>
 														<option th:each="b:${bigsorts}" th:text="${b.name}"
 															th:value="${b.id}" th:selected="${bigId == b.id}"></option>
 													</select>
 												</div>
 												<div class="col-sm">
-													<label class="visually-hidden">중분류</label> <select
-														class="form-select" id="smallPanelMiddleSortSelect"
-														name="middleId">
+													<label class="visually-hidden">중분류</label> 
+													<select class="form-control" name="brandMiddleSortId" id="brandProductMiddleSortId">
 														<option selected value="">== 중분류 선택 ==</option>
 														<option th:each="m:${middlesorts}" th:text="${m.name}"
 															th:value="${m.id}" th:selected="${middleId == m.id}"></option>
 													</select>
 												</div>
 												<div class="col-sm">
-													<label class="visually-hidden">소분류</label> <select
-														class="form-select" id="smallPanelSmallSortSelect"
-														name="smallId">
+													<label class="visually-hidden">소분류</label> 
+													<select class="form-control" name="brandSmallSortId" id="brandProductSmallSortId">
 														<option selected value="">== 소분류 선택 ==</option>
 														<option th:each="s:${smallsorts}" th:text="${s.name}"
 															th:value="${s.id}" th:selected="${smallId == s.id}"></option>
@@ -120,14 +127,14 @@
 												</div>
 												<div class="col-sm-auto">
 													<div>
-														<a href="/admin/productCenter/productManager"
+														<a href="/admin/brandCenter/productManager"
 															class="btn btn-danger"> 검색 초기화</a>
 													</div>
 												</div>
 												<div class="col-sm-auto">
 													<div>
-														<a href="/admin/productInsertForm" class="btn btn-success"><i
-															class="ri-add-line align-bottom me-1"></i> 제품등록</a>
+														<a href="/admin/brandProductInsertForm" class="btn btn-success"><i
+															class="ri-add-line align-bottom me-1"></i>제품등록</a>
 													</div>
 												</div>
 											</div>
@@ -182,6 +189,9 @@
 											<div class="col-12">
 												<div>
 													<p class="text-muted mb-1">분류</p>
+													<div class="badge bg-success-subtle text-success fs-12"
+														th:text="${p.brand.name}">브랜드</div>
+													>>
 													<div class="badge bg-success-subtle text-success fs-12"
 														th:text="${p.bigSort.name}">대분류</div>
 													>>
@@ -297,30 +307,30 @@
 								<li class="page-item"
 									th:classappend="${1 == products.pageable.pageNumber+1} ? 'disabled'">
 									<a class="page-link" href="#"
-									th:href="@{/admin/productCenter/productManager(page=0, size=${param.size}, smallId = ${smallId}, middleId=${middleId}, bigId=${bigId}, searchWord=${searchWord})}"
+									th:href="@{/admin/brandCenter/productManager(page=0, size=${param.size}, smallId = ${smallId}, middleId=${middleId}, bigId=${bigId}, searchWord=${searchWord})}"
 									tabindex="-1" aria-disabled="true">First</a>
 								</li>
 								<li class="page-item"
 									th:classappend="${1 == products.pageable.pageNumber+1} ? 'disabled'">
 									<a class="page-link" href="#"
-									th:href="@{/admin/productCenter/productManager(page=${products.pageable.pageNumber - 1}, size=${param.size}, smallId = ${smallId}, middleId=${middleId}, bigId=${bigId}, searchWord=${searchWord})}"
+									th:href="@{/admin/brandCenter/productManager(page=${products.pageable.pageNumber - 1}, size=${param.size}, smallId = ${smallId}, middleId=${middleId}, bigId=${bigId}, searchWord=${searchWord})}"
 									tabindex="-1" aria-disabled="true">Previous</a>
 								</li>
 								<li class="page-item"
 									th:classappend="${i == products.pageable.pageNumber+1} ? 'disabled'"
 									th:each="i : ${#numbers.sequence(startPage, endPage)}"><a
 									class="page-link" href="#" th:text=${i}
-									th:href="@{/admin/productCenter/productManager(page=${i-1}, size=${param.size}, smallId = ${smallId}, middleId=${middleId}, bigId=${bigId}, searchWord=${searchWord})}">1</a>
+									th:href="@{/admin/brandCenter/productManager(page=${i-1}, size=${param.size}, smallId = ${smallId}, middleId=${middleId}, bigId=${bigId}, searchWord=${searchWord})}">1</a>
 								</li>
 								<li class="page-item"
 									th:classappend="${products.totalPages == products.pageable.pageNumber + 1} ? 'disabled'">
 									<a class="page-link" href="#"
-									th:href="@{/admin/productCenter/productManager(page=${products.pageable.pageNumber + 1}, size=${param.size}, middleId=${middleId}, bigId=${bigId}, searchWord=${searchWord})}">Next</a>
+									th:href="@{/admin/brandCenter/productManager(page=${products.pageable.pageNumber + 1}, size=${param.size}, middleId=${middleId}, bigId=${bigId}, searchWord=${searchWord})}">Next</a>
 								</li>
 								<li class="page-item"
 									th:classappend="${products.totalPages == products.pageable.pageNumber + 1} ? 'disabled'">
 									<a class="page-link" href="#"
-									th:href="@{/admin/productCenter/productManager(page=${products.totalPages-1}, size=${param.size}, smallId = ${smallId}, middleId=${middleId}, bigId=${bigId}, searchWord=${searchWord})}">Last</a>
+									th:href="@{/admin/brandCenter/productManager(page=${products.totalPages-1}, size=${param.size}, smallId = ${smallId}, middleId=${middleId}, bigId=${bigId}, searchWord=${searchWord})}">Last</a>
 								</li>
 							</ul>
 						</div>
@@ -346,23 +356,21 @@
 						<div class="col-lg-12">
 							<div class="card-body">
                                 <p class="text-muted">
-									# <code>엑셀[.xlsx]확장자의</code> 업로드 만을 지원 합니다.<br> 
-									# <code>다운로드 받은 엑셀 파일</code>의 양식을 통해 업로드를 진행해 주시기 바랍니다.<br> 
-									# 업로드 한 엑셀 파일에 따라<code> 모든 정보가 수정</code>되니 주의해 주시기 바랍니다. <br>
+									# <code>이미지[.png/.jpg/.jpeg]확장자의</code> 업로드 만을 지원 합니다.<br> 
 									# 1회 업로드 허용 용량은<code> 10MB</code>입니다. <br> 
 								</p>
-                                <form class="dropzone fou" method="post" action="/admin/productCenter/productFileInsert" enctype="multipart/form-data">
+                                <form class="dropzone fou" method="post" action="/admin/brandCenter/productFileInsert" enctype="multipart/form-data">
 									<div class="row mb-2">	
 										<div class="col-sm-auto">
 											<div>
-												<button type="submit" class="btn btn-warning">리셋용 ZIP파일 업로드</button>
+												<button type="submit" class="btn btn-warning">파일 업로드</button>
 											</div>
 										</div>
 									</div>
                                     <div class="fallback filebox">
                                         <input class="upload-name" value="첨부파일" placeholder="첨부파일">
 									    <label for="slidefile">파일찾기</label> 
-									    <input type="file" name="file" id="slidefile" multiple>
+									    <input type="file" name="file" id="slidefile" multiple required>
                                         <input type="hidden" name="productIdInput" id="productIdInput">
 										<input type="hidden" name="productCodeInput" id="productCodeInput">
                                     </div>
@@ -395,23 +403,21 @@
 						<div class="col-lg-12">
 							<div class="card-body">
                                 <p class="text-muted">
-									# <code>엑셀[.xlsx]확장자의</code> 업로드 만을 지원 합니다.<br> 
-									# <code>다운로드 받은 엑셀 파일</code>의 양식을 통해 업로드를 진행해 주시기 바랍니다.<br> 
-									# 업로드 한 엑셀 파일에 따라<code> 모든 정보가 수정</code>되니 주의해 주시기 바랍니다. <br>
+									# <code>이미지[.png/.jpg/.jpeg]확장자의</code> 업로드 만을 지원 합니다.<br> 
 									# 1회 업로드 허용 용량은<code> 10MB</code>입니다. <br> 
 								</p>
-                                <form class="dropzone fou" method="post" action="/admin/productCenter/productFileInsert" enctype="multipart/form-data">
+                                <form class="dropzone fou" method="post" action="/admin/brandCenter/productFileInsert" enctype="multipart/form-data">
 									<div class="row mb-2">	
 										<div class="col-sm-auto">
 											<div>
-												<button type="submit" class="btn btn-warning">리셋용 ZIP파일 업로드</button>
+												<button type="submit" class="btn btn-warning">파일 업로드</button>
 											</div>
 										</div>
 									</div>
                                     <div class="fallback filebox">
                                         <input class="upload-name" value="첨부파일" placeholder="첨부파일">
 									    <label for="overviewfile">파일찾기</label> 
-									    <input type="file" name="file" id="overviewfile">
+									    <input type="file" name="file" id="overviewfile" required>
                                         <input type="hidden" name="productIdInput" id="productIdInput">
 										<input type="hidden" name="productCodeInput" id="productCodeInput">
                                     </div>
@@ -445,23 +451,21 @@
 						<div class="col-lg-12">
 							<div class="card-body">
                                 <p class="text-muted">
-									# <code>엑셀[.xlsx]확장자의</code> 업로드 만을 지원 합니다.<br> 
-									# <code>다운로드 받은 엑셀 파일</code>의 양식을 통해 업로드를 진행해 주시기 바랍니다.<br> 
-									# 업로드 한 엑셀 파일에 따라<code> 모든 정보가 수정</code>되니 주의해 주시기 바랍니다. <br>
+									# <code>이미지[.png/.jpg/.jpeg]확장자의</code> 업로드 만을 지원 합니다.<br> 
 									# 1회 업로드 허용 용량은<code> 10MB</code>입니다. <br> 
 								</p>
-                                <form class="dropzone fou" method="post" action="/admin/productCenter/productFileInsert" enctype="multipart/form-data">
+                                <form class="dropzone fou" method="post" action="/admin/brandCenter/productFileInsert" enctype="multipart/form-data">
 									<div class="row mb-2">	
 										<div class="col-sm-auto">
 											<div>
-												<button type="submit" class="btn btn-warning">리셋용 ZIP파일 업로드</button>
+												<button type="submit" class="btn btn-warning">파일 업로드</button>
 											</div>
 										</div>
 									</div>
                                     <div class="fallback filebox">
                                         <input class="upload-name" value="첨부파일" placeholder="첨부파일">
 									    <label for="specfile">파일찾기</label> 
-									    <input type="file" name="file" id="specfile">
+									    <input type="file" name="file" id="specfile" required>
                                         <input type="hidden" name="productIdInput" id="productIdInput">
 										<input type="hidden" name="productCodeInput" id="productCodeInput">
                                     </div>
@@ -495,23 +499,21 @@
 						<div class="col-lg-12">
 							<div class="card-body">
                                 <p class="text-muted">
-									# <code>엑셀[.xlsx]확장자의</code> 업로드 만을 지원 합니다.<br> 
-									# <code>다운로드 받은 엑셀 파일</code>의 양식을 통해 업로드를 진행해 주시기 바랍니다.<br> 
-									# 업로드 한 엑셀 파일에 따라<code> 모든 정보가 수정</code>되니 주의해 주시기 바랍니다. <br>
 									# 1회 업로드 허용 용량은<code> 10MB</code>입니다. <br> 
 								</p>
-                                <form class="dropzone fou" method="post" action="/admin/productCenter/productFileInsert" enctype="multipart/form-data">
+                                <form class="dropzone fou" method="post" action="/admin/brandCenter/productFileInsert" enctype="multipart/form-data">
 									<div class="row mb-2">	
 										<div class="col-sm-auto">
 											<div>
-												<button type="submit" class="btn btn-warning">리셋용 ZIP파일 업로드</button>
+												<button type="submit" class="btn btn-warning">파일 업로드</button>
 											</div>
 										</div>
 									</div>
                                     <div class="fallback filebox">
                                         <input class="upload-name" value="첨부파일" placeholder="첨부파일">
 									    <label for="files">파일찾기</label> 
-									    <input type="file" name="file" id="files" multiple>                                        <input type="hidden" name="productIdInput" id="productIdInput">
+									    <input type="file" name="file" id="files" multiple required>                                        
+									    <input type="hidden" name="productIdInput" id="productIdInput">
 										<input type="hidden" name="productCodeInput" id="productCodeInput">
                                     </div>
                                     <div class="dz-message needsclick">
@@ -535,11 +537,19 @@
 		crossorigin="anonymous"></script>
 	<th:block th:replace="program/fragments/common :: scriptSrc"></th:block>
 	<script th:inline="javascript">
+		var brandId = /*[[${brandId}]]*/ 'default';
    		var bigId = /*[[${bigId}]]*/ 'default';
    		var middleId = /*[[${middleId}]]*/ 'default';
    		var smallId = /*[[${smallId}]]*/ 'default';
     </script>
-	<script src="/administration/lib/programProductManager.js"></script>
+	<script src="/administration/program/brand/programProductManager.js"></script>
+	<script>
+		$('input[name=file]').on('change',function(e){
+			$(this).parent().children(':first-child').val(e.target.files[0].name);
+			console.log(e.target.files[0].name);
+		});
+		
+	</script>
 </body>
 
 </html>

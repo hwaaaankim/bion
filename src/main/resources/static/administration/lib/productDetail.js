@@ -190,7 +190,7 @@ $(function() {
 		$(specDiv).appendTo('#spec-wrap');
 	});
 	$('#spec-del-button').on('click',function(){
-		if($('#spec-wrap div').length < 2){
+		if($('#spec-wrap div').length < 3){
 			alert('1개 이하로 삭제할 수 없습니다.');			
 		}else{
 			$('#spec-wrap').find('div:last').remove();
@@ -205,7 +205,7 @@ $(function() {
 		$(infoDiv).appendTo('#info-wrap');
 	});
 	$('#info-del-button').on('click',function(){
-		if($('#info-wrap div').length < 2){
+		if($('#info-wrap div').length < 3){
 			alert('1개 이하로 삭제할 수 없습니다.');			
 		}else{
 			$('#info-wrap').find('div:last').remove();

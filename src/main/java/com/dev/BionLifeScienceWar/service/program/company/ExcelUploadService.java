@@ -61,18 +61,18 @@ public class ExcelUploadService {
 	public void uploadExcel(MultipartFile file) throws IOException {
 
 		String bigSortHeaderNames[] = new String[] {
-				"BIG_SORT_ID", "BIG_SORT_NAME", "BIG_SORT_INDEX"
+				"대분류 ID", "대분류 이름"
 				};
 		String middleSortHeaderNames[] = new String[] {
-				"MIDDLE_SORT_ID","MIDDLE_SORT_NAME", "MIDDLE_REFER_ID", "MIDDLE_SORT_INDEX"
+				"중분류 ID","중분류 이름"
 				};
 		String smallSortHeaderNames[] = new String[] {
-				"SMALL_SORT_ID", "SMALL_SORT_NAME", "SMALL_REFER_ID", "SMALL_SORT_INDEX"
+				"소분류 ID", "소분류 이름"
 				};
 		String productHeaderNames[] = new String[] {
 				"PRODUCT_CODE", "PRODUCT_SUBJECT", "PRODUCT_CONTENT", 
-				"PRODUCT_SUB_CONTENT", "PRODUCT_SIGN","PRODUCT_REFER_ID" ,"PRODUCT_MIDDLE_REFER_ID",
-				"PRODUCT_BIG_REFER_ID"
+				"PRODUCT_SUB_CONTENT", "PRODUCT_SIGN","소분류 ID" ,"중분류 ID",
+				"대분류 ID"
 				};
 		String productInfoHeaderNames[] = new String[] { 
 				"PRODUCT_CODE", "PRODUCT_INFO_TEXT" 
@@ -241,18 +241,18 @@ public class ExcelUploadService {
 	public void uploadAddExcel(MultipartFile file) throws IOException {
 
 		String bigSortHeaderNames[] = new String[] {
-				"BIG_SORT_ID", "BIG_SORT_NAME", "BIG_SORT_INDEX"
+				"대분류 ID", "대분류 이름"
 				};
 		String middleSortHeaderNames[] = new String[] {
-				"MIDDLE_SORT_ID","MIDDLE_SORT_NAME", "MIDDLE_REFER_ID", "MIDDLE_SORT_INDEX"
+				"중분류 ID","중분류 이름"
 				};
 		String smallSortHeaderNames[] = new String[] {
-				"SMALL_SORT_ID", "SMALL_SORT_NAME", "SMALL_REFER_ID", "SMALL_SORT_INDEX"
+				"소분류 ID", "소분류 이름"
 				};
 		String productHeaderNames[] = new String[] {
 				"PRODUCT_CODE", "PRODUCT_SUBJECT", "PRODUCT_CONTENT", 
-				"PRODUCT_SUB_CONTENT", "PRODUCT_SIGN","PRODUCT_REFER_ID" ,"PRODUCT_MIDDLE_REFER_ID",
-				"PRODUCT_BIG_REFER_ID"
+				"PRODUCT_SUB_CONTENT", "PRODUCT_SIGN","소분류 ID" ,"중분류 ID",
+				"대분류 ID"
 				};
 		String productInfoHeaderNames[] = new String[] { 
 				"PRODUCT_CODE", "PRODUCT_INFO_TEXT" 
