@@ -26,11 +26,17 @@ public class BrandZipService {
 
 	public ResponseEntity<Object> downZip() {
 		String absolutePath = new File("").getAbsolutePath() + "/";
-		String existFilePath = absolutePath + commonPath + "/brandproduct";
-		String zipFilePath = absolutePath + "brand.zip";
-		ZipUtil.pack(new File(existFilePath), new File(zipFilePath));
 		
-
+		String existFilePath = "";
+		String zipFilePath = "";
+		if(env.equals("local")) {
+			existFilePath = absolutePath + commonPath + "/brandproduct";
+			zipFilePath = absolutePath + "brand.zip";
+		}else if(env.equals("prod")) {
+			existFilePath = commonPath + "/brandproduct";
+			zipFilePath = commonPath + "brand.zip";
+		}
+		ZipUtil.pack(new File(existFilePath), new File(zipFilePath));
 		
 		try {
 			Path filePath = Paths.get(zipFilePath);

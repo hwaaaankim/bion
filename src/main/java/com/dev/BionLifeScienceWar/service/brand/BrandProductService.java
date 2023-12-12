@@ -485,6 +485,7 @@ public class BrandProductService {
 
 	public String productUpdate(MultipartFile productOverviewImage, MultipartFile productSpecImage,
 			BrandProduct product) throws IllegalStateException, IOException {
+		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String current_date = simpleDateFormat.format(new Date());
 		String absolutePath = new File("").getAbsolutePath() + "\\";
@@ -495,10 +496,17 @@ public class BrandProductService {
 		Random random = new Random();
 
 		if (!productOverviewImage.isEmpty()) {
+			
+			
 			String generatedString = random.ints(leftLimit, rightLimit + 1)
 					.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
 					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
-
+			
+			File exOverViewFile = new File(product.getTableImagePath());
+			if(exOverViewFile.isDirectory()&&exOverViewFile.exists()) {
+				FileUtils.cleanDirectory(exOverViewFile);
+			}
+			
 			String overviewPath = commonPath + "/brandproduct/" + product.getBrandProductCode() + "/overview";
 			String overviewRoad = "/administration/brandproduct/" + product.getBrandProductCode() + "/overview";
 			File overviewFileFolder = new File(overviewPath);
@@ -556,6 +564,12 @@ public class BrandProductService {
 			});
 		}
 		if (!productSpecImage.isEmpty()) {
+			
+			File exSpecFile = new File(product.getSpecImagePath());
+			if(exSpecFile.isDirectory()&&exSpecFile.exists()) {
+				FileUtils.cleanDirectory(exSpecFile);
+			}
+			
 			String generatedString = random.ints(leftLimit, rightLimit + 1)
 					.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
 					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();

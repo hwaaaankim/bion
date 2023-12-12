@@ -497,12 +497,17 @@ public class ProductService {
 		int rightLimit = 122; // letter 'z'
 		int targetStringLength = 10;
 		Random random = new Random();
-
+		
+		
 		if (!productOverviewImage.isEmpty()) {
+			File exOverViewFile = new File(product.getTableImagePath());
+			if(exOverViewFile.isDirectory()&&exOverViewFile.exists()) {
+				FileUtils.cleanDirectory(exOverViewFile);
+			}
+			
 			String generatedString = random.ints(leftLimit, rightLimit + 1)
 					.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
 					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
-			
 			
 			String overviewPath = commonPath + "/company/" + product.getProductCode() + "/overview";
 			String overviewRoad = "/administration/company/" + product.getProductCode() + "/overview";
@@ -560,6 +565,11 @@ public class ProductService {
 			});
 		}
 		if (!productSpecImage.isEmpty()) {
+			
+			File exSpecFile = new File(product.getSpecImagePath());
+			if(exSpecFile.isDirectory()&&exSpecFile.exists()) {
+				FileUtils.cleanDirectory(exSpecFile);
+			}
 			String generatedString = random.ints(leftLimit, rightLimit + 1)
 					.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
 					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
@@ -646,6 +656,9 @@ public class ProductService {
 		Random random = new Random();
 
 		if (!productOverviewImage.isEmpty()) {
+
+			File exOverViewFile = new File(product.getTableImagePath());
+			exOverViewFile.delete();
 			String generatedString = random.ints(leftLimit, rightLimit + 1)
 					.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
 					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
@@ -723,6 +736,8 @@ public class ProductService {
 		Random random = new Random();
 
 		if (!productSpecImage.isEmpty()) {
+			File exSpecFile = new File(product.getSpecImagePath());
+			exSpecFile.delete();
 			String generatedString = random.ints(leftLimit, rightLimit + 1)
 					.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
 					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();

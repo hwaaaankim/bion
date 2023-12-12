@@ -564,7 +564,12 @@ public class BrandController {
 			@PathVariable Long id
 			) {
 		
-		brandProductRepository.deleteById(id);
+		try {
+			brandProductService.deleteFiles(id);
+			brandProductRepository.deleteById(id);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		StringBuffer sb = new StringBuffer();
 		String msg = "제품이 삭제 되었습니다.";
 

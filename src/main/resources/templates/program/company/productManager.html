@@ -532,6 +532,13 @@
    		var smallId = /*[[${smallId}]]*/ 'default';
     </script>
 	<script src="/administration/lib/programProductManager.js"></script>
+    <script>
+		$('input[name=file]').on('change',function(e){
+			$(this).parent().children(':first-child').val(e.target.files[0].name);
+			console.log(e.target.files[0].name);
+		});
+		
+	</script>
 </body>
 
 </html>

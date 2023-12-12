@@ -285,14 +285,17 @@ public class ProductController {
 			sp.setProductId(p.getId());
 			productSpecRepository.save(sp);
 		}
-		if(!productFile.isEmpty()) {
+		if(!productFile.isEmpty() && !productFile.get(0).isEmpty()) {
+			System.out.println("123123123123123123");
+			System.out.println(productFile.get(0).getBytes());
+			System.out.println(productFile.get(0).getSize());
 			productFileService.fileUpload(
 				productFile, 
 				p.getId(), 
 				p.getProductCode()
 				);
 		}
-		if(!slides.isEmpty()) {
+		if(!slides.isEmpty() && !slides.get(0).isEmpty()) {
 			productImageService.fileUpload(
 				slides, 
 				p.getId(), 

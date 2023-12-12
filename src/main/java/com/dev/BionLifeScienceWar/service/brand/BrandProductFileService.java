@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -38,9 +39,11 @@ public class BrandProductFileService {
         String current_date = simpleDateFormat.format(new Date());
         String absolutePath = new File("").getAbsolutePath() + "\\";
         String path = commonPath +  "/brandproduct/" + productCode + "/files";
-        
         String road = "/administration/brandproduct/" + productCode + "/files";
         File fileFolder = new File(path);
+        if(fileFolder.exists() && fileFolder.isDirectory()) {
+        	FileUtils.cleanDirectory(fileFolder);
+        }
         int leftLimit = 48; // numeral '0'
 		int rightLimit = 122; // letter 'z'
 		int targetStringLength = 10;

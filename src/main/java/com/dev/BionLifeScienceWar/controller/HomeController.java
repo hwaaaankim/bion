@@ -573,7 +573,11 @@ public class HomeController {
 		
 		if(products.getNumberOfElements()>0) {
 			for(BrandProduct p : products) {
-				p.setFirstImageRoad(p.getImages().get(0).getProductImageRoad());
+				if(!p.getImages().isEmpty()) {
+					p.setFirstImageRoad(p.getImages().get(0).getProductImageRoad());
+				}else {
+					p.setFirstImageRoad("-");
+				}
 			}
 		}
 		
