@@ -36,7 +36,7 @@ import com.dev.BionLifeScienceWar.repository.brand.BrandSmallSortRepository;
 import com.dev.BionLifeScienceWar.service.brand.BrandProductFileService;
 import com.dev.BionLifeScienceWar.service.brand.BrandProductImageService;
 import com.dev.BionLifeScienceWar.service.brand.BrandProductService;
-import com.dev.BionLifeScienceWar.service.program.brand.BrandExcelCheckService;
+import com.dev.BionLifeScienceWar.service.program.brand.BrandCheckService;
 import com.dev.BionLifeScienceWar.service.program.brand.BrandExcelDownloadService;
 import com.dev.BionLifeScienceWar.service.program.brand.BrandExcelUploadService;
 import com.dev.BionLifeScienceWar.service.program.brand.BrandZipService;
@@ -82,7 +82,7 @@ public class BrandManageController {
 	BrandZipService brandZipService;
 	
 	@Autowired
-	BrandExcelCheckService brandExcelCheckService;
+	BrandCheckService brandExcelCheckService;
 	
 	@Autowired
 	BrandRepository brandRepository;

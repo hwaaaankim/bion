@@ -1,10 +1,10 @@
-package com.dev.BionLifeScienceWar.service.program.company;
+package com.dev.BionLifeScienceWar.service.program.brand;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class ExcelCheckService {
+public class BrandCheckService {
 
 	public String excelCheck(
 			MultipartFile file
