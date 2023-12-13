@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSendException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dev.BionLifeScienceWar.model.Client;
@@ -29,7 +29,7 @@ public class ClientController {
 	@Autowired
 	EmailService emailService;
 	
-	@RequestMapping("/clientInsert")
+	@PostMapping("/clientInsert")
 	public String clientInsert(
 			Client client,
 			MultipartFile file
@@ -53,7 +53,6 @@ public class ClientController {
         	}catch(MailSendException e) {
         		System.out.println(e);
         	} catch (InterruptedException e) {
-        		// TODO Auto-generated catch block
         		e.printStackTrace();
         	}
     		

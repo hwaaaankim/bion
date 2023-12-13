@@ -7,9 +7,11 @@
 
 <body class="stretched">
 	<div id="wrapper" class="clearfix">
-		<th:block
+		<!--<th:block
 			th:replace="/fragments/front/common :: headerSrc(false,${b},${m},${s},${p}, ${brand},
-		${bb}, ${bm}, ${bs}, ${bp})"></th:block>
+		${bb}, ${bm}, ${bs}, ${bp})"></th:block>-->
+		<th:block
+			th:replace="/fragments/front/common :: headerSrc(false, ${menuList})"></th:block>
 
 		<section id="slider"
 			class="slider-element slider-parallax swiper_wrapper vh-75">
@@ -322,7 +324,7 @@
 
 			var currentDate = new Date();
 
-			var futureDate  = new Date(2023, 12, 01);
+			var futureDate  = new Date(2023, 12, 1);
 
 			var diff = futureDate.getTime() / 1000 - currentDate.getTime() / 1000;
 

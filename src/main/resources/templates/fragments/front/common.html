@@ -30,7 +30,7 @@
 
 <body class="stretched">
 	<div id="wrapper" class="clearfix">
-		<th:block th:fragment="headerSrc(transparent, b, m, s, p, brand, bb, bm, bs, bp)">
+		<th:block th:fragment="headerSrc(transparent, menuList)">
 			<header id="header" class="full-header"
 				th:classappend="${transparent} == true ? transparent-header">
 				<div id="header-wrap">
@@ -91,24 +91,24 @@
 											<div>제품소개</div>
 										</a>
 										<ul class="sub-menu-container" >
-											<li class="menu-item" th:each="b:${b}">
+											<li class="menu-item" th:each="b:${menuList.bigSortList}">
 												<a class="menu-link" th:href="@{|/productSorted/main/${b.id}|}">
 													<div>
 														<i class="icon-stack"></i> [[${b.name}]]
 													</div>
 												</a>
 												<ul class="sub-menu-container">
-													<li class="menu-item" th:if="${b.id == m.bigSort.id}" th:each="m : ${m}">
+													<li class="menu-item" th:if="${b.id == m.bigSort.id}" th:each="m : ${menuList.middleSortList}">
 														<a class="menu-link" th:href="@{|/productSorted/middle/${m.id}|}">
 															<div th:text="${m.name}">Screw Caps and Tubes</div>
 														</a>
 														<ul class="sub-menu-container">
-															<li class="menu-item" th:if="${m.id == s.middleSort.id}" th:each="s:${s}">
+															<li class="menu-item" th:if="${m.id == s.middleSort.id}" th:each="s:${menuList.smallSortList}">
 																<a class="menu-link" th:href="@{|/productSorted/sub/${s.id}|}">
 																	<div th:text="${s.name}">Product 01</div>
 																</a>
 																<ul class="sub-menu-container">
-																	<li class="menu-item" th:if="${s.id == p.smallSort.id}" th:each="p:${p}">
+																	<li class="menu-item" th:if="${s.id == p.smallSort.id}" th:each="p:${menuList.productList}">
 																		<a class="menu-link" th:href="@{|/productDetail/${p.id}|}">
 																			<div th:text="${p.subject}">Product 01</div>
 																		</a>
@@ -126,29 +126,29 @@
 											<div>브랜드소개</div>
 										</a>
 										<ul class="sub-menu-container" >
-											<li class="menu-item" th:each="b:${brand}">
+											<li class="menu-item" th:each="b:${menuList.brandList}">
 												<a class="menu-link" th:href="@{|/brandProductSorted/brand/${b.id}|}">
 													<div>
 														<i class="icon-stack"></i> [[${b.name}]]
 													</div>
 												</a>
 												<ul class="sub-menu-container">
-													<li class="menu-item" th:if="${b.id == bb.brand.id}" th:each="bb : ${bb}">
+													<li class="menu-item" th:if="${b.id == bb.brand.id}" th:each="bb : ${menuList.brandBigSortList}">
 														<a class="menu-link"  th:href="@{|/brandProductSorted/main/${bb.id}|}">
 															<div th:text="${bb.name}">Screw Caps and Tubes</div>
 														</a>
 														<ul class="sub-menu-container">
-															<li class="menu-item" th:if="${bb.id == bm.bigSort.id}" th:each="bm:${bm}">
+															<li class="menu-item" th:if="${bb.id == bm.bigSort.id}" th:each="bm:${menuList.brandMiddleSortList}">
 																<a class="menu-link"  th:href="@{|/brandProductSorted/middle/${bm.id}|}">
 																	<div th:text="${bm.name}">Product 01</div>
 																</a>
 																<ul class="sub-menu-container left-container">
-																	<li class="menu-item" th:if="${bs.id == bs.middleSort.id}" th:each="bs:${bs}">
+																	<li class="menu-item" th:if="${bs.id == bs.middleSort.id}" th:each="bs:${menuList.brandSmallSortList}">
 																		<a class="menu-link" th:href="@{|/brandProductSorted/sub/${bs.id}|}">
 																			<div th:text="${bs.name}">Product 01</div>
 																		</a>
 																		<ul class="sub-menu-container">
-																			<li class="menu-item" th:if="${bs.id == bp.smallSort.id}" th:each="bp:${bp}">
+																			<li class="menu-item" th:if="${bs.id == bp.smallSort.id}" th:each="bp:${menuList.brandProductList}">
 																				<a class="menu-link" th:href="@{|/brandProductDetail/${bp.id}|}">
 																					<div th:text="${bp.subject}">Product 01</div>
 																				</a>

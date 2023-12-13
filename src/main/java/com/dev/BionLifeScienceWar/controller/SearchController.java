@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.dev.BionLifeScienceWar.dto.MenuDTO;
 import com.dev.BionLifeScienceWar.model.brand.BrandProduct;
 import com.dev.BionLifeScienceWar.model.product.Product;
 import com.dev.BionLifeScienceWar.repository.NoticeRepository;
@@ -57,6 +59,22 @@ public class SearchController {
 	@Autowired
 	SmallSortRepository smallSortRepository;
 	
+	@ModelAttribute("menuList")
+	public MenuDTO menuList(MenuDTO menuDto) {
+		
+		menuDto.setProductList(productRepository.findAllByOrderByProductIndexAsc());
+		menuDto.setBigSortList(bigSortRepository.findAllByOrderByBigSortIndexAsc());
+		menuDto.setMiddleSortList(middleSortRepository.findAllByOrderByMiddleSortIndexAsc());
+		menuDto.setSmallSortList(smallSortRepository.findAllByOrderBySmallSortIndexAsc());
+		
+		menuDto.setBrandList(brandRepository.findAllByOrderByBrandIndexAsc());
+		menuDto.setBrandBigSortList(brandBigSortRepository.findAllByOrderByBrandBigSortIndexAsc());
+		menuDto.setBrandMiddleSortList(brandMiddleSortRepository.findAllByOrderByBrandMiddleSortIndexAsc());
+		menuDto.setBrandSmallSortList(brandSmallSortRepository.findAllByOrderByBrandSmallSortIndexAsc());
+		menuDto.setBrandProductList(brandProductRepository.findAllByOrderByBrandProductIndexAsc());
+		return menuDto;
+	}
+	
 	@RequestMapping("/searchAll")
 	public String searchAll(
 			String searchWord,
@@ -87,17 +105,6 @@ public class SearchController {
 		
 		model.addAttribute("notices", noticeRepository.findAllBySubjectContainsOrderBySignDescDateDesc(searchWord));
 		model.addAttribute("references", referenceRepository.findByFilesubjectContains(searchWord));
-		
-		model.addAttribute("b", bigSortRepository.findAll());
-		model.addAttribute("m", middleSortRepository.findAll());
-		model.addAttribute("s", smallSortRepository.findAll());
-		model.addAttribute("p", productRepository.findAll());
-		
-		model.addAttribute("brand", brandRepository.findAll());
-		model.addAttribute("bb", brandBigSortRepository.findAll());
-		model.addAttribute("bm", brandMiddleSortRepository.findAll());
-		model.addAttribute("bs", brandSmallSortRepository.findAll());
-		model.addAttribute("bp", brandProductRepository.findAll());
 		
 		return "front/search/searchAll";
 	}
