@@ -500,7 +500,7 @@ public class ProductService {
 		
 		
 		if (!productOverviewImage.isEmpty()) {
-			File exOverViewFile = new File(product.getTableImagePath());
+			File exOverViewFile = new File(productRepository.findById(product.getId()).get().getTableImagePath());
 			if(exOverViewFile.isDirectory()&&exOverViewFile.exists()) {
 				FileUtils.cleanDirectory(exOverViewFile);
 			}
@@ -566,7 +566,7 @@ public class ProductService {
 		}
 		if (!productSpecImage.isEmpty()) {
 			
-			File exSpecFile = new File(product.getSpecImagePath());
+			File exSpecFile = new File(productRepository.findById(product.getId()).get().getSpecImagePath());
 			if(exSpecFile.isDirectory()&&exSpecFile.exists()) {
 				FileUtils.cleanDirectory(exSpecFile);
 			}
@@ -656,8 +656,7 @@ public class ProductService {
 		Random random = new Random();
 
 		if (!productOverviewImage.isEmpty()) {
-
-			File exOverViewFile = new File(product.getTableImagePath());
+			File exOverViewFile = new File(productRepository.findById(product.getId()).get().getTableImagePath());
 			exOverViewFile.delete();
 			String generatedString = random.ints(leftLimit, rightLimit + 1)
 					.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
@@ -736,7 +735,7 @@ public class ProductService {
 		Random random = new Random();
 
 		if (!productSpecImage.isEmpty()) {
-			File exSpecFile = new File(product.getSpecImagePath());
+			File exSpecFile = new File(productRepository.findById(product.getId()).get().getSpecImagePath());
 			exSpecFile.delete();
 			String generatedString = random.ints(leftLimit, rightLimit + 1)
 					.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
