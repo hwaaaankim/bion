@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,18 +31,19 @@ public class BrandProductFileService {
 	
 	public String fileUpload(
 			List<MultipartFile> productFiles,
-			Long id
+			Long id,
+			String productCode
 			) throws IllegalStateException, IOException {
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String current_date = simpleDateFormat.format(new Date());
         String absolutePath = new File("").getAbsolutePath() + "\\";
-        String path = commonPath + "/brandproductfile/" + current_date;
-//        String path = "src/main/resources/static/administration/brandproductfile/"+current_date;
-//        String path = "/home/hosting_users/bionls/tomcat/webapps/brandproductfile/"+current_date;
-        
-        String road = "/administration/brandproductfile/"+current_date;
+        String path = commonPath +  "/brandproduct/" + productCode + "/files";
+        String road = "/administration/brandproduct/" + productCode + "/files";
         File fileFolder = new File(path);
+        if(fileFolder.exists() && fileFolder.isDirectory()) {
+        	FileUtils.cleanDirectory(fileFolder);
+        }
         int leftLimit = 48; // numeral '0'
 		int rightLimit = 122; // letter 'z'
 		int targetStringLength = 10;

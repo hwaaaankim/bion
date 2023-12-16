@@ -29,6 +29,9 @@ public class BrandBigSort {
 	@Transient
 	private Long brandId;
 	
+	@Column(name="BRAND_BIGSORT_INDEX")
+	private int brandBigSortIndex;
+	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(
 			name="BRAND_BIGSORT_REFER_ID", referencedColumnName="BRAND_ID"

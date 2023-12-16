@@ -8,8 +8,10 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.dev.BionLifeScienceWar.dto.MenuDTO;
 import com.dev.BionLifeScienceWar.repository.brand.BrandBigSortRepository;
 import com.dev.BionLifeScienceWar.repository.brand.BrandMiddleSortRepository;
 import com.dev.BionLifeScienceWar.repository.brand.BrandProductRepository;
@@ -52,24 +54,29 @@ public class CustomErrorController implements ErrorController{
 	@Autowired
 	BrandProductRepository brandProductRepository;
 	
-	@RequestMapping("/error")
+	@ModelAttribute("menuList")
+	public MenuDTO menuList(MenuDTO menuDto) {
+		
+		menuDto.setProductList(productRepository.findAllByOrderByProductIndexAsc());
+		menuDto.setBigSortList(bigSortRepository.findAllByOrderByBigSortIndexAsc());
+		menuDto.setMiddleSortList(middleSortRepository.findAllByOrderByMiddleSortIndexAsc());
+		menuDto.setSmallSortList(smallSortRepository.findAllByOrderBySmallSortIndexAsc());
+		
+		menuDto.setBrandList(brandRepository.findAllByOrderByBrandIndexAsc());
+		menuDto.setBrandBigSortList(brandBigSortRepository.findAllByOrderByBrandBigSortIndexAsc());
+		menuDto.setBrandMiddleSortList(brandMiddleSortRepository.findAllByOrderByBrandMiddleSortIndexAsc());
+		menuDto.setBrandSmallSortList(brandSmallSortRepository.findAllByOrderByBrandSmallSortIndexAsc());
+		menuDto.setBrandProductList(brandProductRepository.findAllByOrderByBrandProductIndexAsc());
+		return menuDto;
+	}
+	
+	@GetMapping("/error")
 	public String handleError(
 			HttpServletRequest request,
 			Model model) {
 		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-		model.addAttribute("b", bigSortRepository.findAll());
-		model.addAttribute("m", middleSortRepository.findAll());
-		model.addAttribute("s", smallSortRepository.findAll());
-		model.addAttribute("p", productRepository.findAll());
-		
-		model.addAttribute("brand", brandRepository.findAll());
-		model.addAttribute("bb", brandBigSortRepository.findAll());
-		model.addAttribute("bm", brandMiddleSortRepository.findAll());
-		model.addAttribute("bs", brandSmallSortRepository.findAll());
-		model.addAttribute("bp", brandProductRepository.findAll());
 		if(status != null) {
 			int statusCode = Integer.valueOf(status.toString());
-//			System.out.println(statusCode);
 			
 			if(statusCode == HttpStatus.NOT_FOUND.value()) {
 				return VIEW_PATH+"404";

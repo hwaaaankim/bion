@@ -1,6 +1,7 @@
 package com.dev.BionLifeScienceWar.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +36,7 @@ import com.dev.BionLifeScienceWar.service.ZipService;
 import com.dev.BionLifeScienceWar.service.product.ProductFileService;
 import com.dev.BionLifeScienceWar.service.product.ProductImageService;
 import com.dev.BionLifeScienceWar.service.product.ProductService;
-import com.dev.BionLifeScienceWar.service.program.company.ExcelCheckService;
+import com.dev.BionLifeScienceWar.service.program.company.CheckService;
 import com.dev.BionLifeScienceWar.service.program.company.ExcelDownloadService;
 import com.dev.BionLifeScienceWar.service.program.company.ExcelUploadService;
 
@@ -80,7 +81,7 @@ public class ProductManageController {
 	ZipService zipService;
 	
 	@Autowired
-	ExcelCheckService excelCheckService;
+	CheckService excelCheckService;
 	
 	@GetMapping("/addExcelDownload")
 	@ResponseBody
@@ -91,33 +92,7 @@ public class ProductManageController {
 		
 	}
 	
-	@PostMapping("/addExcelUpload")
-	@ResponseBody
-	public void addExcelUpload(
-			MultipartFile file
-			) throws IOException {
-		if(excelCheckService.excelCheck(file).equals("success")){
-			excelUploadService.uploadAddExcel(file);
-		}
-	}
-	
-	@PostMapping("/addZipUpload")
-	@ResponseBody
-	public void addZipUpload(
-			MultipartFile file
-			) throws IOException {
-		
-		productService.zipAddProductInsert(file);
-		
-	}
-	
-	@GetMapping("/resetZipDownload")
-	@ResponseBody
-	public ResponseEntity<Object> resetZipDownload() {
-		return zipService.downZip();
-		
-	}
-	
+
 	@GetMapping("/resetExcelDownload")
 	@ResponseBody
 	public void resetExcelDownload(
@@ -127,23 +102,79 @@ public class ProductManageController {
 		
 	}
 	
-	@PostMapping("/resetExcelUpload")
-	@ResponseBody
-	public void resetExcelUpload(
-			MultipartFile file
+	@PostMapping("/addExcelUpload")
+	public List<String> addExcelUpload(
+			MultipartFile file,
+			Model model
 			) throws IOException {
-		excelUploadService.uploadExcel(file);
+		List<String> result = excelCheckService.addExcelCheck(file);
+		
+		if(result.get(0).equals("success")){
+			excelUploadService.uploadAddExcel(file);
+			
+			return result;
+		}else {
+			return result;
+		}
 	}
 	
-	@PostMapping("/resetZipUpload")
+	
+	@PostMapping("/resetExcelUpload")
 	@ResponseBody
-	public void resetZipUpload(
-			MultipartFile file
+	public List<String> resetExcelUpload(
+			MultipartFile file,
+			Model model
 			) throws IOException {
-		
-		productService.zipProductInsert(file);
+		List<String> result = excelCheckService.resetExcelCheck(file);
+		if(result.get(0).equals("success")){
+			excelUploadService.uploadExcel(file);
+			
+			return result;
+		}else {
+			return result;
+		}
 		
 	}
+	
+
+	@PostMapping("/resetZipUpload")
+	@ResponseBody
+	public List<String> resetZipUpload(
+			MultipartFile file,
+			Model model
+			) throws IOException {
+		List<String> result = excelCheckService.resetZipCheck(file);
+		if(result.get(0).equals("success")){
+			productService.zipProductInsert(file);
+			return result;
+		}else {
+			return result;
+		}
+	}
+	
+	@PostMapping("/addZipUpload")
+	@ResponseBody
+	public List<String> addZipUpload(
+			MultipartFile file
+			) throws IOException {
+		List<String> result = excelCheckService.addZipCheck(file);
+		if(result.get(0).equals("success")){
+			productService.zipAddProductInsert(file);
+			return result;
+		}else {
+			return result;
+		}
+	}
+	
+	
+	@GetMapping("/resetZipDownload")
+	@ResponseBody
+	public ResponseEntity<Object> resetZipDownload() {
+		return zipService.downZip();
+		
+	}
+	
+	
 	
 	
 	@GetMapping("/productManager")

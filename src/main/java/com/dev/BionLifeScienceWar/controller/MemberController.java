@@ -1,7 +1,7 @@
 package com.dev.BionLifeScienceWar.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MemberController {
 	
-	@RequestMapping("/memberLoginForm")
+	@GetMapping("/memberLoginForm")
 	public String memberLoginForm() {
 		log.info("MEMBER LOGIN FORM");
 		return "admin/login";

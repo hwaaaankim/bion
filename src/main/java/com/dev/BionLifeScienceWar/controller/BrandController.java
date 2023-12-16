@@ -23,7 +23,6 @@ import com.dev.BionLifeScienceWar.model.brand.BrandProduct;
 import com.dev.BionLifeScienceWar.model.brand.BrandProductInfo;
 import com.dev.BionLifeScienceWar.model.brand.BrandProductSpec;
 import com.dev.BionLifeScienceWar.model.brand.BrandSmallSort;
-import com.dev.BionLifeScienceWar.model.product.Product;
 import com.dev.BionLifeScienceWar.model.product.ProductInfo;
 import com.dev.BionLifeScienceWar.model.product.ProductSpec;
 import com.dev.BionLifeScienceWar.repository.brand.BrandBigSortRepository;
@@ -97,6 +96,7 @@ public class BrandController {
 			model.addAttribute("startPage", startPage);
 			model.addAttribute("endPage", endPage);
 			model.addAttribute("searchWord", searchWord);
+			
 		}else {
 			Page<Brand> brands = brandRepository.findAll(pageable);
 			int startPage = Math.max(1, brands.getPageable().getPageNumber() - 4);
@@ -169,6 +169,11 @@ public class BrandController {
 			BrandBigSort brandBigSort,
 			Long brandId
 			) {
+		int index = 1;
+		if(brandBigSortRepository.findFirstIndex().isPresent()) {
+			index = brandBigSortRepository.findFirstIndex().get() + 1;
+		}
+		brandBigSort.setBrandBigSortIndex(index);
 		brandBigSort.setBrand(brandRepository.findById(brandId).get());
 		brandBigSortRepository.save(brandBigSort);
 		StringBuffer sb = new StringBuffer();
@@ -222,6 +227,11 @@ public class BrandController {
 			BrandMiddleSort brandMiddleSort,
 			Long brandBigSortId
 			) {
+		int index = 1;
+		if(brandMiddleSortRepository.findFirstIndex().isPresent()) {
+			index = brandMiddleSortRepository.findFirstIndex().get() + 1;
+		}
+		brandMiddleSort.setBrandMiddleSortIndex(index);
 		brandMiddleSort.setBigSort(brandBigSortRepository.findById(brandBigSortId).get());
 		brandMiddleSortRepository.save(brandMiddleSort);
 		StringBuffer sb = new StringBuffer();
@@ -274,6 +284,11 @@ public class BrandController {
 			BrandSmallSort brandSmallSort,
 			Long brandMiddleSortId
 			) {
+		int index = 1;
+		if(brandSmallSortRepository.findFirstIndex().isPresent()) {
+			index = brandSmallSortRepository.findFirstIndex().get() + 1;
+		}
+		brandSmallSort.setBrandSmallSortIndex(index);
 		brandSmallSort.setMiddleSort(brandMiddleSortRepository.findById(brandMiddleSortId).get());
 		brandSmallSortRepository.save(brandSmallSort);
 		StringBuffer sb = new StringBuffer();
@@ -325,6 +340,9 @@ public class BrandController {
 	public String brandProductManager(
 			Model model, 
 			@RequestParam(required = false) Long brandSmallSortId,
+			@RequestParam(required = false) Long brandMiddleSortId,
+			@RequestParam(required = false) Long brandBigSortId,
+			@RequestParam(required = false) Long brandId,
 			@PageableDefault(size = 10) Pageable pageable
 			) {
 		
@@ -337,6 +355,13 @@ public class BrandController {
 			model.addAttribute("startPage", startPage);
 			model.addAttribute("endPage", endPage);
 			model.addAttribute("brandSmallSortId", brandSmallSortId);
+			model.addAttribute("smallsorts", brandSmallSortRepository.findAll());
+			model.addAttribute("middlesorts", brandMiddleSortRepository.findAll());
+			model.addAttribute("bigsorts", brandBigSortRepository.findAll());
+			model.addAttribute("smallId", brandSmallSortId);
+			model.addAttribute("middleId", brandMiddleSortId);
+			model.addAttribute("bigId", brandBigSortId);
+			model.addAttribute("brandId", brandId);
 		}else {
 			Page<BrandProduct> products = brandProductRepository.findAll(pageable);
 			int startPage = Math.max(1, products.getPageable().getPageNumber() - 4);
@@ -344,8 +369,8 @@ public class BrandController {
 			model.addAttribute("products", products);
 			model.addAttribute("startPage", startPage);
 			model.addAttribute("endPage", endPage);
-			model.addAttribute("brandSmallSortId", brandSmallSortId);
 		}
+		
 		model.addAttribute("brand",brandRepository.findAll());
 
 		return "admin/brand/brandProductManager";
@@ -372,28 +397,57 @@ public class BrandController {
 			List<MultipartFile> productFile
 
 	) throws IllegalStateException, IOException {
+		
 		product.setSmallSort(brandSmallSortRepository.findById(product.getBrandSmallSortId()).get());
 		product.setMiddleSort(brandMiddleSortRepository.findById(product.getBrandMiddleSortId()).get());
 		product.setBigSort(brandBigSortRepository.findById(product.getBrandBigSortId()).get());
 		product.setBrand(brandRepository.findById(product.getBrandId()).get());
 		BrandProduct p = brandProductService.productInsert(productOverviewImage, productSpecImage, product);
 
-		for (String s : spec) {
+		if(spec.length > 0 ) {
+			for (String s : spec) {
+				BrandProductInfo in = new BrandProductInfo();
+				in.setProductId(p.getId());
+				in.setProductInfoText(s);
+				brandProductInfoRepository.save(in);
+			}
+		}else {
 			BrandProductInfo in = new BrandProductInfo();
 			in.setProductId(p.getId());
-			in.setProductInfoText(s);
+			in.setProductInfoText("-");
 			brandProductInfoRepository.save(in);
 		}
-		for (int a = 0; a < infoQ.length; a++) {
+		
+		if(infoQ.length > 0) {
+			
+			for (int a = 0; a < infoQ.length; a++) {
+				BrandProductSpec sp = new BrandProductSpec();
+				sp.setProductSpecSubject(infoQ[a]);
+				sp.setProductSpecContent(infoA[a]);
+				sp.setProductId(p.getId());
+				brandProductSpecRepository.save(sp);
+			}
+		}else {
 			BrandProductSpec sp = new BrandProductSpec();
-			sp.setProductSpecSubject(infoQ[a]);
-			sp.setProductSpecContent(infoA[a]);
+			sp.setProductSpecSubject("-");
+			sp.setProductSpecContent("-");
 			sp.setProductId(p.getId());
 			brandProductSpecRepository.save(sp);
 		}
-
-		brandProductFileService.fileUpload(productFile, p.getId());
-		brandProductImageService.fileUpload(slides, p.getId());
+		if(!productFile.isEmpty()) {
+			brandProductFileService.fileUpload(
+				productFile, 
+				p.getId(), 
+				p.getBrandProductCode()
+				);
+		}
+		if(!slides.isEmpty()) {
+			brandProductImageService.fileUpload(
+				slides, 
+				p.getId(), 
+				p.getBrandProductCode()
+				);
+		}
 
 		StringBuffer sb = new StringBuffer();
 		String msg = "제품이 등록 되었습니다.";
@@ -440,29 +494,57 @@ public class BrandController {
 		product.setBigSort(brandBigSortRepository.findById(product.getBrandBigSortId()).get());
 		product.setBrand(brandRepository.findById(product.getBrandId()).get());
 		brandProductService.productUpdate(productOverviewImage, productSpecImage, product);
+		
 		brandProductInfoRepository.deleteAllByProductId(product.getId());
 		brandProductSpecRepository.deleteAllByProductId(product.getId());
-		for (String s : spec) {
+		
+		if(spec.length > 0 && spec != null) {
+			for (String s : spec) {
+				BrandProductInfo in = new BrandProductInfo();
+				in.setProductId(product.getId());
+				in.setProductInfoText(s);
+				brandProductInfoRepository.save(in);
+			}
+		}else {
 			BrandProductInfo in = new BrandProductInfo();
 			in.setProductId(product.getId());
-			in.setProductInfoText(s);
+			in.setProductInfoText("-");
 			brandProductInfoRepository.save(in);
 		}
-		for (int a = 0; a < infoQ.length; a++) {
+		
+		if(infoQ.length > 0 && infoQ != null) {
+			
+			for (int a = 0; a < infoQ.length; a++) {
+				BrandProductSpec sp = new BrandProductSpec();
+				sp.setProductSpecSubject(infoQ[a]);
+				sp.setProductSpecContent(infoA[a]);
+				sp.setProductId(product.getId());
+				brandProductSpecRepository.save(sp);
+			}
+		}else {
 			BrandProductSpec sp = new BrandProductSpec();
-			sp.setProductSpecSubject(infoQ[a]);
-			sp.setProductSpecContent(infoA[a]);
+			sp.setProductSpecSubject("-");
+			sp.setProductSpecContent("-");
 			sp.setProductId(product.getId());
 			brandProductSpecRepository.save(sp);
 		}
-		if(slides.size()>0 && !slides.get(0).isEmpty()) {
-			brandProductImageRepository.deleteAllByProductId(product.getId());
-			brandProductImageService.fileUpload(slides, product.getId());
-		}
 		if(productFile.size()>0 && !productFile.get(0).isEmpty()) {
 			brandProductFileRepository.deleteAllByProductId(product.getId());
-			brandProductFileService.fileUpload(productFile, product.getId());
+			brandProductFileService.fileUpload(
+				productFile, 
+				product.getId(), 
+				brandProductRepository.findById(product.getId()).get().getBrandProductCode()
+				);
 		}
+		if(slides.size()>0 && !slides.get(0).isEmpty()) {
+			brandProductImageRepository.deleteAllByProductId(product.getId());
+			brandProductImageService.fileUpload(
+				slides, 
+				product.getId(), 
+				brandProductRepository.findById(product.getId()).get().getBrandProductCode()
+				);
+		}
+
 		Page<BrandProduct> products = brandProductRepository.findAll(pageable);
 		model.addAttribute("products", products);
 		int startPage = Math.max(1, products.getPageable().getPageNumber() - 4);
@@ -482,7 +564,12 @@ public class BrandController {
 			@PathVariable Long id
 			) {
 		
-		brandProductRepository.deleteById(id);
+		try {
+			brandProductService.deleteFiles(id);
+			brandProductRepository.deleteById(id);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		StringBuffer sb = new StringBuffer();
 		String msg = "제품이 삭제 되었습니다.";
 

@@ -96,7 +96,6 @@
 										<textarea 
 										class="form-control" 
 										id="productSubContent"
-										required="required"
 										th:text="${product.productSubContent}"
 										name="productSubContent"></textarea>
 									</div>
@@ -112,7 +111,6 @@
 									    <div class="spec-wrap" th:each="s:${product.infos}">
 											<input
 											type="text" 
-											required="required" 
 											name="spec" 
 											th:value="${s.productInfoText}"
 											placeholder="제품 스펙을 입력 해 주세요. 예) 80mm*80mm*100mm" 

@@ -33,5 +33,8 @@ public class Brand {
 	
 	@Column(name="BRAND_IMAGE_NAME")
 	private String imageName;
+	
+	@Column(name="BRAND_INDEX")
+	private int brandIndex;
 
 }

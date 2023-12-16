@@ -1,8 +1,7 @@
-
 # 동작 환경 설정
 spring:
   profiles:
-    active: test
+    active: prod
 server:
   port: 8080
   servlet:
@@ -22,7 +21,7 @@ logging:
     file: "%d %-5level [%thread] %logger : %msg%n"
   level:
     org.springframework.web: ERROR
-    com.howtodoinjava: DEBUG
+    com.dev.BionLifeScienceWar: DEBUG
     org.hibernate: ERROR
 spring:
   config:
@@ -75,7 +74,7 @@ logging:
     file: "%d %-5level [%thread] %logger : %msg%n"
   level:
     org.springframework.web: ERROR
-    com.howtodoinjava: INFO
+    com.dev.BionLifeScienceWar: DEBUG
     org.hibernate: ERROR
 spring:
   config:
