@@ -502,7 +502,7 @@ public class BrandProductService {
 					.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
 					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
 			
-			File exOverViewFile = new File(product.getTableImagePath());
+			File exOverViewFile = new File(brandProductRepository.findById(product.getId()).get().getTableImagePath());
 			if(exOverViewFile.isDirectory()&&exOverViewFile.exists()) {
 				FileUtils.cleanDirectory(exOverViewFile);
 			}
@@ -565,7 +565,7 @@ public class BrandProductService {
 		}
 		if (!productSpecImage.isEmpty()) {
 			
-			File exSpecFile = new File(product.getSpecImagePath());
+			File exSpecFile = new File(brandProductRepository.findById(product.getId()).get().getSpecImagePath());
 			if(exSpecFile.isDirectory()&&exSpecFile.exists()) {
 				FileUtils.cleanDirectory(exSpecFile);
 			}
@@ -661,7 +661,8 @@ public class BrandProductService {
 			String generatedString = random.ints(leftLimit, rightLimit + 1)
 					.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
 					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
-			
+			File exOverViewFile = new File(brandProductRepository.findById(product.getId()).get().getTableImagePath());
+			exOverViewFile.delete();
 			
 			String overviewPath = commonPath + "/brandproduct/" + product.getBrandProductCode() + "/overview";
 			String overviewRoad = "/administration/brandproduct/" + product.getBrandProductCode() + "/overview";
@@ -735,6 +736,8 @@ public class BrandProductService {
 		Random random = new Random();
 
 		if (!productSpecImage.isEmpty()) {
+			File exSpecFile = new File(brandProductRepository.findById(product.getId()).get().getSpecImagePath());
+			exSpecFile.delete();
 			String generatedString = random.ints(leftLimit, rightLimit + 1)
 					.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
 					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();

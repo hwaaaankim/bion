@@ -1,6 +1,7 @@
 package com.dev.BionLifeScienceWar.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -102,17 +103,18 @@ public class ProductManageController {
 	}
 	
 	@PostMapping("/addExcelUpload")
-	public String addExcelUpload(
+	public List<String> addExcelUpload(
 			MultipartFile file,
 			Model model
 			) throws IOException {
-		if(excelCheckService.addExcelCheck(file).get(0).equals("success")){
+		List<String> result = excelCheckService.addExcelCheck(file);
+		
+		if(result.get(0).equals("success")){
 			excelUploadService.uploadAddExcel(file);
 			
-			return "redirect:/admin/productCenter/productAddManager";
+			return result;
 		}else {
-			
-			return "program/company/productUploadResult";
+			return result;
 		}
 	}
 	
@@ -123,25 +125,47 @@ public class ProductManageController {
 			MultipartFile file,
 			Model model
 			) throws IOException {
-		if(excelCheckService.resetExcelCheck(file).get(0).equals("success")){
+		List<String> result = excelCheckService.resetExcelCheck(file);
+		if(result.get(0).equals("success")){
 			excelUploadService.uploadExcel(file);
 			
-			return excelCheckService.resetExcelCheck(file);
+			return result;
 		}else {
-			return excelCheckService.resetExcelCheck(file);
+			return result;
 		}
 		
 	}
 	
+
+	@PostMapping("/resetZipUpload")
+	@ResponseBody
+	public List<String> resetZipUpload(
+			MultipartFile file,
+			Model model
+			) throws IOException {
+		List<String> result = excelCheckService.resetZipCheck(file);
+		if(result.get(0).equals("success")){
+			productService.zipProductInsert(file);
+			return result;
+		}else {
+			return result;
+		}
+	}
+	
 	@PostMapping("/addZipUpload")
 	@ResponseBody
-	public void addZipUpload(
+	public List<String> addZipUpload(
 			MultipartFile file
 			) throws IOException {
-		
-		productService.zipAddProductInsert(file);
-		
+		List<String> result = excelCheckService.addZipCheck(file);
+		if(result.get(0).equals("success")){
+			productService.zipAddProductInsert(file);
+			return result;
+		}else {
+			return result;
+		}
 	}
+	
 	
 	@GetMapping("/resetZipDownload")
 	@ResponseBody
@@ -150,15 +174,7 @@ public class ProductManageController {
 		
 	}
 	
-	@PostMapping("/resetZipUpload")
-	@ResponseBody
-	public void resetZipUpload(
-			MultipartFile file
-			) throws IOException {
-		
-		productService.zipProductInsert(file);
-		
-	}
+	
 	
 	
 	@GetMapping("/productManager")

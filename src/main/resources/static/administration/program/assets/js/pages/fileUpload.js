@@ -154,8 +154,16 @@ var secdropzone,
 			
 			      // 서버로 파일이 성공적으로 전송되면 실행
 			      this.on('success', function (file, responseText) {
-			         alert('파일 업로드에 성공 하였습니다.');
-			         location.reload();
+			         console.log(responseText[0]);
+			         if(responseText[0] == 'success'){
+						 alert('업로드가 성공 하였습니다.');
+						 location.reload();
+					 }else{
+						 $('#reset_result').css('display', 'block');
+						 for(x=0; x<responseText.length;x++){
+							 $('#result_list').append('<p># ' + responseText[x] + '</p>');
+						 }
+					 }
 			      });
 			
 			      // 업로드 에러 처리
