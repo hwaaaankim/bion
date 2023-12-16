@@ -633,7 +633,7 @@ public class BrandCheckService {
 			}
 
 		}
-		
+
 		File tempFile = new File(commonPath + "/tempfile");
 		try {
 			tempFile.createNewFile();
@@ -657,16 +657,12 @@ public class BrandCheckService {
 										&& !fileType.equals("overview")) {
 									result.add("제품코드 " + productCode
 											+ "의 폴더 내에 세부 폴더 명이 정확하지 않습니다. files / slide / overview / spec 중 하나로 입력 해 주세요.");
-								} else {
-									for (int x = 0; x < product.listFiles()[a].length(); x++) {
-										if (product.listFiles()[a].getName().equals("spec")
-												&& product.listFiles()[a].listFiles().length > 1) {
-											result.add("제품코드 " + productCode + "의 spec 폴더 내에는 하나의 파일만 존재할 수 있습니다.");
-										} else if (product.listFiles()[a].getName().equals("overview")
-												&& product.listFiles()[a].listFiles().length > 1) {
-											result.add("제품코드 " + productCode + "의 overview 폴더 내에는 하나의 파일만 존재할 수 있습니다.");
-										}
-									}
+								} else if (product.listFiles()[a].getName().equals("spec")
+										&& product.listFiles()[a].listFiles().length > 1) {
+									result.add("제품코드 " + productCode + "의 spec 폴더 내에는 하나의 파일만 존재할 수 있습니다.");
+								} else if (product.listFiles()[a].getName().equals("overview")
+										&& product.listFiles()[a].listFiles().length > 1) {
+									result.add("제품코드 " + productCode + "의 overview 폴더 내에는 하나의 파일만 존재할 수 있습니다.");
 								}
 
 							} else {
@@ -723,7 +719,7 @@ public class BrandCheckService {
 			}
 
 		}
-		
+
 		File tempFile = new File(commonPath + "/tempfile");
 		try {
 			tempFile.createNewFile();
@@ -749,17 +745,12 @@ public class BrandCheckService {
 										&& !fileType.equals("overview")) {
 									result.add("제품코드 " + productCode
 											+ "의 폴더 내에 세부 폴더 명이 정확하지 않습니다. files / slide / overview / spec 중 하나로 입력 해 주세요.");
-								} else {
-									for (int x = 0; x < product.listFiles()[a].length(); x++) {
-										System.out.println("third loop");
-										if (product.listFiles()[a].getName().equals("spec")
-												&& product.listFiles()[a].listFiles().length > 1) {
-											result.add("제품코드 " + productCode + "의 spec 폴더 내에는 하나의 파일만 존재할 수 있습니다.");
-										} else if (product.listFiles()[a].getName().equals("overview")
-												&& product.listFiles()[a].listFiles().length > 1) {
-											result.add("제품코드 " + productCode + "의 overview 폴더 내에는 하나의 파일만 존재할 수 있습니다.");
-										}
-									}
+								} else if (product.listFiles()[a].getName().equals("spec")
+										&& product.listFiles()[a].listFiles().length > 1) {
+									result.add("제품코드 " + productCode + "의 spec 폴더 내에는 하나의 파일만 존재할 수 있습니다.");
+								} else if (product.listFiles()[a].getName().equals("overview")
+										&& product.listFiles()[a].listFiles().length > 1) {
+									result.add("제품코드 " + productCode + "의 overview 폴더 내에는 하나의 파일만 존재할 수 있습니다.");
 								}
 
 							} else {
