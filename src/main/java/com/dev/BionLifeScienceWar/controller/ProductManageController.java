@@ -103,6 +103,7 @@ public class ProductManageController {
 	}
 	
 	@PostMapping("/addExcelUpload")
+	@ResponseBody
 	public List<String> addExcelUpload(
 			MultipartFile file,
 			Model model
